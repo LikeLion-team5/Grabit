@@ -18,6 +18,8 @@ public class Restaurant {
 
     private String restaurantName;
 
+    private String description;
+
     @Enumerated(EnumType.STRING)
     private RestaurantType type;
 
@@ -33,8 +35,9 @@ public class Restaurant {
     private Integer perTimeMaxReservationCount;
 
     @Builder
-    public Restaurant(String restaurantName, RestaurantType type, Address address, String detail_address, LocalTime openingTime, LocalTime closingTime, Integer perTimeMaxReservationCount) {
+    public Restaurant(String restaurantName, String description, RestaurantType type, Address address, String detail_address, LocalTime openingTime, LocalTime closingTime, Integer perTimeMaxReservationCount) {
         this.restaurantName = restaurantName;
+        this.description = description;
         this.type = type;
         this.address = address;
         this.detail_address = detail_address;

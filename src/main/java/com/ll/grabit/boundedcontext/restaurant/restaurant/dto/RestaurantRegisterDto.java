@@ -18,6 +18,9 @@ public class RestaurantRegisterDto {
 
     @NotBlank(message = "식당 이름을 입력해주세요.")
     private String restaurantName;
+
+    @NotBlank(message = "식당 소개를 입력해주세요.")
+    private String description;
     @NotBlank(message = "식당 유형을 선택해주세요.")
     private String type;
 
@@ -43,6 +46,7 @@ public class RestaurantRegisterDto {
     public Restaurant toEntity(Address address, LocalTime startTime, LocalTime endTime) {
         return Restaurant.builder()
                 .restaurantName(restaurantName)
+                .description(description)
                 .address(address)
                 .detail_address(detail_address)
                 .openingTime(startTime)

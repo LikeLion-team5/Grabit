@@ -51,6 +51,7 @@ class RestaurantServiceTest {
     void register() {
         RestaurantRegisterDto dto = new RestaurantRegisterDto();
         dto.setRestaurantName("test 식당");
+        dto.setDescription("test 식당 소개입니다.");
         dto.setAddress1("서울특별시");
         dto.setAddress2("성북구");
         dto.setAddress3("종암동");
