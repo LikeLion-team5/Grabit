@@ -25,6 +25,9 @@ public class RestaurantController {
     @PostMapping("/register")
     public String restaurantRegister(@ModelAttribute @Valid RestaurantRegisterDto restaurantRegisterDto,
                                      BindingResult result) {
+        if(result.hasErrors()){
+            return "registerForm";
+        }
         restaurantService.save(restaurantRegisterDto);
         return "home";
     }
