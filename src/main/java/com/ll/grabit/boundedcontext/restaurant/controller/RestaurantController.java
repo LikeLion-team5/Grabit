@@ -1,11 +1,10 @@
-package com.ll.grabit.boundedcontext.restaurant.restaurant.controller;
+package com.ll.grabit.boundedcontext.restaurant.controller;
 
-import com.ll.grabit.base.exception.NotFoundDataException;
-import com.ll.grabit.boundedcontext.restaurant.restaurant.dto.RestaurantRegisterDto;
+import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
+import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
+import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
 
-import com.ll.grabit.boundedcontext.restaurant.restaurant.dto.RestaurantUpdateDto;
-import com.ll.grabit.boundedcontext.restaurant.restaurant.entity.Restaurant;
-import com.ll.grabit.boundedcontext.restaurant.restaurant.service.RestaurantService;
+import com.ll.grabit.boundedcontext.restaurant.service.RestaurantService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -42,6 +41,11 @@ public class RestaurantController {
         //Restaurant Entity to RestaurantUpdateDto
         RestaurantUpdateDto restaurantUpdateDto = restaurant.toRestaurantUpdateDto();
         model.addAttribute("restaurantUpdateDto", restaurantUpdateDto);
+
+        return "/restaurant/update";
+    }
+    @PostMapping("/{restaurantId}/edit")
+    public String update(@PathVariable("restaurantId") Long id, @ModelAttribute @Valid RestaurantUpdateDto restaurantUpdateDto){
 
         return "/restaurant/update";
     }

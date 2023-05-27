@@ -1,7 +1,7 @@
 package com.ll.grabit.base.initdata;
 
-import com.ll.grabit.boundedcontext.restaurant.restaurant.entity.Address;
-import com.ll.grabit.boundedcontext.restaurant.restaurant.repository.AddressRepository;
+import com.ll.grabit.boundedcontext.restaurant.entity.Address;
+import com.ll.grabit.boundedcontext.restaurant.repository.AddressRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
