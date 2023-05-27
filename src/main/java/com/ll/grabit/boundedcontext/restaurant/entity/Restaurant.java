@@ -62,4 +62,15 @@ public class Restaurant {
 
         return restaurantUpdateDto;
     }
+
+    public void update(RestaurantUpdateDto restaurantUpdateDto, Address address, LocalTime startTime, LocalTime endTime) {
+        restaurantName = restaurantUpdateDto.getRestaurantName();
+        description = restaurantUpdateDto.getDescription();
+        this.address = address;
+        detail_address = restaurantUpdateDto.getDetail_address();
+        type = RestaurantType.valueOf(restaurantUpdateDto.getType());
+        openingTime = startTime;
+        closingTime = endTime;
+        perTimeMaxReservationCount = restaurantUpdateDto.getPerTimeMaxReservationCount();
+    }
 }

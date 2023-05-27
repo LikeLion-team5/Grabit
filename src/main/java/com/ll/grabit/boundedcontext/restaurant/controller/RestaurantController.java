@@ -42,11 +42,11 @@ public class RestaurantController {
         RestaurantUpdateDto restaurantUpdateDto = restaurant.toRestaurantUpdateDto();
         model.addAttribute("restaurantUpdateDto", restaurantUpdateDto);
 
-        return "/restaurant/update";
+        return "home";
     }
     @PostMapping("/{restaurantId}/edit")
     public String update(@PathVariable("restaurantId") Long id, @ModelAttribute @Valid RestaurantUpdateDto restaurantUpdateDto){
-
-        return "/restaurant/update";
+        restaurantService.update(id, restaurantUpdateDto);
+        return "home";
     }
 }

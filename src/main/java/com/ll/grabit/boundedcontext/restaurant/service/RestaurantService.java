@@ -1,6 +1,7 @@
 package com.ll.grabit.boundedcontext.restaurant.service;
 
 import com.ll.grabit.base.exception.NotFoundDataException;
+import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
 import com.ll.grabit.boundedcontext.restaurant.entity.Address;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.restaurant.repository.AddressRepository;
@@ -8,12 +9,14 @@ import com.ll.grabit.boundedcontext.restaurant.repository.RestaurantRepository;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalTime;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
@@ -47,5 +50,17 @@ public class RestaurantService {
         Restaurant restaurant = findRestaurant.orElseThrow(
                 () -> new NotFoundDataException("Invalid access: No restaurant found with id : " + id));
         return findRestaurant.get();
+    }
+
+    public void update(Long id, RestaurantUpdateDto restaurantUpdateDto) {
+        Restaurant findRestaurant = findOne(id);
+        Address address = addressRepository.findByAddress1AndAddress2AndAddress3(restaurantUpdateDto.getAddress1(),
+                        restaurantUpdateDto.getAddress2(), restaurantUpdateDto.getAddress3())
+                .orElseThrow(
+                        () -> new NotFoundDataException("해당하는 Address 를 찾을 수 없습니다.")
+                );
+        LocalTime startTime = extractedLocalTime(restaurantUpdateDto.getStartTime());
+        LocalTime endTime = extractedLocalTime(restaurantUpdateDto.getEndTime());
+        findRestaurant.update(restaurantUpdateDto, address, startTime, endTime);
     }
 }
