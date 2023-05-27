@@ -1,31 +1,21 @@
 package com.ll.grabit.boundedcontext.restaurant.restaurant.service;
 
-import com.ll.grabit.boundedcontext.restaurant.restaurant.dto.RestaurantRegisterDto;
-import com.ll.grabit.boundedcontext.restaurant.restaurant.entity.Address;
-import com.ll.grabit.boundedcontext.restaurant.restaurant.entity.Restaurant;
-import com.ll.grabit.boundedcontext.restaurant.restaurant.entity.RestaurantType;
-import com.ll.grabit.boundedcontext.restaurant.restaurant.repository.AddressRepository;
-import com.ll.grabit.boundedcontext.restaurant.restaurant.repository.RestaurantRepository;
+import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
+import com.ll.grabit.boundedcontext.restaurant.entity.Address;
+import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
+import com.ll.grabit.boundedcontext.restaurant.repository.AddressRepository;
+import com.ll.grabit.boundedcontext.restaurant.repository.RestaurantRepository;
+import com.ll.grabit.boundedcontext.restaurant.service.RestaurantService;
 import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalTime;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @AutoConfigureMockMvc

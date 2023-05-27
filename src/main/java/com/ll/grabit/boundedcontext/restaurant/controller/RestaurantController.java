@@ -1,8 +1,8 @@
-package com.ll.grabit.boundedcontext.restaurant.restaurant.controller;
+package com.ll.grabit.boundedcontext.restaurant.controller;
 
-import com.ll.grabit.boundedcontext.restaurant.restaurant.dto.RestaurantRegisterDto;
+import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
 
-import com.ll.grabit.boundedcontext.restaurant.restaurant.service.RestaurantService;
+import com.ll.grabit.boundedcontext.restaurant.service.RestaurantService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
