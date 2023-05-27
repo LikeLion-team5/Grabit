@@ -1,7 +1,10 @@
 package com.ll.grabit.boundedcontext.restaurant.restaurant.controller;
 
+import com.ll.grabit.base.exception.NotFoundDataException;
 import com.ll.grabit.boundedcontext.restaurant.restaurant.dto.RestaurantRegisterDto;
 
+import com.ll.grabit.boundedcontext.restaurant.restaurant.dto.RestaurantUpdateDto;
+import com.ll.grabit.boundedcontext.restaurant.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.restaurant.restaurant.service.RestaurantService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +33,16 @@ public class RestaurantController {
         }
         restaurantService.save(restaurantRegisterDto);
         return "home";
+    }
+
+    @GetMapping("/{restaurantId}/edit")
+    public String update(@PathVariable("restaurantId") Long id, Model model){
+        Restaurant restaurant = restaurantService.findOne(id);
+
+        //Restaurant Entity to RestaurantUpdateDto
+        RestaurantUpdateDto restaurantUpdateDto = restaurant.toRestaurantUpdateDto();
+        model.addAttribute("restaurantUpdateDto", restaurantUpdateDto);
+
+        return "/restaurant/update";
     }
 }

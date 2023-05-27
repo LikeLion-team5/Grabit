@@ -1,11 +1,13 @@
 package com.ll.grabit.boundedcontext.restaurant.restaurant.service;
 
+import com.ll.grabit.base.exception.NotFoundDataException;
 import com.ll.grabit.boundedcontext.restaurant.restaurant.dto.RestaurantRegisterDto;
 import com.ll.grabit.boundedcontext.restaurant.restaurant.entity.Address;
 import com.ll.grabit.boundedcontext.restaurant.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.restaurant.restaurant.repository.AddressRepository;
 import com.ll.grabit.boundedcontext.restaurant.restaurant.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.NotFound;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
@@ -39,5 +41,12 @@ public class RestaurantService {
         String[] split = time.split(":");
         LocalTime localTime = LocalTime.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
         return localTime;
+    }
+
+    public Restaurant findOne(Long id) {
+        Optional<Restaurant> findRestaurant = restaurantRepository.findById(id);
+        Restaurant restaurant = findRestaurant.orElseThrow(
+                () -> new NotFoundDataException("Invalid access: No restaurant found with id : " + id));
+        return findRestaurant.get();
     }
 }

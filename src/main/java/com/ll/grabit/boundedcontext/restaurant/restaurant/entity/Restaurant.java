@@ -1,6 +1,7 @@
 package com.ll.grabit.boundedcontext.restaurant.restaurant.entity;
 
 
+import com.ll.grabit.boundedcontext.restaurant.restaurant.dto.RestaurantUpdateDto;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,5 +45,21 @@ public class Restaurant {
         this.openingTime = openingTime;
         this.closingTime = closingTime;
         this.perTimeMaxReservationCount = perTimeMaxReservationCount;
+    }
+
+    public RestaurantUpdateDto toRestaurantUpdateDto(){
+        RestaurantUpdateDto restaurantUpdateDto = new RestaurantUpdateDto();
+        restaurantUpdateDto.setRestaurantName(restaurantName);
+        restaurantUpdateDto.setDescription(description);
+        restaurantUpdateDto.setAddress1(address.getAddress1());
+        restaurantUpdateDto.setAddress2(address.getAddress2());
+        restaurantUpdateDto.setAddress3(address.getAddress3());
+        restaurantUpdateDto.setDetail_address(detail_address);
+        restaurantUpdateDto.setType(type.name());
+        restaurantUpdateDto.setStartTime(openingTime.toString());
+        restaurantUpdateDto.setEndTime(closingTime.toString());
+        restaurantUpdateDto.setPerTimeMaxReservationCount(perTimeMaxReservationCount);
+
+        return restaurantUpdateDto;
     }
 }
