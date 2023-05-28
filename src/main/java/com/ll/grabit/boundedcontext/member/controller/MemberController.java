@@ -1,5 +1,7 @@
 package com.ll.grabit.boundedcontext.member.controller;
 
+import com.ll.grabit.base.rsdata.RsData;
+import com.ll.grabit.boundedcontext.member.entity.Member;
 import com.ll.grabit.boundedcontext.member.service.MemberService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -41,8 +43,16 @@ public class MemberController {
     @PostMapping("/join")
     public String join(@Valid JoinForm joinForm) {
 
-        memberService.join(joinForm.getUsername(), joinForm.getPassword());
+        RsData<Member> rsData = memberService.join(joinForm.getUsername(), joinForm.getPassword());
+
+        if (rsData.isFail()) {
+
+        }
 
         return "redirect:/";
+    }
+    @GetMapping("/login")
+    public String showLogin() {
+        return "usr/member/login";
     }
 }
