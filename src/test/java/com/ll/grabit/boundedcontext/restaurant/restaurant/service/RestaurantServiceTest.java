@@ -1,6 +1,7 @@
 package com.ll.grabit.boundedcontext.restaurant.restaurant.service;
 
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
+import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
 import com.ll.grabit.boundedcontext.restaurant.entity.Address;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.restaurant.repository.AddressRepository;
@@ -26,7 +27,7 @@ class RestaurantServiceTest {
     @Autowired
     private RestaurantService restaurantService;
 
-        @Autowired
+    @Autowired
     private RestaurantRepository restaurantRepository;
 
     @Autowired
@@ -67,4 +68,35 @@ class RestaurantServiceTest {
         Assertions.assertThat(findRes.getRestaurantId()).isEqualTo(saveRes.getRestaurantId());
     }
 
+    @Test
+    @DisplayName("식당 수정 테스트")
+    void update(){
+        //given
+        Restaurant beforeRes = restaurantService.findOne(1L);
+
+        //when
+        RestaurantUpdateDto updateDto = new RestaurantUpdateDto();
+        updateDto.setRestaurantName("식당수정");
+        updateDto.setDescription("식당소개수정");
+        updateDto.setType("Korean");
+        updateDto.setAddress1("서울특별시");
+        updateDto.setAddress2("도봉구");
+        updateDto.setAddress3("창동");
+        updateDto.setDetail_address("창동역 1번출구 바로 앞 건물");
+        updateDto.setStartTime("09:30");
+        updateDto.setEndTime("23:30");
+        updateDto.setPerTimeMaxReservationCount(3);
+        restaurantService.update(1L,updateDto);
+
+        //then
+        Restaurant afterRes = restaurantService.findOne(1L);
+
+        Assertions.assertThat(afterRes.getRestaurantName()).isEqualTo("식당수정");
+        Assertions.assertThat(afterRes.getDescription()).isEqualTo("식당소개수정");
+        Assertions.assertThat(afterRes.getAddress().getAddress1()).isEqualTo("서울특별시");
+        Assertions.assertThat(afterRes.getAddress().getAddress2()).isEqualTo("도봉구");
+        Assertions.assertThat(afterRes.getAddress().getAddress3()).isEqualTo("창동");
+        Assertions.assertThat(afterRes.getDetail_address()).isEqualTo("창동역 1번출구 바로 앞 건물");
+
+    }
 }
