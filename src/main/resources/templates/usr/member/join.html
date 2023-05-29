@@ -1,63 +1,89 @@
-<html layout:decorate="~{common/layout.html}">
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout/defaultLayout}"
+      layout:fragment="Content">
 
-<!-- min-h-screen : min-height:100vh; -->
-    <main class="min-h-screen flex flex-col" style="background-color: #FEE8E8">
-        <body th:replace="navbar/navbar"></body>
-        <div class="flex-grow flex items-center justify-center">
-            <div class="max-w-3xl w-full px-4">
-                <form>
-                    <div class="form-control">
-                        <label class="label">
-                            <span class="text-lg">닉네임</span>
-                        </label>
-                        <input type="text" placeholder="닉네임" class="input input-bordered mb-4" autofocus />
-                        <label class="label">
+    <head>
 
-                            <span class="text-lg">아이디</span>
-                        </label>
-                        <input type="text" placeholder="4~20자 이내, 영문자 사용 가능" class="input input-bordered mb-4" autofocus />
-                        <label class="label">
-                            <span class="text-lg">비밀번호</span>
-                        </label>
-                        <input type="text" placeholder="비밀번호" class="input input-bordered mb-4" autofocus />
-                        <label class="label">
-                            <span class="text-lg">"비밀번호 확인"</span>
-                        </label>
-                        <input type="text" placeholder="4~20자 이내, 영문자 사용 가능" class="input input-bordered mb-4" autofocus />
-                        <label class="label">
-                            <span class="text-lg">전화번호</span>
-                        </label>
-                        <input type="text" placeholder="숫자만 입력" class="input input-bordered mb-4" autofocus />
-                        <label class="label">
-                            <span class="text-lg">이메일</span>
-                        </label>
-                        <input type="text" placeholder="이메일" class="input input-bordered mb-10" autofocus />
+        <title>회원가입</title>
+
+        <script>
+            function JoinForm__submit(form) {
+
+                form.username.value = form.username.value.trim();
+
+                if (form.username.value.length == 0) {
+                    form.username.focus();
+                    return;
+                }
+
+                if (form.username.value.length < 4) {
+                    form.username.focus();
+                    return;
+                }
+
+                form.password.value = form.password.value.trim();
+
+                if (form.password.value.length == 0) {
+                    form.password.focus();
+                    return;
+                }
+
+                if (form.password.value.length < 4) {
+                    form.password.focus();
+                    return;
+                }
+
+                form.submit();
+            }
+        </script>
+    </head>
+
+    <body>
+        <section layout:fragment="content">
+            <main class="min-h-screen flex flex-col" style="background-color: #FEE8E8">
+                <div class="flex-grow flex items-center justify-center">
+                <div class="max-w-3xl w-full px-4">
+                    <form th:action method="POST"  onsubmit="JoinForm__submit(this); return false;">
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">닉네임</span>
+                            </label>
+                            <input type="text" name="nickname" maxlength="10" placeholder="닉네임" class="input input-bordered mb-4" autofocus />
+                            <label class="label">
+                                <span class="label-text">아이디</span>
+                            </label>
+                            <input type="text" name="username" maxlength="20" placeholder="4~20자 이내, 영문자 사용 가능" class="input input-bordered mb-4" autofocus />
+                            <label class="label">
+                                <span class="label-text">비밀번호</span>
+                            </label>
+                            <input type="password" name="password" maxlength="20" placeholder="비밀번호" class="input input-bordered mb-4" autofocus />
+                            <label class="label">
+                                <span class="label-text">비밀번호 확인</span>
+                            </label>
+                            <input type="password" name="confirmPassword" maxlength="20" placeholder="4~20자 이내, 영문자 사용 가능" class="input input-bordered mb-4" autofocus />
+                            <label class="label">
+                                <span class="label-text">전화번호</span>
+                            </label>
+                            <input type="text" name="phoneNumber" maxlength="11" placeholder="숫자만 입력" class="input input-bordered mb-4" autofocus />
+                            <label class="label">
+                                <span class="label-text">이메일</span>
+                            </label>
+                            <input type="email" name="email" placeholder="이메일" class="input input-bordered mb-10" autofocus />
+                        </div>
+                    </form>
+                    <div class="flex justify-center">
+                        <button class="bg-white text-red-500 py-3 px-20 rounded shadow-md text-lg">가입하기</button>
                     </div>
-                </form>
-                <div class="flex justify-center">
-                    <button class="bg-white text-red-500 py-3 px-20 rounded shadow-md text-lg">가입하기</button>
                 </div>
             </div>
-        </div>
-        <footer class="bg-error dark:bg-red-400">
-            <div class="w-full mx-auto max-w-3xl p-4 md:flex md:items-center md:justify-between">
-        <span class="text-sm text-white sm:text-center dark:text-white">© 2023 <a href="#" class="hover:underline">Grabit</a>. All Rights Reserved.
-        </span>
-                <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-white dark:text-white sm:mt-0">
-                    <li>
-                        <a href="#" class="mr-4 hover:underline md:mr-6 ">About</a>
-                    </li>
-                    <li>
-                        <a href="#" class="mr-4 hover:underline md:mr-6">Privacy Policy</a>
-                    </li>
-                    <li>
-                        <a href="#" class="mr-4 hover:underline md:mr-6">Licensing</a>
-                    </li>
-                    <li>
-                        <a href="#" class="hover:underline">Contact</a>
-                    </li>
-                </ul>
-            </div>
-        </footer>
-    </main>
+            </main>
+        </section>
+
+        <style>
+            ::placeholder {
+                font-size: 13px;
+            }
+        </style>
+    </body>
 </html>
