@@ -99,4 +99,17 @@ class RestaurantServiceTest {
         Assertions.assertThat(afterRes.getDetail_address()).isEqualTo("창동역 1번출구 바로 앞 건물");
 
     }
+
+    @Test
+    @DisplayName("식당 삭제 테스트")
+    void delete(){
+        long beforeCnt = restaurantRepository.count();
+
+        restaurantService.delete(1L);
+
+        long afterCnt = restaurantRepository.count();
+
+        Assertions.assertThat(beforeCnt).isNotEqualTo(afterCnt);
+        Assertions.assertThat(beforeCnt-1).isEqualTo(afterCnt);
+    }
 }
