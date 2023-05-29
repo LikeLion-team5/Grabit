@@ -49,4 +49,10 @@ public class RestaurantController {
         restaurantService.update(id, restaurantUpdateDto);
         return "home";
     }
+
+    @PostMapping("/{restaurantId}/delete")
+    public String delete(@PathVariable("restaurantId") Long id){
+        restaurantService.delete(id);
+        return "home";
+    }
 }

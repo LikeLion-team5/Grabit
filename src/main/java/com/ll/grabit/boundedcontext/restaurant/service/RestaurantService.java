@@ -63,4 +63,8 @@ public class RestaurantService {
         LocalTime endTime = extractedLocalTime(restaurantUpdateDto.getEndTime());
         findRestaurant.update(restaurantUpdateDto, address, startTime, endTime);
     }
+
+    public void delete(Long id) {
+        restaurantRepository.deleteById(id);
+    }
 }
