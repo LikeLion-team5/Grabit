@@ -40,11 +40,14 @@ public class MemberController {
 
         return "usr/member/login";
     }
+
     @PreAuthorize("isAnonymous()")
     @GetMapping("/login")
     public String showLogin() {
         return "usr/member/login";
+
     }
+
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/mypage")
     public String showMe() {
