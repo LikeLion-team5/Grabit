@@ -4,6 +4,7 @@ import com.ll.grabit.base.rsdata.RsData;
 import com.ll.grabit.boundedcontext.member.entity.Member;
 import com.ll.grabit.boundedcontext.member.form.MemberCreateDto;
 import com.ll.grabit.boundedcontext.member.service.MemberService;
+import com.ll.grabit.standard.util.Ut;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,10 +36,12 @@ public class MemberController {
         RsData<Member> rsData = memberService.join(memberCreateDto);
 
         if (rsData.isFail()) {
+            return "common/js";
 
         }
 
-        return "usr/member/login";
+        return "redirect:/member/login?msg=" + Ut.url.encode("회원가입이 완료되었습니다.\n로그인 후 이용해주세요.");
+
     }
 
     @PreAuthorize("isAnonymous()")
