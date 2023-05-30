@@ -45,20 +45,34 @@ public class MemberService {
         }
 
 
+        return createAndSave(username, password, email, nickname, phone,"NORMAL");
 
 
-            Member member = Member
+
+    }
+
+    private RsData<Member> createAndSave(String username, String password, String email, String nickname, String phone, String providerTypeCode) {
+        Member member = Member
                 .builder()
                 .username(username)
                 .password(passwordEncoder.encode(password))
+                .providerTypeCode(providerTypeCode)
                 .email(email)
                 .phone(phone)
                 .nickname(nickname)
                 .build();
 
         Member savedMember = memberRepository.save(member);
-
         return RsData.of("S-1", "회원가입이 완료되었습니다.", savedMember);
+    }
+
+    @Transactional
+    public RsData<Member> whenSocialLogin(String providerTypeCode, String username) {
+        Optional<Member> opMember = findByUsername(username);
+
+        if (opMember.isPresent()) return RsData.of("S-1", "로그인 되었습니다.", opMember.get());
+
+       return createAndSave(username,"","","","",providerTypeCode);
 
     }
 }

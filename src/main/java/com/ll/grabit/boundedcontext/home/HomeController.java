@@ -1,15 +1,11 @@
 package com.ll.grabit.boundedcontext.home;
 
-import com.ll.grabit.boundedcontext.member.entity.Member;
-import com.ll.grabit.boundedcontext.member.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.security.Principal;
 import java.util.Enumeration;
 
 @Controller

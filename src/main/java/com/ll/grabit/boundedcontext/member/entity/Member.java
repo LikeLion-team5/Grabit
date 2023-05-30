@@ -41,9 +41,10 @@ public class Member {
 
     @CreatedDate
     private LocalDateTime createDate;
-
+    private String providerTypeCode;
     @LastModifiedDate
     private LocalDateTime modifyDate;
+
     public List<? extends GrantedAuthority> getGrantedAuthorities() {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 
