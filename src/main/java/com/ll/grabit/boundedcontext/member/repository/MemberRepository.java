@@ -1,4 +1,4 @@
-package com.ll.grabit.boundedcontext.member.repositoty;
+package com.ll.grabit.boundedcontext.member.repository;
 
 import com.ll.grabit.boundedcontext.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;

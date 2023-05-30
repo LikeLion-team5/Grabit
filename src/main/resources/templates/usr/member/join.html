@@ -39,6 +39,7 @@
         </script>
     </head>
 
+
     <body>
         <section layout:fragment="content">
             <main class="min-h-screen flex flex-col" style="background-color: #FEE8E8">
@@ -65,16 +66,17 @@
                             <label class="label">
                                 <span class="label-text">전화번호</span>
                             </label>
-                            <input type="text" name="phoneNumber" maxlength="11" placeholder="숫자만 입력" class="input input-bordered mb-4" autofocus />
+                            <input type="text" name="phone" maxlength="11" placeholder="숫자만 입력" class="input input-bordered mb-4" autofocus />
                             <label class="label">
                                 <span class="label-text">이메일</span>
                             </label>
                             <input type="email" name="email" placeholder="이메일" class="input input-bordered mb-10" autofocus />
                         </div>
+                        <div class="flex justify-center">
+                            <button class="bg-white text-red-500 py-3 px-20 rounded shadow-md text-lg">가입하기</button>
+                        </div>
                     </form>
-                    <div class="flex justify-center">
-                        <button class="bg-white text-red-500 py-3 px-20 rounded shadow-md text-lg">가입하기</button>
-                    </div>
+
                 </div>
             </div>
             </main>

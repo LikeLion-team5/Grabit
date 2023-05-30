@@ -1,10 +1,8 @@
 package com.ll.grabit.boundedcontext.restaurant.controller;
 
 
-import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
-import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
-
+import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
 import com.ll.grabit.boundedcontext.restaurant.service.RestaurantService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -1,12 +1,13 @@
 package com.ll.grabit.boundedcontext.member.controller;
 
+import com.ll.grabit.base.rsdata.RsData;
+import com.ll.grabit.boundedcontext.member.entity.Member;
+import com.ll.grabit.boundedcontext.member.form.MemberCreateDto;
 import com.ll.grabit.boundedcontext.member.service.MemberService;
+import com.ll.grabit.standard.util.Ut;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,8 @@ public class MemberController {
 
     private final MemberService memberService;
 
+
+    @PreAuthorize("isAnonymous()")
     @GetMapping("/join")
     public String showJoin(Model model) {
 
@@ -28,25 +31,29 @@ public class MemberController {
         return "usr/member/join";
     }
 
-    @Getter
-    @AllArgsConstructor
-    public static class JoinForm {
 
-        @NotBlank
-        @Size(min = 4, max = 30)
-        private final String username;
 
-        @NotBlank
-        @Size(min = 4, max = 30)
-        private final String password;
-    }
 
     @PostMapping("/join")
-    public String join(@Valid JoinForm joinForm) {
+    public String join(@Valid MemberCreateDto memberCreateDto) {
 
-        memberService.join(joinForm.getUsername(), joinForm.getPassword());
+        RsData<Member> rsData = memberService.join(memberCreateDto);
 
-        return "redirect:/";
+        if (rsData.isFail()) {
+            return "common/js";
+
+        }
+
+        return "redirect:/member/login?msg=" + Ut.url.encode("회원가입이 완료되었습니다.\n로그인 후 이용해주세요.");
+
+    }
+
+
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/mypage")
+    public String showMe() {
+        return "usr/member/mypage";
     }
 
     @GetMapping("/login")
