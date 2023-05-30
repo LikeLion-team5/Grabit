@@ -1,5 +1,8 @@
 package com.ll.grabit.boundedcontext.restaurant.controller;
 
+
+import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
+import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
 
 import com.ll.grabit.boundedcontext.restaurant.service.RestaurantService;
@@ -31,4 +34,17 @@ public class RestaurantController {
         restaurantService.save(restaurantRegisterDto);
         return "home";
     }
+
+    @PostMapping("/{restaurantId}/edit")
+    public String update(@PathVariable("restaurantId") Long id, @ModelAttribute @Valid RestaurantUpdateDto restaurantUpdateDto){
+        restaurantService.update(id, restaurantUpdateDto);
+        return "home";
+    }
+
+    @PostMapping("/{restaurantId}/delete")
+    public String delete(@PathVariable("restaurantId") Long id){
+        restaurantService.delete(id);
+        return "home";
+    }
+
 }
