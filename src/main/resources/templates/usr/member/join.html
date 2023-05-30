@@ -39,37 +39,7 @@
         </script>
     </head>
 
-<<<<<<< HEAD
-        form.submit();
-    }
-</script>
 
-<form th:action method="POST"  onsubmit="JoinForm__submit(this); return false;">
-    <div>
-        <input type="text" name="nickname" maxlength="20" placeholder="닉네임" >
-    </div>
-    <div>
-        <input type="text" name="username" maxlength="30" placeholder="아이디" >
-    </div>
-    <div>
-        <input type="password" name="password"   placeholder="비밀번호">
-    </div>
-    <div>
-        <input type="password" name="confirmPassword"  placeholder="비밀번호 확인">
-    </div>
-    <div>
-        <input type="integer" name="phone" maxlength="30" placeholder="전화번호" >
-    </div>
-    <div>
-        <input type="text" name="email" maxlength="30" placeholder="이메일" >
-    </div>
-    <div>
-        <input type="submit" value="회원가입" >
-    </div>
-</form>
-
-</body>
-=======
     <body>
         <section layout:fragment="content">
             <main class="min-h-screen flex flex-col" style="background-color: #FEE8E8">
@@ -96,21 +66,21 @@
                             <label class="label">
                                 <span class="label-text">전화번호</span>
                             </label>
-                            <input type="text" name="phoneNumber" maxlength="11" placeholder="숫자만 입력" class="input input-bordered mb-4" autofocus />
+                            <input type="text" name="phone" maxlength="11" placeholder="숫자만 입력" class="input input-bordered mb-4" autofocus />
                             <label class="label">
                                 <span class="label-text">이메일</span>
                             </label>
                             <input type="email" name="email" placeholder="이메일" class="input input-bordered mb-10" autofocus />
                         </div>
+                        <div class="flex justify-center">
+                            <button class="bg-white text-red-500 py-3 px-20 rounded shadow-md text-lg">가입하기</button>
+                        </div>
                     </form>
-                    <div class="flex justify-center">
-                        <button class="bg-white text-red-500 py-3 px-20 rounded shadow-md text-lg">가입하기</button>
-                    </div>
+
                 </div>
             </div>
             </main>
         </section>
->>>>>>> main
 
         <style>
             ::placeholder {
