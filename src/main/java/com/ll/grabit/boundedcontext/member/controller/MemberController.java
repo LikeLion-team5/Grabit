@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,9 @@ public class MemberController {
 
     @PreAuthorize("isAnonymous()")
     @GetMapping("/join")
-    public String showJoin() {
+    public String showJoin(Model model) {
+
+        model.addAttribute("isJoinPage", true);
 
         return "usr/member/join";
     }
@@ -56,5 +59,13 @@ public class MemberController {
     @GetMapping("/mypage")
     public String showMe() {
         return "usr/member/mypage";
+    }
+
+    @GetMapping("/login")
+    public String showLogin(Model model) {
+
+        model.addAttribute("isLoginPage", true);
+
+        return "usr/member/login";
     }
 }
