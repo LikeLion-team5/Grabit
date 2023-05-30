@@ -1,6 +1,7 @@
 package com.ll.grabit.boundedcontext.restaurant.entity;
 
 
+
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
 import jakarta.persistence.*;
 import lombok.Builder;
