@@ -23,15 +23,20 @@
         </div>
         <div class="navbar-end">
             <div class="flex-none">
-                <button class="btn btn-ghost">
-                  <span class="flex items-center">
-                    <i class="fa-solid fa-arrow-right-to-bracket text-base text-white"></i>
-                    <span class="ml-2 text-base text-white">로그인</span>
-                  </span>
+                <button th:if="${isLoginPage}" class="btn btn-ghost">
+                    <span class="flex items-center">
+                        <i class="fa-solid fa-solid fa-user-plus text-base text-white"></i>
+                        <span class="ml-2 text-base text-white">회원가입</span>
+                    </span>
+                </button>
+                <button th:if="${isJoinPage}" class="btn btn-ghost">
+                    <span class="flex items-center">
+                        <i class="fa-solid fa-arrow-right-to-bracket text-base text-white"></i>
+                        <span class="ml-2 text-base text-white">로그인</span>
+                    </span>
                 </button>
             </div>
         </div>
     </div>
 </div>
 </html>
-
