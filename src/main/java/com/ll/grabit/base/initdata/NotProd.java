@@ -37,6 +37,20 @@ public class NotProd {
             for(int i=0; i<20; i++) {
                 restaurantService.save(restaurantDto);
             }
+
+            restaurantDto.setAddress2("도봉구");
+            restaurantDto.setAddress3("창동");
+            restaurantDto.setDetail_address("창동역 앞 건물 1층");
+            for(int i=0; i<20; i++) {
+                restaurantService.save(restaurantDto);
+            }
+
+            restaurantDto.setAddress2("노원구");
+            restaurantDto.setAddress3("월계동");
+            restaurantDto.setDetail_address("월계역 앞 건물 1층");
+            for(int i=0; i<20; i++) {
+                restaurantService.save(restaurantDto);
+            }
         };
     }
 }

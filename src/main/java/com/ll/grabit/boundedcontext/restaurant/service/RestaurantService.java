@@ -1,6 +1,7 @@
 package com.ll.grabit.boundedcontext.restaurant.service;
 
 import com.ll.grabit.base.exception.NotFoundDataException;
+import com.ll.grabit.boundedcontext.restaurant.dto.AddressSearchDto;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
 import com.ll.grabit.boundedcontext.restaurant.entity.Address;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
@@ -8,10 +9,14 @@ import com.ll.grabit.boundedcontext.restaurant.repository.AddressRepository;
 import com.ll.grabit.boundedcontext.restaurant.repository.RestaurantRepository;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,6 +27,7 @@ public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
     private final AddressRepository addressRepository;
+
 
     public Restaurant save(RestaurantRegisterDto restaurantRegisterDto) {
         //주소 뽑아내기
@@ -68,5 +74,39 @@ public class RestaurantService {
 
     public void delete(Long id) {
         restaurantRepository.deleteById(id);
+    }
+
+    public Page<Restaurant> search(AddressSearchDto addressSearchDto, Pageable pageable) {
+        String address1 = addressSearchDto.getAddress1();
+        String address2 = addressSearchDto.getAddress2();
+        String address3 = addressSearchDto.getAddress3();
+
+        //주소 필터링
+        List<Address> addressList = filteredAddress(address1, address2, address3);
+
+        //주소에 해당하는 식당 리스트 뽑아오기
+        Page<Restaurant> restaurantList = null;
+        if(addressList.size() == 0){
+            restaurantList = restaurantRepository.findAll(pageable);
+        }else{
+            restaurantList = restaurantRepository.findByAddressIn(addressList, pageable);
+        }
+
+        return restaurantList;
+    }
+
+    private List<Address> filteredAddress(String address1, String address2, String address3) {
+        List<Address> addressList = new ArrayList<>();
+        if (address3 != null && !address3.isEmpty()) {
+            addressList = addressRepository.findAddress3(address1, address2, address3);
+        }
+        else if (address2 != null && !address2.isEmpty()) {
+            addressList = addressRepository.findAddress2(address1, address2);
+        }
+        else if(address1 != null && !address1.isEmpty()) {
+            addressList = addressRepository.findAddress1(address1);
+        }
+
+        return addressList;
     }
 }
