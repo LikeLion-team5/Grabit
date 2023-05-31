@@ -21,7 +21,7 @@ public class AddressInitData {
             //address 저장
             try (BufferedReader reader = new BufferedReader(
                     new InputStreamReader(
-                            new ClassPathResource("data/address_seoul.csv").getInputStream(),
+                            new ClassPathResource("data/address_test.csv").getInputStream(),
                             StandardCharsets.UTF_8
                     )
             )) {
