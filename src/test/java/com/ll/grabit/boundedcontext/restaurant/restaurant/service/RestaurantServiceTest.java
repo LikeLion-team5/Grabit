@@ -151,7 +151,8 @@ class RestaurantServiceTest {
         assertThat(search.getTotalElements()).isEqualTo(20);
         assertThat(search.getTotalPages()).isEqualTo(3);
         assertThat(search.getNumberOfElements()).isEqualTo(8);
-    }    @Test
+    }
+    @Test
     @DisplayName("대주소 + 중주소 + 소주소로 식당 검색")
     void search03(){
         AddressSearchDto addressSearchDto = new AddressSearchDto();

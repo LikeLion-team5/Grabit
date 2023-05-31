@@ -55,12 +55,13 @@ public class RestaurantController {
     }
 
     @GetMapping("/search")
-    @ResponseBody
-    public Page<Restaurant> search(@ModelAttribute AddressSearchDto addressSearchDto,
-                         @PageableDefault(page = 0, size = 8, sort = "restaurantId", direction = Sort.Direction.ASC) Pageable pageable){
+    public String search(@ModelAttribute AddressSearchDto addressSearchDto,
+                         @PageableDefault(page = 0, size = 8, sort = "restaurantId", direction = Sort.Direction.ASC) Pageable pageable,
+                                   Model model){
         Page<Restaurant> restaurantList = restaurantService.search(addressSearchDto, pageable);
+        model.addAttribute("restaurantList", restaurantList);
 
-        return restaurantList;
+        return "home";
     }
 
 }
