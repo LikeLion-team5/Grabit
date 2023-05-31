@@ -76,8 +76,7 @@ public class RestaurantService {
         restaurantRepository.deleteById(id);
     }
 
-    public Page<Restaurant> search(
-      Dto addressSearchDto, Pageable pageable) {
+    public Page<Restaurant> search(AddressSearchDto addressSearchDto, Pageable pageable) {
         String address1 = addressSearchDto.getAddress1();
         String address2 = addressSearchDto.getAddress2();
         String address3 = addressSearchDto.getAddress3();
