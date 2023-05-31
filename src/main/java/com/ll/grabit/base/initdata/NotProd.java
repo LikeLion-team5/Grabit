@@ -42,7 +42,12 @@ public class NotProd {
             restaurantDto.setAddress2("도봉구");
             restaurantDto.setAddress3("창동");
             restaurantDto.setDetail_address("창동역 앞 건물 1층");
-            for(int i=0; i<20; i++) {
+            for(int i=0; i<10; i++) {
+                restaurantService.save(restaurantDto);
+            }
+            restaurantDto.setAddress3("쌍문동");
+            restaurantDto.setDetail_address("쌍문역 앞 건물 1층");
+            for(int i=0; i<10; i++) {
                 restaurantService.save(restaurantDto);
             }
 
