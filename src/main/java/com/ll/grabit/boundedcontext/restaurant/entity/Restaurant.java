@@ -36,6 +36,9 @@ public class Restaurant {
 
     private Integer perTimeMaxReservationCount;
 
+    @OneToOne(mappedBy = "restaurant")
+    private RestaurantImage restaurantImage;
+
     @Builder
     public Restaurant(String restaurantName, String description, RestaurantType type, Address address, String detail_address, LocalTime openingTime, LocalTime closingTime, Integer perTimeMaxReservationCount) {
         this.restaurantName = restaurantName;

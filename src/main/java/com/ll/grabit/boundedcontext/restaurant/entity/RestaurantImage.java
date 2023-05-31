@@ -1,9 +1,6 @@
 package com.ll.grabit.boundedcontext.restaurant.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -18,6 +15,10 @@ public class RestaurantImage {
     private String storedFileName;
 
     private String imagePath;
+
+    @OneToOne
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
 
     public RestaurantImage(String uploadFileName, String storedFileName, String imagePath) {
         this.uploadFileName = uploadFileName;
