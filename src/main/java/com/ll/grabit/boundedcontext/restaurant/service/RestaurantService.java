@@ -2,12 +2,12 @@ package com.ll.grabit.boundedcontext.restaurant.service;
 
 import com.ll.grabit.base.exception.NotFoundDataException;
 import com.ll.grabit.boundedcontext.restaurant.dto.AddressSearchDto;
+import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
 import com.ll.grabit.boundedcontext.restaurant.entity.Address;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.restaurant.repository.AddressRepository;
 import com.ll.grabit.boundedcontext.restaurant.repository.RestaurantRepository;
-import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -76,7 +76,8 @@ public class RestaurantService {
         restaurantRepository.deleteById(id);
     }
 
-    public Page<Restaurant> search(AddressSearchDto addressSearchDto, Pageable pageable) {
+    public Page<Restaurant> search(
+      Dto addressSearchDto, Pageable pageable) {
         String address1 = addressSearchDto.getAddress1();
         String address2 = addressSearchDto.getAddress2();
         String address3 = addressSearchDto.getAddress3();

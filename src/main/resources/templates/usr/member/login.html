@@ -5,6 +5,36 @@
 
     <head>
         <title>로그인</title>
+        <script>
+            function LoginForm__submit(form) {
+
+                form.username.value = form.username.value.trim();
+
+                if (form.username.value.length == 0) {
+                    form.username.focus();
+                    return;
+                }
+
+                if (form.username.value.length < 4) {
+                    form.username.focus();
+                    return;
+                }
+
+                form.password.value = form.password.value.trim();
+
+                if (form.password.value.length == 0) {
+                    form.password.focus();
+                    return;
+                }
+
+                if (form.password.value.length < 4) {
+                    form.password.focus();
+                    return;
+                }
+
+                form.submit();
+            }
+        </script>
     </head>
 
     <body>
@@ -17,28 +47,28 @@
                                 <h1 class="text-5xl font-bold text-red-500">Grabit</h1>
                             </div>
                         </div>
-                        <form>
+                        <form th:action method="POST"  onsubmit="LoginForm__submit(this); return false;">
                             <div class="flex justify-center ">
                                 <div class="form-control flex justify-center w-full max-w-lg">
                                     <label class="label">
                                         <span class="label-text">아이디</span>
                                     </label>
-                                    <input type="text" class="input input-bordered mb-4" autofocus />
+                                    <input type="text" name="username" class="input input-bordered mb-4" autofocus />
                                     <label class="label">
                                         <span class="label-text">비밀번호</span>
                                     </label>
-                                    <input type="text" class="input input-bordered mb-4" autofocus />
+                                    <input type="text" name="password" class="input input-bordered mb-4" autofocus />
                                 </div>
                             </div>
+                            <div class="flex justify-center">
+                                <button class="bg-error text-white py-3 rounded-lg shadow-md text-lg mb-10" style="width: 32rem">로그인</button>
+                            </div>
                         </form>
-                        <div class="flex justify-center">
-                            <button class="bg-error text-white py-3 rounded-lg shadow-md text-lg mb-10" style="width: 32rem">로그인</button>
-                        </div>
-                        <button class="bg-white py-3 px-4 w-full rounded-lg shadow-md text-lg mb-4">
+                        <button onclick="window.location.href='/oauth2/authorization/kakao'" class="bg-white py-3 px-4 w-full rounded-lg shadow-md text-lg mb-4">
                             <i class="fa-solid fa-comment text-yellow-400"></i>
                             <span>카카오로 시작하기</span>
                         </button>
-                        <button class="bg-white py-3 px-4 w-full rounded-lg shadow-md text-lg mb-10">
+                        <button onclick="window.location.href='/oauth2/authorization/naver'" class="bg-white py-3 px-4 w-full rounded-lg shadow-md text-lg mb-10">
                             <i class="fa-solid fa-n text-[color:#2DB400]"></i>
                             <span>네이버로 시작하기</span>
                         </button>
