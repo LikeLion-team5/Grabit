@@ -51,9 +51,9 @@ public class MemberController {
 
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/mypage")
+    @GetMapping("/myInfo")
     public String showMe() {
-        return "usr/member/mypage";
+        return "usr/member/myInfo";
     }
 
     @GetMapping("/login")

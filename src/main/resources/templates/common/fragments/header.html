@@ -35,6 +35,12 @@
                         <span class="ml-2 text-base text-white">로그인</span>
                     </span>
                 </button>
+                <button th:if="${@rq.isLogin()}" class="btn btn-ghost">
+                    <span class="flex items-center">
+                      <i class="fa-solid fa-arrow-right-from-bracket text-base text-white"></i>
+                      <span class="ml-2 text-base text-white">로그아웃</span>
+                    </span>
+                </button>
             </div>
         </div>
     </div>
