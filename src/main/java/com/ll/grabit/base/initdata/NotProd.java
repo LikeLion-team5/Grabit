@@ -9,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.web.multipart.MultipartFile;
 
 @Configuration
 @Profile({"dev","test"})
@@ -50,6 +51,8 @@ public class NotProd {
             memberService.join(memberCreateDto2);
             memberService.join(memberCreateDto3);
 
+            MultipartFile multipartFile = null;
+
             //서울에 있는 식당 데이터
             RestaurantRegisterDto restaurantDto = new RestaurantRegisterDto();
             restaurantDto.setRestaurantName("식당 이름");
@@ -63,26 +66,26 @@ public class NotProd {
             restaurantDto.setEndTime("23:30");
             restaurantDto.setPerTimeMaxReservationCount(3);
             for(int i=0; i<20; i++) {
-                restaurantService.save(restaurantDto);
+                restaurantService.save(restaurantDto,multipartFile);
             }
 
             restaurantDto.setAddress2("도봉구");
             restaurantDto.setAddress3("창동");
             restaurantDto.setDetail_address("창동역 앞 건물 1층");
             for(int i=0; i<10; i++) {
-                restaurantService.save(restaurantDto);
+                restaurantService.save(restaurantDto, multipartFile);
             }
             restaurantDto.setAddress3("쌍문동");
             restaurantDto.setDetail_address("쌍문역 앞 건물 1층");
             for(int i=0; i<10; i++) {
-                restaurantService.save(restaurantDto);
+                restaurantService.save(restaurantDto, multipartFile);
             }
 
             restaurantDto.setAddress2("노원구");
             restaurantDto.setAddress3("월계동");
             restaurantDto.setDetail_address("월계역 앞 건물 1층");
             for(int i=0; i<20; i++) {
-                restaurantService.save(restaurantDto);
+                restaurantService.save(restaurantDto, multipartFile);
             }
 
             //인천에 있는 식당 데이터
@@ -91,13 +94,13 @@ public class NotProd {
             restaurantDto.setAddress3("옥련동");
             restaurantDto.setDetail_address("욕련동 아파트 101동 1015호");
             for(int i=0; i<10; i++) {
-                restaurantService.save(restaurantDto);
+                restaurantService.save(restaurantDto,multipartFile);
             }
             restaurantDto.setAddress2("중구");
             restaurantDto.setAddress3("해안동");
             restaurantDto.setDetail_address("욕련동 아파트 101동 1015호");
             for(int i=0; i<10; i++) {
-                restaurantService.save(restaurantDto);
+                restaurantService.save(restaurantDto,multipartFile);
             }
 
             //울산에 있는 식당 데이터
@@ -106,13 +109,13 @@ public class NotProd {
             restaurantDto.setAddress3("남화동");
             restaurantDto.setDetail_address("남화동 아파트 101동 1015호");
             for(int i=0; i<10; i++) {
-                restaurantService.save(restaurantDto);
+                restaurantService.save(restaurantDto,multipartFile);
             }
             restaurantDto.setAddress2("동구");
             restaurantDto.setAddress3("동부동");
             restaurantDto.setDetail_address("동부동 아파트 101동 1015호");
             for(int i=0; i<10; i++) {
-                restaurantService.save(restaurantDto);
+                restaurantService.save(restaurantDto, multipartFile);
             }
 
             //부천에 있는 식당 데이터
@@ -121,12 +124,12 @@ public class NotProd {
             restaurantDto.setAddress3("");
             restaurantDto.setDetail_address("원미동 아파트 101동 1015호");
             for(int i=0; i<10; i++) {
-                restaurantService.save(restaurantDto);
+                restaurantService.save(restaurantDto, multipartFile);
             }
             restaurantDto.setAddress2("오정동");
             restaurantDto.setDetail_address("오정동 아파트 101동 1015호");
             for(int i=0; i<10; i++) {
-                restaurantService.save(restaurantDto);
+                restaurantService.save(restaurantDto, multipartFile);
             }
         };
     }
