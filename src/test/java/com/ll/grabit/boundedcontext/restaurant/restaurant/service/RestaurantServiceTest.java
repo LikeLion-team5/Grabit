@@ -9,7 +9,6 @@ import com.ll.grabit.boundedcontext.restaurant.repository.AddressRepository;
 import com.ll.grabit.boundedcontext.restaurant.repository.RestaurantRepository;
 import com.ll.grabit.boundedcontext.restaurant.service.RestaurantService;
 import jakarta.persistence.EntityManager;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +16,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
@@ -43,7 +42,7 @@ class RestaurantServiceTest {
 
     @Test
     @DisplayName("식당 등록 테스트")
-    void register() {
+    void register() throws IOException {
         RestaurantRegisterDto dto = new RestaurantRegisterDto();
         dto.setRestaurantName("test 식당");
         dto.setDescription("test 식당 소개입니다.");
@@ -58,7 +57,7 @@ class RestaurantServiceTest {
 
 
         //when
-        Restaurant saveRes = restaurantService.save(dto);
+        Restaurant saveRes = restaurantService.save(dto, null);
         Address address = saveRes.getAddress();
 
         em.flush();
@@ -74,7 +73,7 @@ class RestaurantServiceTest {
 
     @Test
     @DisplayName("식당 수정 테스트")
-    void update(){
+    void update() throws IOException {
         //given
         Restaurant beforeRes = restaurantService.findOne(1L);
 
@@ -90,7 +89,7 @@ class RestaurantServiceTest {
         updateDto.setStartTime("09:30");
         updateDto.setEndTime("23:30");
         updateDto.setPerTimeMaxReservationCount(3);
-        restaurantService.update(1L,updateDto);
+        restaurantService.update(1L,updateDto, null);
 
         //then
         Restaurant afterRes = restaurantService.findOne(1L);
