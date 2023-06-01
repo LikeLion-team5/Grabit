@@ -75,4 +75,9 @@ public class MemberService {
        return createAndSave(username,"","","","",providerTypeCode);
 
     }
+
+    public Member findById(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow();
+    }
 }
