@@ -16,7 +16,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -26,24 +28,38 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
     @GetMapping("/register")
-    public String restaurantRegister(Model model) {
+    public String restaurantRegister(RestaurantRegisterDto restaurantRegisterDto, Model model) {
         model.addAttribute("restaurantRegisterDto", new RestaurantRegisterDto());
         return "registerForm";
     }
 
     @PostMapping("/register")
     public String restaurantRegister(@ModelAttribute @Valid RestaurantRegisterDto restaurantRegisterDto,
-                                     BindingResult result) {
+                                     BindingResult result,
+                                     MultipartFile file) throws IOException {
         if(result.hasErrors()){
             return "registerForm";
         }
-        restaurantService.save(restaurantRegisterDto);
+        System.out.println(file.isEmpty());
+        restaurantService.save(restaurantRegisterDto, file);
         return "home";
     }
 
+    @GetMapping("/{restaurantId}/edit")
+    public String update(@PathVariable("restaurantId") Long id, RestaurantUpdateDto restaurantUpdateDto,
+                         Model model) {
+        model.addAttribute("restaurantRegisterDto", new RestaurantRegisterDto());
+        return "registerForm";
+    }
+
     @PostMapping("/{restaurantId}/edit")
-    public String update(@PathVariable("restaurantId") Long id, @ModelAttribute @Valid RestaurantUpdateDto restaurantUpdateDto){
-        restaurantService.update(id, restaurantUpdateDto);
+    public String update(@PathVariable("restaurantId") Long id, @ModelAttribute @Valid RestaurantUpdateDto restaurantUpdateDto,
+                         BindingResult bindingResult,
+                         MultipartFile file) throws IOException {
+        if (bindingResult.hasErrors()) {
+            return "registerUpdateForm";
+        }
+        restaurantService.update(id, restaurantUpdateDto, file);
         return "home";
     }
 
