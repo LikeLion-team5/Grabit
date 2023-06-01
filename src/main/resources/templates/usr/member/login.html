@@ -39,39 +39,41 @@
 
     <body>
     <section layout:fragment="content">
-        <main class="min-h-screen flex flex-col" style="background-color: #FEE8E8">
+        <main class="flex flex-col" style="background-color: #FEE8E8">
             <div class="flex-grow flex items-center justify-center">
                 <div class="max-w-3xl w-full mt-8 px-4">
-                    <div class="flex justify-center">
-                        <div class="h-60 w-60 rounded-full bg-white flex items-center mb-5 md:mb-20 justify-center">
+                    <div class="flex justify-center md:mt-12">
+                        <div class="h-60 w-60 rounded-full bg-white flex items-center mb-5 md:mb-15 justify-center">
                             <h1 class="text-5xl font-bold text-red-500">Grabit</h1>
                         </div>
                     </div>
                     <form th:action method="POST" onsubmit="LoginForm__submit(this); return false;">
-                        <div class="flex justify-center ">
+                        <div class="flex justify-center">
                             <div class="form-control flex justify-center w-full max-w-lg">
                                 <label class="label">
                                     <span class="label-text">아이디</span>
                                 </label>
-                                <input type="text" name="username" class="input input-bordered mb-4" autofocus />
+                                <input type="text" name="username" class="input input-bordered mb-4 w-full md:w-120" autofocus />
                                 <label class="label">
                                     <span class="label-text">비밀번호</span>
                                 </label>
                                 <input type="text" name="password" class="input input-bordered mb-4" autofocus />
                             </div>
                         </div>
-                        <div class="flex justify-center">
-                            <button class="bg-error text-white py-3 rounded-lg shadow-md text-lg mb-10" style="width: 32rem">로그인</button>
+                        <div class="flex items-center flex-col">
+                            <button class="bg-error text-white py-3 rounded-lg shadow-md text-lg mb-4 w-full md:w-120">로그인</button>
+                            <div class="flex items-center flex-col">
+                                <button onclick="window.location.href='/oauth2/authorization/kakao'" class="bg-white py-3 px-4 rounded-lg shadow-md text-lg mb-4 w-full md:w-120">
+                                    <i class="fa-solid fa-comment text-yellow-400"></i>
+                                    <span>카카오로 시작하기</span>
+                                </button>
+                                <button onclick="window.location.href='/oauth2/authorization/naver'" class="bg-white py-3 px-4 rounded-lg shadow-md text-lg mb-10 w-full md:w-120">
+                                    <i class="fa-solid fa-n text-[color:#2DB400]"></i>
+                                    <span>네이버로 시작하기</span>
+                                </button>
+                            </div>
                         </div>
                     </form>
-                    <button onclick="window.location.href='/oauth2/authorization/kakao'" class="bg-white py-3 px-4 w-full rounded-lg shadow-md text-lg mb-4">
-                        <i class="fa-solid fa-comment text-yellow-400"></i>
-                        <span>카카오로 시작하기</span>
-                    </button>
-                    <button onclick="window.location.href='/oauth2/authorization/naver'" class="bg-white py-3 px-4 w-full rounded-lg shadow-md text-lg mb-10">
-                        <i class="fa-solid fa-n text-[color:#2DB400]"></i>
-                        <span>네이버로 시작하기</span>
-                    </button>
                 </div>
             </div>
         </main>
