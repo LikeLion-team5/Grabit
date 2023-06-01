@@ -132,7 +132,8 @@ public class RestaurantService {
     public void delete(Long id) {
         Restaurant findRestaurant= findOne(id);
         RestaurantImage restaurantImage = findRestaurant.getRestaurantImage();
-        s3Uploader.deleteS3(restaurantImage.getStoredFileName());
+        if(restaurantImage != null)
+            s3Uploader.deleteS3(restaurantImage.getStoredFileName());
 
         restaurantRepository.deleteById(id);
     }
