@@ -31,9 +31,6 @@ public class MemberController {
         return "usr/member/join";
     }
 
-
-
-
     @PostMapping("/join")
     public String join(@Valid MemberCreateDto memberCreateDto) {
 
@@ -48,19 +45,23 @@ public class MemberController {
 
     }
 
-
-
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/myInfo")
-    public String showMe() {
-        return "usr/member/myInfo";
-    }
-
     @GetMapping("/login")
     public String showLogin(Model model) {
 
         model.addAttribute("isLoginPage", true);
 
         return "usr/member/login";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/myInfo")
+    public String showMyInfo() {
+        return "usr/member/myInfo";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/editInfo")
+    public String showEditInfo() {
+        return "usr/member/editInfo";
     }
 }

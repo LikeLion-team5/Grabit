@@ -1,0 +1,68 @@
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout/defaultLayout}"
+      layout:fragment="Content">
+
+    <head>
+        <title>내 정보</title>
+    </head>
+
+    <body>
+    <section layout:fragment="content">
+        <main class="min-h-screen flex flex-col" style="background-color: #FEE8E8">
+            <div class="flex-grow flex items-center justify-center">
+                <div class="max-w-3xl w-full px-4">
+                    <form>
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">닉네임</span>
+                            </label>
+                            <input type="text" placeholder="닉네임" class="input input-bordered mb-4" autofocus value="그래빗" />
+                            <label class="label">
+                                <span class="label-text">아이디</span>
+                            </label>
+                            <input type="text" placeholder="4~20자 이내, 영문자 사용 가능" class="input input-bordered mb-4" autofocus disabled value="grabit" />
+                            <label class="label">
+                                <span class="label-text">비밀번호</span>
+                            </label>
+                            <input type="text" placeholder="비밀번호" class="input input-bordered mb-4" autofocus />
+                            <label class="label">
+                                <span class="label-text">비밀번호 확인</span>
+                            </label>
+                            <input type="text" placeholder="4~20자 이내, 영문자 사용 가능" class="input input-bordered mb-4" autofocus />
+                            <label class="label">
+                                <span class="label-text">전화번호</span>
+                            </label>
+                            <div class="flex items-center mb-4">
+                                <input type="text" pattern="[0-9]*" maxlength="3" placeholder="010" class="input input-bordered w-1/3 text-center" autofocus value="010" />
+                                <span class="mx-2">-</span>
+                                <input type="text" pattern="[0-9]*" maxlength="4" placeholder="1234" class="input input-bordered w-1/3 text-center" value="1234" />
+                                <span class="mx-2">-</span>
+                                <input type="text" pattern="[0-9]*" maxlength="4" placeholder="5678" class="input input-bordered w-1/3 text-center" value="5678" />
+                            </div>
+                            <label class="label">
+                                <span class="label-text">이메일</span>
+                            </label>
+                            <div class="flex items-center mb-10">
+                                <input type="text" placeholder="아이디" class="input input-bordered w-1/2" value="grabit" />
+                                <span class="mx-2">@</span>
+                                <input type="text" placeholder="도메인" class="input input-bordered w-1/2" value="example.com" />
+                            </div>
+                        </div>
+                    </form>
+
+                    <style>
+                        ::placeholder {
+                            font-size: 13px;
+                        }
+                    </style>
+
+                    <div class="flex justify-center">
+                        <button class="bg-white text-red-500 py-3 px-20 rounded-lg shadow-md text-lg mb-5">수정하기</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </section>
+    </body>
+</html>
