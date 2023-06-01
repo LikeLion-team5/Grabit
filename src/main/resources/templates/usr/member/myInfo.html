@@ -35,24 +35,24 @@
                             <h2 class="text-xl text-red-400 font-semibold">내 정보</h2>
 
                         </div>
-                    </div>
-                    <div class="max-w-3xl bg-white rounded-lg shadow-lg p-5 h-[200px] md:h-[150px] mx-auto mb-5 items-center justify-center relative">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center">
-                                <i class="fa-solid fa-user custom-icon"></i>
-                                <!-- 프로필 사진
-                                <img src="경로/프로필사진.jpg" alt="프로필 사진" class="w-auto h-auto rounded-full mr-10">
-                                -->
-                                <div class="ml-7">
-                                    <h2 class="text-2xl font-bold mt-0 mb-5">그래빗</h2>
-                                    <div class="flex flex-col">
-                                        <div class="flex flex-col md:flex-row">
-                                            <p>이메일 <span class="hidden md:inline mr-1">:</span></p>
-                                            <p>grabit@example.com</p>
-                                        </div>
-                                        <div class="flex flex-col md:flex-row">
-                                            <p>전화번호 <span class="hidden md:inline mr-1">:</span></p>
-                                            <p>123-456-7890</p>
+                        <div class="max-w-3xl bg-white rounded-lg shadow-lg p-5 h-[200px] md:h-[150px] mx-auto mb-5 items-center justify-center relative">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center">
+                                    <i class="fa-solid fa-user custom-icon"></i>
+                                    <!-- 프로필 사진
+                                    <img src="경로/프로필사진.jpg" alt="프로필 사진" class="w-auto h-auto rounded-full mr-10">
+                                    -->
+                                    <div class="ml-7" >
+                                        <h2 class="text-2xl font-bold mt-0 mb-5" th:text="${userInfo.username}">그래빗</h2>
+                                        <div class="flex flex-col">
+                                            <div class="flex flex-col md:flex-row">
+                                                <p>이메일 <span class="hidden md:inline mr-1">:</span></p>
+                                                <p th:text="${userInfo.email}">grabit@example.com</p>
+                                            </div>
+                                            <div class="flex flex-col md:flex-row">
+                                                <p>전화번호 <span class="hidden md:inline mr-1">:</span></p>
+                                                <p th:text="${userInfo.phone}">123-456-7890</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

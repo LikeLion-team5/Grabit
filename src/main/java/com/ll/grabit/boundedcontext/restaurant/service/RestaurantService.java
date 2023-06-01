@@ -2,7 +2,6 @@ package com.ll.grabit.boundedcontext.restaurant.service;
 
 import com.ll.grabit.base.exception.NotFoundDataException;
 import com.ll.grabit.base.s3.S3Uploader;
-import com.ll.grabit.base.util.CustomMultipartFile;
 import com.ll.grabit.boundedcontext.restaurant.dto.AddressSearchDto;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
@@ -15,15 +14,12 @@ import com.ll.grabit.boundedcontext.restaurant.repository.RestaurantRepository;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
