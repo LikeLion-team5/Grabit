@@ -7,12 +7,13 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalTime;
 
 @Entity
 @NoArgsConstructor
-@Getter
+@Getter @Setter
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +36,9 @@ public class Restaurant {
     private LocalTime closingTime;
 
     private Integer perTimeMaxReservationCount;
+
+    @OneToOne(mappedBy = "restaurant", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private RestaurantImage restaurantImage;
 
     @Builder
     public Restaurant(String restaurantName, String description, RestaurantType type, Address address, String detail_address, LocalTime openingTime, LocalTime closingTime, Integer perTimeMaxReservationCount) {
