@@ -2,6 +2,7 @@ package com.ll.grabit.boundedcontext.restaurant.controller;
 
 
 import com.ll.grabit.boundedcontext.address.dto.AddressSearchDto;
+import com.ll.grabit.boundedcontext.menu.dto.MenuRegisterDto;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -27,7 +29,9 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
     @GetMapping("/register")
-    public String restaurantRegister(RestaurantRegisterDto restaurantRegisterDto, Model model) {
+    public String restaurantRegister(RestaurantRegisterDto restaurantRegisterDto,
+                                     List<MenuRegisterDto> menuRegisterDtoList,
+                                     Model model) {
         model.addAttribute("restaurantRegisterDto", new RestaurantRegisterDto());
         return "registerForm";
     }
