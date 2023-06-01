@@ -6,9 +6,11 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Email;
 
 @Getter
+@Setter
 @AllArgsConstructor
 @Builder
 public class MemberCreateDto {
@@ -36,4 +38,21 @@ public class MemberCreateDto {
     @NotBlank(message = "휴대폰 번호를 입력해주세요.")
     @Pattern(regexp = "(01[016789])(\\d{3,4})(\\d{4})", message = "올바른 휴대폰 번호를 입력해주세요.")
     private String phone;
+
+    @NotBlank(message = "휴대폰 번호를 입력해주세요.")
+    @Pattern(regexp = "(01[016789])(\\d{3,4})(\\d{4})", message = "올바른 휴대폰 번호를 입력해주세요.")
+    private String phone1;
+
+    @NotBlank(message = "휴대폰 번호를 입력해주세요.")
+    @Pattern(regexp = "(01[016789])(\\d{3,4})(\\d{4})", message = "올바른 휴대폰 번호를 입력해주세요.")
+    private String phone2;
+
+    @NotBlank(message = "휴대폰 번호를 입력해주세요.")
+    @Pattern(regexp = "(01[016789])(\\d{3,4})(\\d{4})", message = "올바른 휴대폰 번호를 입력해주세요.")
+    private String phone3;
+
+    // 전화번호를 하나의 문자열로 반환하는 메서드
+    public String getPhone() {
+        return phone1 + "-" + phone2 + "-" + phone3;
+    }
 }

@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -32,17 +33,15 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public String join(@Valid MemberCreateDto memberCreateDto) {
-
+    public String join(@ModelAttribute MemberCreateDto memberCreateDto) {
+        memberCreateDto.setPhone(memberCreateDto.getPhone());
         RsData<Member> rsData = memberService.join(memberCreateDto);
 
         if (rsData.isFail()) {
             return "common/js";
-
         }
 
         return "redirect:/member/login?msg=" + Ut.url.encode("회원가입이 완료되었습니다.\n로그인 후 이용해주세요.");
-
     }
 
     @GetMapping("/login")
