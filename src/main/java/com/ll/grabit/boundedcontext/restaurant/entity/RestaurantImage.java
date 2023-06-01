@@ -25,7 +25,8 @@ public class RestaurantImage {
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
-        restaurant.setRestaurantImage(this);
+        if(restaurant != null)
+            this.restaurant.setRestaurantImage(this);
     }
 
     public RestaurantImage(String uploadFileName, String storedFileName, String imagePath) {

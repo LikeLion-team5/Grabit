@@ -12,6 +12,7 @@ import com.ll.grabit.boundedcontext.restaurant.entity.RestaurantImage;
 import com.ll.grabit.boundedcontext.restaurant.repository.AddressRepository;
 import com.ll.grabit.boundedcontext.restaurant.repository.RestaurantImageRepository;
 import com.ll.grabit.boundedcontext.restaurant.repository.RestaurantRepository;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -43,6 +44,8 @@ public class RestaurantService {
 
     @Value("${cloud.ncp.s3.dir}")
     private String dir;
+
+    private final EntityManager em;
 
 
     public Restaurant save(RestaurantRegisterDto restaurantRegisterDto, MultipartFile multipartFiles) throws IOException {
@@ -83,7 +86,7 @@ public class RestaurantService {
         return findRestaurant.get();
     }
 
-    public void update(Long id, RestaurantUpdateDto restaurantUpdateDto) {
+    public void update(Long id, RestaurantUpdateDto restaurantUpdateDto, MultipartFile multipartFile) throws IOException {
         Restaurant findRestaurant = findOne(id);
         Address address = addressRepository.findByAddress1AndAddress2AndAddress3(restaurantUpdateDto.getAddress1(),
                         restaurantUpdateDto.getAddress2(), restaurantUpdateDto.getAddress3())
@@ -92,10 +95,45 @@ public class RestaurantService {
                 );
         LocalTime startTime = extractedLocalTime(restaurantUpdateDto.getStartTime());
         LocalTime endTime = extractedLocalTime(restaurantUpdateDto.getEndTime());
+
+        RestaurantImage restaurantImage = findRestaurant.getRestaurantImage();
+        if (restaurantImage == null) {
+            //이미지 등록
+            if (multipartFile != null && !multipartFile.isEmpty()) {
+                RestaurantImage image = s3Uploader.uploadFiles(multipartFile, dir);
+                image.setRestaurant(findRestaurant);
+                restaurantImageRepository.save(image);
+            }
+        } else {
+
+            //이미지 교체
+            if (multipartFile != null && !multipartFile.isEmpty()) {
+                restaurantImageRepository.delete(restaurantImage); //기존 이미지 삭제
+
+                em.flush(); //강제 플러시 시켜서 외래키 중복 에러 제거
+
+                //교체한 이미지 저장
+                RestaurantImage updateImage = s3Uploader.updateFile(restaurantImage.getStoredFileName(), multipartFile);
+                updateImage.setRestaurant(findRestaurant);
+                restaurantImageRepository.save(updateImage); // 새로운 이미지 등록
+            }
+            //이미지 삭제
+            else {
+                s3Uploader.deleteS3(restaurantImage.getStoredFileName());
+                restaurantImage.setRestaurant(null);
+                restaurantImageRepository.delete(restaurantImage);
+            }
+        }
+
+        //식당 업데이트
         findRestaurant.update(restaurantUpdateDto, address, startTime, endTime);
     }
 
     public void delete(Long id) {
+        Restaurant findRestaurant= findOne(id);
+        RestaurantImage restaurantImage = findRestaurant.getRestaurantImage();
+        s3Uploader.deleteS3(restaurantImage.getStoredFileName());
+
         restaurantRepository.deleteById(id);
     }
 

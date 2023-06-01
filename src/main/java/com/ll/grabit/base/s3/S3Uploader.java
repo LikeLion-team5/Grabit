@@ -2,6 +2,7 @@ package com.ll.grabit.base.s3;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.ll.grabit.boundedcontext.restaurant.entity.RestaurantImage;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,9 @@ public class S3Uploader {
     private final AmazonS3Client amazonS3Client;
     @Value("${cloud.ncp.s3.bucket}")
     private String bucket;
+
+    @Value("${cloud.ncp.s3.dir}")
+    private String dir;
 
     public RestaurantImage uploadFiles(MultipartFile multipartFile, String dirName) throws IOException {
         File uploadFile = convert(multipartFile)  // 파일 변환할 수 없으면 에러
@@ -70,7 +74,14 @@ public class S3Uploader {
         System.out.println("File delete fail");
     }
 
-    private void deleteS3(String storedFileName){
-        amazonS3Client.deleteObject(bucket, storedFileName);
+    public void deleteS3(String deleteFileName){
+        deleteFileName = dir + "/" + deleteFileName;
+        amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, deleteFileName));
+    }
+
+    public RestaurantImage updateFile(String deletedFileName, MultipartFile updateFile) throws IOException {
+        //기존에 올렸던 거 삭제
+        deleteS3(deletedFileName);
+        return uploadFiles(updateFile, dir);
     }
 }

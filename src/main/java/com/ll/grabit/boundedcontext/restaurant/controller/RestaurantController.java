@@ -28,7 +28,7 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
     @GetMapping("/register")
-    public String restaurantRegister(Model model) {
+    public String restaurantRegister(RestaurantRegisterDto restaurantRegisterDto, Model model) {
         model.addAttribute("restaurantRegisterDto", new RestaurantRegisterDto());
         return "registerForm";
     }
@@ -40,13 +40,26 @@ public class RestaurantController {
         if(result.hasErrors()){
             return "registerForm";
         }
+        System.out.println(file.isEmpty());
         restaurantService.save(restaurantRegisterDto, file);
         return "home";
     }
 
+    @GetMapping("/{restaurantId}/edit")
+    public String update(@PathVariable("restaurantId") Long id, RestaurantUpdateDto restaurantUpdateDto,
+                         Model model) {
+        model.addAttribute("restaurantRegisterDto", new RestaurantRegisterDto());
+        return "registerForm";
+    }
+
     @PostMapping("/{restaurantId}/edit")
-    public String update(@PathVariable("restaurantId") Long id, @ModelAttribute @Valid RestaurantUpdateDto restaurantUpdateDto){
-        restaurantService.update(id, restaurantUpdateDto);
+    public String update(@PathVariable("restaurantId") Long id, @ModelAttribute @Valid RestaurantUpdateDto restaurantUpdateDto,
+                         BindingResult bindingResult,
+                         MultipartFile file) throws IOException {
+        if (bindingResult.hasErrors()) {
+            return "registerUpdateForm";
+        }
+        restaurantService.update(id, restaurantUpdateDto, file);
         return "home";
     }
 

@@ -70,7 +70,7 @@ public class NotProd {
             restaurantDto.setStartTime("09:30");
             restaurantDto.setEndTime("23:30");
             restaurantDto.setPerTimeMaxReservationCount(3);
-            for(int i=0; i<10; i++) {
+            for(int i=0; i<20; i++) {
                 restaurantService.save(restaurantDto,multipartFile);
             }
 

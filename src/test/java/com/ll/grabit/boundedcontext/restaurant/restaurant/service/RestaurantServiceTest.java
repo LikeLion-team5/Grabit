@@ -76,7 +76,7 @@ class RestaurantServiceTest {
 
     @Test
     @DisplayName("식당 수정 테스트")
-    void update(){
+    void update() throws IOException {
         //given
         Restaurant beforeRes = restaurantService.findOne(1L);
 
@@ -92,7 +92,7 @@ class RestaurantServiceTest {
         updateDto.setStartTime("09:30");
         updateDto.setEndTime("23:30");
         updateDto.setPerTimeMaxReservationCount(3);
-        restaurantService.update(1L,updateDto);
+        restaurantService.update(1L,updateDto, null);
 
         //then
         Restaurant afterRes = restaurantService.findOne(1L);
