@@ -1,0 +1,94 @@
+.restaurant-list ul {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+}
+.restaurant_item {
+    background-color: white;
+    width: 180px;
+    height: 220px;
+    padding: 0px 15px 10px 15px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    justify-content: center;
+}
+
+.restaurant_explain {
+    font-weight: bold;
+}
+
+.search {
+    width: 90%;
+    margin: 10px auto;
+    display: flex;
+    padding: 1px 2px 3px 4px;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.search select {
+    flex: 1;
+    max-width: 150px; /* 분류창의 적당한 크기 조정 */
+}
+
+.search input[type="search"] {
+    flex: 3; /* 검색창이 분류창보다 크게 설정 */
+    min-width: 200px; /* 검색창의 최소 너비 설정 */
+}
+
+.search button {
+    flex: 1;
+    min-width: 60px; /* 검색 버튼의 최소 너비 설정 */
+}
+
+.collapse1,
+.collapse2,
+.collapse3 {
+    margin: 1px 2px 3px 4px;
+}
+
+.pagination-list {
+    width: 90%;
+    margin: 10px auto;
+    display: flex;
+    padding: 1px 2px 3px 4px;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.pagination-list ul {
+    display: inline-flex;
+    gap: 1px;
+}
+
+.pagination-list li {
+    list-style: none;
+}
+
+.pagination-list a {
+    display: inline-block;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    text-align: center;
+    background-color: #feb2b2;
+    border: 1px solid #feb2b2;
+    color: white;
+}
+
+.pagination-list a:hover {
+    background-color: #fed7d7;
+    border-color: #fed7d7;
+}
+
+.pagination-list .rounded-l-lg {
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+}
+
+.pagination-list .rounded-r-lg {
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
