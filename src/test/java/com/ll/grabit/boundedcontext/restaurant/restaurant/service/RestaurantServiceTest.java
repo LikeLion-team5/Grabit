@@ -20,6 +20,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 @SpringBootTest
@@ -43,7 +45,7 @@ class RestaurantServiceTest {
 
     @Test
     @DisplayName("식당 등록 테스트")
-    void register() {
+    void register() throws IOException {
         RestaurantRegisterDto dto = new RestaurantRegisterDto();
         dto.setRestaurantName("test 식당");
         dto.setDescription("test 식당 소개입니다.");
@@ -58,7 +60,7 @@ class RestaurantServiceTest {
 
 
         //when
-        Restaurant saveRes = restaurantService.save(dto);
+        Restaurant saveRes = restaurantService.save(dto, null);
         Address address = saveRes.getAddress();
 
         em.flush();

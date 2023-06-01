@@ -1,19 +1,29 @@
 package com.ll.grabit.boundedcontext.restaurant.service;
 
 import com.ll.grabit.base.exception.NotFoundDataException;
+import com.ll.grabit.base.s3.S3Uploader;
+import com.ll.grabit.base.util.CustomMultipartFile;
 import com.ll.grabit.boundedcontext.restaurant.dto.AddressSearchDto;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
 import com.ll.grabit.boundedcontext.restaurant.entity.Address;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
+import com.ll.grabit.boundedcontext.restaurant.entity.RestaurantImage;
 import com.ll.grabit.boundedcontext.restaurant.repository.AddressRepository;
+import com.ll.grabit.boundedcontext.restaurant.repository.RestaurantImageRepository;
 import com.ll.grabit.boundedcontext.restaurant.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +38,14 @@ public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final AddressRepository addressRepository;
 
+    private final RestaurantImageRepository restaurantImageRepository;
+    private final S3Uploader s3Uploader;
 
-    public Restaurant save(RestaurantRegisterDto restaurantRegisterDto) {
+    @Value("${cloud.ncp.s3.dir}")
+    private String dir;
+
+
+    public Restaurant save(RestaurantRegisterDto restaurantRegisterDto, MultipartFile multipartFiles) throws IOException {
         //주소 뽑아내기
         Optional<Address> findAddress = addressRepository.findByAddress1AndAddress2AndAddress3(restaurantRegisterDto.getAddress1(),
                 restaurantRegisterDto.getAddress2(), restaurantRegisterDto.getAddress3());
@@ -40,6 +56,13 @@ public class RestaurantService {
 
         //DTO -> Entity
         Restaurant restaurant = restaurantRegisterDto.toEntity(findAddress.get(), startTime, endTime);
+
+        //식당 이미지 저장
+        if(multipartFiles != null && !multipartFiles.isEmpty()){
+            RestaurantImage image = s3Uploader.uploadFiles(multipartFiles, dir);
+            image.setRestaurant(restaurant);
+            restaurantImageRepository.save(image);
+        }
 
         //식당 저장
         Restaurant saveRestaurant = restaurantRepository.save(restaurant);

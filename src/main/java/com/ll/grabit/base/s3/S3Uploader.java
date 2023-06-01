@@ -3,6 +3,7 @@ package com.ll.grabit.base.s3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.ll.grabit.boundedcontext.restaurant.entity.RestaurantImage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +24,7 @@ public class S3Uploader {
     @Value("${cloud.ncp.s3.bucket}")
     private String bucket;
 
-    public String uploadFiles(MultipartFile multipartFile, String dirName) throws IOException {
+    public RestaurantImage uploadFiles(MultipartFile multipartFile, String dirName) throws IOException {
         File uploadFile = convert(multipartFile)  // 파일 변환할 수 없으면 에러
                 .orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
         return upload(uploadFile, dirName);
@@ -45,11 +46,13 @@ public class S3Uploader {
         return Optional.empty();
     }
 
-    public String upload(File uploadFile, String filePath) {
-        String fileName = filePath + "/" + UUID.randomUUID() + uploadFile.getName();   // S3에 저장된 파일 이름
+    public RestaurantImage upload(File uploadFile, String folderName) {
+        String uploadFileName = uploadFile.getName();
+        String storedFileName = UUID.randomUUID().toString() +"_" + uploadFileName;
+        String fileName = folderName + "/" + storedFileName;   // S3에 저장된 파일 이름
         String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
         removeNewFile(uploadFile); //로컬에 저장한 파일 삭제
-        return uploadImageUrl;
+        return new RestaurantImage(uploadFileName, storedFileName, uploadImageUrl);
     }
 
     // S3로 업로드

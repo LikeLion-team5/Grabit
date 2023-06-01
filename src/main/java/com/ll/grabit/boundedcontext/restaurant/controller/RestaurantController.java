@@ -16,7 +16,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -33,11 +35,12 @@ public class RestaurantController {
 
     @PostMapping("/register")
     public String restaurantRegister(@ModelAttribute @Valid RestaurantRegisterDto restaurantRegisterDto,
-                                     BindingResult result) {
+                                     BindingResult result,
+                                     MultipartFile file) throws IOException {
         if(result.hasErrors()){
             return "registerForm";
         }
-        restaurantService.save(restaurantRegisterDto);
+        restaurantService.save(restaurantRegisterDto, file);
         return "home";
     }
 
