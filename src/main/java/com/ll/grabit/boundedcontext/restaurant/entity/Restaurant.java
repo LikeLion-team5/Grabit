@@ -2,7 +2,9 @@ package com.ll.grabit.boundedcontext.restaurant.entity;
 
 
 
+import com.ll.grabit.boundedcontext.address.entity.Address;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
+import com.ll.grabit.boundedcontext.restaurantimage.entity.RestaurantImage;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

@@ -1,6 +1,6 @@
-package com.ll.grabit.boundedcontext.restaurant.repository;
+package com.ll.grabit.boundedcontext.address.repository;
 
-import com.ll.grabit.boundedcontext.restaurant.entity.Address;
+import com.ll.grabit.boundedcontext.address.entity.Address;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -1,6 +1,6 @@
 package com.ll.grabit.boundedcontext.restaurant.dto;
 
-import com.ll.grabit.boundedcontext.restaurant.entity.Address;
+import com.ll.grabit.boundedcontext.address.entity.Address;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.restaurant.entity.RestaurantType;
 import jakarta.validation.constraints.NotBlank;
