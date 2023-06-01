@@ -47,9 +47,11 @@ public class MemberController {
 
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/myInfo")
     public String showMe(Model model) {
+        if(rq.isLogout()){
+            return rq.historyBack("로그인이 필요합니다.");
+        }
         Member member = memberService.findByUsername(rq.getMember().getUsername()).get();
 
         model.addAttribute("userInfo",member);
