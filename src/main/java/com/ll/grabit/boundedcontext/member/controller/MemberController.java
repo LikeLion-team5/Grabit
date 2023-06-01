@@ -1,5 +1,6 @@
 package com.ll.grabit.boundedcontext.member.controller;
 
+import com.ll.grabit.base.rq.Rq;
 import com.ll.grabit.base.rsdata.RsData;
 import com.ll.grabit.boundedcontext.member.entity.Member;
 import com.ll.grabit.boundedcontext.member.form.MemberCreateDto;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MemberController {
 
     private final MemberService memberService;
+
+    private final Rq rq;
 
 
     @PreAuthorize("isAnonymous()")
@@ -52,7 +55,11 @@ public class MemberController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/myInfo")
-    public String showMe() {
+    public String showMe(Model model) {
+        Member member = memberService.findByUsername(rq.getMember().getUsername()).get();
+
+        model.addAttribute("userInfo",member);
+
         return "usr/member/myInfo";
     }
 

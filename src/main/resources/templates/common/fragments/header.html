@@ -10,9 +10,9 @@
                 </label>
                 <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
                     <li><a href="#"><i class="fa-sharp fa-solid fa-magnifying-glass"></i> 식당 검색</a></li>
-                    <li><a href="#"><i class="fa-solid fa-user"></i> 내 정보</a></li>
-                    <li><a href="#"><i class="fa-solid fa-user-plus"></i> 회원가입</a></li>
-                    <li><a href="#"><i class="fa-solid fa-arrow-right-to-bracket"></i> 로그인</a></li>
+                    <li><a th:href="@{/member/myInfo}"><i class="fa-solid fa-user"></i> 내 정보</a></li>
+                    <li><a  th:href="@{/member/join}"><i class="fa-solid fa-user-plus"></i> 회원가입</a></li>
+                    <li><a th:href="@{/member/login}"><i class="fa-solid fa-arrow-right-to-bracket"></i> 로그인</a></li>
                     <li><a href="#"><i class="fa-solid fa-arrow-right-from-bracket"></i> 로그아웃</a></li>
                 </ul>
             </div>
@@ -23,19 +23,19 @@
         </div>
         <div class="navbar-end">
             <div class="flex-none">
-                <button th:if="${isLoginPage}" class="btn btn-ghost">
+                <a th:if="${isLoginPage}" th:href="@{/member/join}" class="btn btn-ghost">
                     <span class="flex items-center">
                         <i class="fa-solid fa-solid fa-user-plus text-base text-white"></i>
                         <span class="ml-2 text-base text-white">회원가입</span>
                     </span>
-                </button>
-                <button th:if="${isJoinPage}" class="btn btn-ghost">
+                </a>
+                <a th:if="${isJoinPage}" th:href="@{/member/login}" class="btn btn-ghost">
                     <span class="flex items-center">
                         <i class="fa-solid fa-arrow-right-to-bracket text-base text-white"></i>
                         <span class="ml-2 text-base text-white">로그인</span>
                     </span>
-                </button>
-                <button th:if="${@rq.isLogin()}" class="btn btn-ghost">
+                </a>
+                <button th:if="${@rq.isLogin()}" th:href="@{/member/myInfo}" class="btn btn-ghost">
                     <span class="flex items-center">
                       <i class="fa-solid fa-arrow-right-from-bracket text-base text-white"></i>
                       <span class="ml-2 text-base text-white">로그아웃</span>
