@@ -1,7 +1,7 @@
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{common/layout/defaultLayout}"
-      layout:fragment="Content">
+      layout:fragment="Content" xmlns:sec="http://www.w3.org/1999/xhtml">
 
     <head>
         <title>내 정보</title>
@@ -58,7 +58,7 @@
                                 </div>
                             </div>
                             <div class="self-start absolute right-5">
-                                <button class="text-red-500 rounded text-lg flex-nowrap">정보 수정</button>
+                              <li sec:authorize="isAuthenticated()" ><a th:href="@{/member/editInfo}"> <i class="text-red-500 rounded text-lg flex-nowrap"></i>정보 수정</a></li>
                             </div>
                         </div>
                     </div>
