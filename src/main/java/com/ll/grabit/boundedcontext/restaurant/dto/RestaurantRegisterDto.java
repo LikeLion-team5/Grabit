@@ -1,19 +1,18 @@
 package com.ll.grabit.boundedcontext.restaurant.dto;
 
 import com.ll.grabit.boundedcontext.address.entity.Address;
-import com.ll.grabit.boundedcontext.menu.dto.MenuRegisterDto;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.restaurant.entity.RestaurantType;
+import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter

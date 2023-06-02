@@ -1,9 +1,15 @@
 package com.ll.grabit.boundedcontext.restaurant.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ll.grabit.base.exception.NotFoundDataException;
 import com.ll.grabit.base.rsdata.RsData;
 import com.ll.grabit.base.s3.S3Uploader;
 import com.ll.grabit.boundedcontext.address.dto.AddressSearchDto;
+import com.ll.grabit.boundedcontext.menu.dto.MenuRegisterDto;
+import com.ll.grabit.boundedcontext.menu.entity.Menu;
+import com.ll.grabit.boundedcontext.menu.repository.MenuRepository;
+import com.ll.grabit.boundedcontext.menu.service.MenuService;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
 import com.ll.grabit.boundedcontext.address.entity.Address;
@@ -39,6 +45,8 @@ public class RestaurantService {
     private final RestaurantImageRepository restaurantImageRepository;
     private final S3Uploader s3Uploader;
 
+    private final MenuRepository menuRepository;
+
     @Value("${cloud.ncp.s3.dir}")
     private String dir;
 
@@ -56,6 +64,17 @@ public class RestaurantService {
 
         //DTO -> Entity
         Restaurant restaurant = restaurantRegisterDto.toEntity(address, startTime, endTime);
+
+        //string 메뉴 리스트 -> 메뉴리스트 전환 -> 메뉴 저장
+        ObjectMapper objectMapper = new ObjectMapper();
+        if(restaurantRegisterDto.getMenuRegisterDtoList() != null){
+            List<MenuRegisterDto> menuRegisterDtoList = objectMapper.readValue(restaurantRegisterDto.getMenuRegisterDtoList(), new TypeReference<List<MenuRegisterDto>>(){});
+            for (MenuRegisterDto menuRegisterDto : menuRegisterDtoList) {
+                Menu menu = menuRegisterDto.toEntity();
+                menu.setRestaurant(restaurant);
+                menuRepository.save(menu);
+            }
+        }
 
         //식당 이미지 저장
         if(multipartFiles != null && !multipartFiles.isEmpty()){
