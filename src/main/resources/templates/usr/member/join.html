@@ -42,11 +42,11 @@
 
     <body>
     <section layout:fragment="content">
-        <main class="min-h-screen flex flex-col" style="background-color: #FEE8E8">
+        <main class="flex flex-col" style="background-color: #FEE8E8">
             <div class="flex-grow flex items-center justify-center">
                 <div class="max-w-3xl w-full px-4">
                     <form th:action method="POST" onsubmit="JoinForm__submit(this); return false;">
-                        <div class="form-control">
+                        <div class="form-control mt-10 md:mt-20">
                             <label class="label">
                                 <span class="label-text">닉네임</span>
                             </label>
