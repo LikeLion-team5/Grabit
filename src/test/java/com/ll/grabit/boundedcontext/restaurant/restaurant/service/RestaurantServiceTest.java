@@ -152,7 +152,6 @@ class RestaurantServiceTest {
         assertThat(search.getNumberOfElements()).isEqualTo(8);
         assertThat(search.getTotalElements()).isEqualTo(20);
         assertThat(search.getTotalPages()).isEqualTo(3);
-        assertThat(search.getNumberOfElements()).isEqualTo(8);
     }
     @Test
     @DisplayName("대주소 + 중주소 + 소주소로 식당 검색")
@@ -168,14 +167,12 @@ class RestaurantServiceTest {
         assertThat(search.getNumberOfElements()).isEqualTo(8);
         assertThat(search.getTotalElements()).isEqualTo(10);
         assertThat(search.getTotalPages()).isEqualTo(2);
-        assertThat(search.getNumberOfElements()).isEqualTo(8);
 
         addressSearchDto.setAddress3("창동");
         search = restaurantService.search(addressSearchDto, pageRequest);
         assertThat(search.getNumberOfElements()).isEqualTo(8);
         assertThat(search.getTotalElements()).isEqualTo(10);
         assertThat(search.getTotalPages()).isEqualTo(2);
-        assertThat(search.getNumberOfElements()).isEqualTo(8);
     }
 
 }

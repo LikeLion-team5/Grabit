@@ -94,6 +94,7 @@ public class NotProd {
             restaurantDto.setAddress2("노원구");
             restaurantDto.setAddress3("월계동");
             restaurantDto.setDetail_address("월계역 앞 건물 1층");
+            address= restaurantService.findAddress(restaurantDto);
             for(int i=0; i<20; i++) {
                 restaurantService.save(restaurantDto, address.get(), multipartFile);
             }
