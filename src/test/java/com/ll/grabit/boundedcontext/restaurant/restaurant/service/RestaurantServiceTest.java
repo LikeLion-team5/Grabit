@@ -1,5 +1,6 @@
 package com.ll.grabit.boundedcontext.restaurant.restaurant.service;
 
+import com.ll.grabit.base.rsdata.RsData;
 import com.ll.grabit.boundedcontext.address.dto.AddressSearchDto;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -57,8 +59,10 @@ class RestaurantServiceTest {
         dto.setPerTimeMaxReservationCount(3);
 
 
+        Optional<Address> findAddress = restaurantService.findAddress(dto);
+
         //when
-        Restaurant saveRes = restaurantService.save(dto, null);
+        Restaurant saveRes = restaurantService.save(dto,findAddress.get(), null);
         Address address = saveRes.getAddress();
 
         em.flush();

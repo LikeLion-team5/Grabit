@@ -1,6 +1,7 @@
 package com.ll.grabit.boundedcontext.restaurant.service;
 
 import com.ll.grabit.base.exception.NotFoundDataException;
+import com.ll.grabit.base.rsdata.RsData;
 import com.ll.grabit.base.s3.S3Uploader;
 import com.ll.grabit.boundedcontext.address.dto.AddressSearchDto;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
@@ -44,17 +45,17 @@ public class RestaurantService {
     private final EntityManager em;
 
 
-    public Restaurant save(RestaurantRegisterDto restaurantRegisterDto, MultipartFile multipartFiles) throws IOException {
+    public Restaurant save(RestaurantRegisterDto restaurantRegisterDto, Address address, MultipartFile multipartFiles) throws IOException {
         //주소 뽑아내기
-        Optional<Address> findAddress = addressRepository.findByAddress1AndAddress2AndAddress3(restaurantRegisterDto.getAddress1(),
-                restaurantRegisterDto.getAddress2(), restaurantRegisterDto.getAddress3());
+//        Optional<Address> findAddress = getFindAddress(restaurantRegisterDto);
+
 
         //오픈 시간, 마감시간 LocalTime 으로 뽑아내기
         LocalTime startTime = extractedLocalTime(restaurantRegisterDto.getStartTime());
         LocalTime endTime = extractedLocalTime(restaurantRegisterDto.getEndTime());
 
         //DTO -> Entity
-        Restaurant restaurant = restaurantRegisterDto.toEntity(findAddress.get(), startTime, endTime);
+        Restaurant restaurant = restaurantRegisterDto.toEntity(address, startTime, endTime);
 
         //식당 이미지 저장
         if(multipartFiles != null && !multipartFiles.isEmpty()){
@@ -64,8 +65,13 @@ public class RestaurantService {
         }
 
         //식당 저장
-        Restaurant saveRestaurant = restaurantRepository.save(restaurant);
-        return saveRestaurant;
+        return restaurantRepository.save(restaurant);
+    }
+
+    public Optional<Address> findAddress(RestaurantRegisterDto restaurantRegisterDto) {
+        Optional<Address> findAddress = addressRepository.findByAddress1AndAddress2AndAddress3(restaurantRegisterDto.getAddress1(),
+                restaurantRegisterDto.getAddress2(), restaurantRegisterDto.getAddress3());
+        return findAddress;
     }
 
     private static LocalTime extractedLocalTime(String time) {
@@ -166,5 +172,9 @@ public class RestaurantService {
         }
 
         return addressList;
+    }
+
+    public List<String> findAddress1() {
+        return addressRepository.address1List();
     }
 }

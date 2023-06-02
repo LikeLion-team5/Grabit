@@ -1,0 +1,255 @@
+<form id="restaurant-form"  th:object="${restaurantRegisterDto}">
+  <div>
+    <input type="text" id="restaurantName" name="restaurantName" placeholder="식당 이름을 입력해주세요.">
+  </div>
+
+  <div>
+    <input type="file" id="restaurantImage" name="file" accept="image/*">
+  </div>
+
+
+  <div>
+    <input type="text" id="description" name="description" placeholder="식당 소개를 입력해주세요.">
+  </div>
+
+  <div>
+    <select id="type" name="type">
+      <option value="">식당 유형을 선택해주세요.</option>
+      <option value="Korean">한식</option>
+      <option value="Chinese">중식</option>
+      <option value="Japanese">일식</option>
+      <option value="Western">양식</option>
+    </select>
+  </div>
+
+
+  <div>
+    <label for="address1">대주소:</label>
+    <select id="address1" name="address1">
+      <option value="">선택해주세요</option>®
+      <option th:each="address1 : ${address1List}" th:vale="${address1}" th:text="${address1}"></option>
+    </select>
+  </div>
+
+  <div>
+    <label for="address2">중주소:</label>
+    <select id="address2" name="address2">
+      <option value="">선택해주세요</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="address3">소주소:</label>
+    <select id="address3" name="address3">
+      <option value="">선택해주세요</option>
+    </select>
+  </div>
+
+
+  <div>
+    <input type="text" id="detail_address" name="detail_address" placeholder="세부주소를 적어주세요.">
+  </div>
+  <div>
+    <select id="startTime" name="startTime">
+      <option value="">마감시간 선택</option>
+      <option value="01:00">01:00</option>
+      <option value="02:00">02:00</option>
+      <option value="03:00">03:00</option>
+      <option value="04:00">05:00</option>
+      <option value="05:00">06:00</option>
+      <option value="06:00">07:00</option>
+      <option value="07:00">08:00</option>
+      <option value="08:00">09:00</option>
+      <option value="09:00">10:00</option>
+      <option value="10:00">11:00</option>
+      <option value="11:00">12:00</option>
+      <option value="12:00">13:00</option>
+      <option value="13:00">14:00</option>
+      <option value="14:00">15:00</option>
+      <option value="15:00">16:00</option>
+      <option value="16:00">17:00</option>
+      <option value="17:00">18:00</option>
+      <option value="18:00">19:00</option>
+      <option value="19:00">20:00</option>
+      <option value="20:00">21:00</option>
+      <option value="21:00">22:00</option>
+      <option value="22:00">23:00</option>
+      <option value="23:00">24:00</option>
+    </select>
+  </div>
+
+  <div><select id="endTime" name="endTime">
+    <option value="">마감시간 선택</option>
+    <option value="01:00">01:00</option>
+    <option value="02:00">02:00</option>
+    <option value="03:00">03:00</option>
+    <option value="04:00">05:00</option>
+    <option value="05:00">06:00</option>
+    <option value="06:00">07:00</option>
+    <option value="07:00">08:00</option>
+    <option value="08:00">09:00</option>
+    <option value="09:00">10:00</option>
+    <option value="10:00">11:00</option>
+    <option value="11:00">12:00</option>
+    <option value="12:00">13:00</option>
+    <option value="13:00">14:00</option>
+    <option value="14:00">15:00</option>
+    <option value="15:00">16:00</option>
+    <option value="16:00">17:00</option>
+    <option value="17:00">18:00</option>
+    <option value="18:00">19:00</option>
+    <option value="19:00">20:00</option>
+    <option value="20:00">21:00</option>
+    <option value="21:00">22:00</option>
+    <option value="22:00">23:00</option>
+    <option value="23:00">24:00</option>
+  </select>
+  </div>
+  <div>
+    <input type="number" id="perTimeMaxReservationCount" name="perTimeMaxReservationCount" placeholder="1~5 사이의 숫자를 입력해주세요.">
+  </div>
+
+  <!-- Dynamic Menu Fields -->
+  <div id="menu-fields">
+    <!-- Menu fields will be added here -->
+  </div>
+
+  <!-- Add Menu Button -->
+  <button type="button" id="add-menu-button">메뉴 추가</button>
+
+  <button type="submit">식당 등록</button>
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+  $(function() {
+    var menuIndex = 0;
+
+    // Add menu fields dynamically
+    $('#add-menu-button').click(function() {
+      $('#menu-fields').append('<div id="menu' + menuIndex + '">' +
+              '<input type="text" name="menuName" placeholder="메뉴 이름을 입력해주세요." />' +
+              '<span th:if="${#fields.hasErrors(\'menuName\')}" th:errors="*{menuName}"></span>' +
+              '<input type="number" name="price" placeholder="메뉴 가격은 500원 ~ 1,000,000원 입니다." />' +
+              '<span th:if="${#fields.hasErrors(\'price\')}" th:errors="*{price}"></span>' +
+              '</div>');
+      menuIndex++;
+    });
+
+    // 식당등록 버튼 클릭 시, formData 로 보낸다.
+    $('#restaurant-form').submit(function(e) {
+      e.preventDefault();
+
+      var formData = new FormData();
+      formData.append('file', $('#restaurantImage')[0].files[0]); // append file
+
+      var menus = [];
+      $('#menu-fields div').each(function() {
+        var menuName = $(this).find('input[name="menuName"]').val();
+        var price = $(this).find('input[name="price"]').val();
+        menus.push({ menuName: menuName, price: price });
+      });
+
+      //식당 데이터 세팅
+      var data = {
+        restaurantName: $('#restaurantName').val(),
+        description: $('#description').val(),
+        type: $('#type').val(),
+        address1: $('#address1').val(),
+        address2: $('#address2').val(),
+        address3: $('#address3').val(),
+        detail_address: $('#detail_address').val(),
+        startTime: $('#startTime').val(),
+        endTime: $('#endTime').val(),
+        perTimeMaxReservationCount: $('#perTimeMaxReservationCount').val(),
+      };
+
+      //메뉴 데이터 세팅
+      for (var key in data) {
+        formData.append(key, data[key]); // append other data
+      }
+      formData.append('menuRegisterDtoList', JSON.stringify(menus));
+
+      console.log(formData);
+
+      $.ajax({
+        url: '/restaurant/register', // your api url
+        type: 'POST',
+        processData: false,  // tell jQuery not to process the data
+        contentType: false,  // tell jQuery not to set contentType
+        data: formData,
+        success: function(response) {
+          alert('식당이 성공적으로 등록되었습니다.');
+          window.location.href = '/';
+        },
+        error: function(jqXHR) {
+          //기존에 있던 에러 메시지 초기화
+          $('.error-message').remove();
+
+          //에러 발생한 부분에 에러 메시지 추가
+          var responseJSON = jqXHR.responseJSON;
+          for (var field in responseJSON) {
+            // Find the corresponding input field and append the error message
+            $('input[name="' + field + '"]').after('<span class="error-message">' + responseJSON[field] + '</span>');
+            $('select[name="' + field + '"]').after('<span class="error-message">' + responseJSON[field] + '</span>');
+            if(field == "addressGlobalError")
+              alert(responseJSON[field]);
+          }
+        }
+      });
+    });
+
+    // Fetch sub-addresses when address1 changes
+    $('#address1').change(function() {
+      var address1 = $(this).val();
+
+      // Reset the address2 and address3 select fields
+      var address2Select = $('#address2');
+      address2Select.empty();
+      address2Select.append('<option value="">선택해주세요.</option>');
+
+      var address3Select = $('#address3');
+      address3Select.empty();
+      address3Select.append('<option value="">선택해주세요.</option>');
+
+      $.ajax({
+        url: '/address/search/address2?address1=' + address1, // update as needed
+        type: 'GET',
+        success: function(response) {
+          var address2Select = $('#address2');
+
+          $.each(response, function(index, address2) {
+            address2Select.append('<option value="' + address2 + '">' + address2 + '</option>');
+          });
+        },
+        error: function(jqXHR) {
+          alert('중주소 정보를 가져오는 데 실패했습니다.');
+        }
+      });
+    });
+
+    // 중주소 클릭 시, 소주소 리스트 받아오기
+    $('#address2').change(function() {
+      var address2 = $(this).val();
+
+      $.ajax({
+        url: '/address/search/address3?address2=' + address2, // update as needed
+        type: 'GET',
+        success: function(response) {
+          var address3Select = $('#address3');
+          address3Select.empty();
+          address3Select.append('<option value="">선택해주세요.</option>');
+
+          $.each(response, function(index, address3) {
+            address3Select.append('<option value="' + address3 + '">' + address3 + '</option>');
+          });
+          console.log(response);
+        },
+        error: function(jqXHR) {
+          alert('소주소 정보를 가져오는 데 실패했습니다.');
+        }
+      });
+    });
+
+  });
+</script>

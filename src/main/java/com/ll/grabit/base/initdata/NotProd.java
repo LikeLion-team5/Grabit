@@ -2,6 +2,7 @@ package com.ll.grabit.base.initdata;
 
 
 import com.ll.grabit.base.util.CustomMultipartFile;
+import com.ll.grabit.boundedcontext.address.entity.Address;
 import com.ll.grabit.boundedcontext.member.form.MemberCreateDto;
 import com.ll.grabit.boundedcontext.member.service.MemberService;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Configuration
 @Profile({"dev","test"})
@@ -70,27 +72,30 @@ public class NotProd {
             restaurantDto.setStartTime("09:30");
             restaurantDto.setEndTime("23:30");
             restaurantDto.setPerTimeMaxReservationCount(3);
+            Optional<Address> address = restaurantService.findAddress(restaurantDto);
             for(int i=0; i<20; i++) {
-                restaurantService.save(restaurantDto,multipartFile);
+                restaurantService.save(restaurantDto,address.get(), multipartFile);
             }
 
             restaurantDto.setAddress2("도봉구");
             restaurantDto.setAddress3("창동");
             restaurantDto.setDetail_address("창동역 앞 건물 1층");
+            address= restaurantService.findAddress(restaurantDto);
             for(int i=0; i<10; i++) {
-                restaurantService.save(restaurantDto, multipartFile);
+                restaurantService.save(restaurantDto, address.get(), multipartFile);
             }
             restaurantDto.setAddress3("쌍문동");
             restaurantDto.setDetail_address("쌍문역 앞 건물 1층");
+            address= restaurantService.findAddress(restaurantDto);
             for(int i=0; i<10; i++) {
-                restaurantService.save(restaurantDto, multipartFile);
+                restaurantService.save(restaurantDto, address.get(), multipartFile);
             }
 
             restaurantDto.setAddress2("노원구");
             restaurantDto.setAddress3("월계동");
             restaurantDto.setDetail_address("월계역 앞 건물 1층");
             for(int i=0; i<20; i++) {
-                restaurantService.save(restaurantDto, multipartFile);
+                restaurantService.save(restaurantDto, address.get(), multipartFile);
             }
 
             //인천에 있는 식당 데이터
@@ -98,14 +103,16 @@ public class NotProd {
             restaurantDto.setAddress2("연수구");
             restaurantDto.setAddress3("옥련동");
             restaurantDto.setDetail_address("욕련동 아파트 101동 1015호");
+            address= restaurantService.findAddress(restaurantDto);
             for(int i=0; i<10; i++) {
-                restaurantService.save(restaurantDto,multipartFile);
+                restaurantService.save(restaurantDto,address.get(), multipartFile);
             }
             restaurantDto.setAddress2("중구");
             restaurantDto.setAddress3("해안동");
             restaurantDto.setDetail_address("욕련동 아파트 101동 1015호");
+            address= restaurantService.findAddress(restaurantDto);
             for(int i=0; i<10; i++) {
-                restaurantService.save(restaurantDto,multipartFile);
+                restaurantService.save(restaurantDto,address.get(), multipartFile);
             }
 
             //울산에 있는 식당 데이터
@@ -113,14 +120,16 @@ public class NotProd {
             restaurantDto.setAddress2("남구");
             restaurantDto.setAddress3("남화동");
             restaurantDto.setDetail_address("남화동 아파트 101동 1015호");
+            address= restaurantService.findAddress(restaurantDto);
             for(int i=0; i<10; i++) {
-                restaurantService.save(restaurantDto,multipartFile);
+                restaurantService.save(restaurantDto,address.get(), multipartFile);
             }
             restaurantDto.setAddress2("동구");
             restaurantDto.setAddress3("동부동");
             restaurantDto.setDetail_address("동부동 아파트 101동 1015호");
+            address= restaurantService.findAddress(restaurantDto);
             for(int i=0; i<10; i++) {
-                restaurantService.save(restaurantDto, multipartFile);
+                restaurantService.save(restaurantDto, address.get(), multipartFile);
             }
 
             //부천에 있는 식당 데이터
@@ -128,13 +137,15 @@ public class NotProd {
             restaurantDto.setAddress2("원미동");
             restaurantDto.setAddress3("");
             restaurantDto.setDetail_address("원미동 아파트 101동 1015호");
+            address= restaurantService.findAddress(restaurantDto);
             for(int i=0; i<10; i++) {
-                restaurantService.save(restaurantDto, multipartFile);
+                restaurantService.save(restaurantDto, address.get(), multipartFile);
             }
             restaurantDto.setAddress2("오정동");
             restaurantDto.setDetail_address("오정동 아파트 101동 1015호");
+            address= restaurantService.findAddress(restaurantDto);
             for(int i=0; i<10; i++) {
-                restaurantService.save(restaurantDto, multipartFile);
+                restaurantService.save(restaurantDto, address.get(), multipartFile);
             }
         };
     }

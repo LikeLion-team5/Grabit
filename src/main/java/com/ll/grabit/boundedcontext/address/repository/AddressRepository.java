@@ -11,6 +11,15 @@ import java.util.Optional;
 public interface AddressRepository extends JpaRepository<Address, Long> {
     Optional<Address> findByAddress1AndAddress2AndAddress3(String address1, String address2, String address3);
 
+    @Query("select distinct a.address1 from Address a")
+    List<String> address1List();
+
+    @Query("select distinct a.address2 from Address a where a.address1 = :address1")
+    List<String> address2List(@Param("address1") String address1);
+
+    @Query("select distinct a.address3 from Address a  where a.address2 = :address2")
+    List<String> address3List(@Param("address2") String address2);
+
     @Query("select a from Address a where a.address1 = :address1")
     List<Address> findAddress1(@Param("address1") String address1);
     @Query("select a from Address a where a.address1 = :address1 and a.address2 = :address2")
