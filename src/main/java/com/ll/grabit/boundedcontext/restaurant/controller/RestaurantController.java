@@ -45,7 +45,7 @@ public class RestaurantController {
         model.addAttribute("restaurantRegisterDto", new RestaurantRegisterDto());
         List<String> address1List = restaurantService.findAddress1();
         model.addAttribute("address1List", address1List);
-        return "tmp_reg";
+        return "tmp_reg_design";
     }
 
     @PostMapping("/register")
