@@ -105,6 +105,8 @@ public class RestaurantController {
         return "home";
     }
 
+
+    //메인 페이지(Ajax 이용할 예정이라, 추후 수정 예정)
     @GetMapping("/search")
     public String search(@ModelAttribute AddressSearchDto addressSearchDto,
                          @PageableDefault(page = 0, size = 8, sort = "restaurantId", direction = Sort.Direction.ASC) Pageable pageable,
@@ -114,5 +116,15 @@ public class RestaurantController {
 
         return "home";
     }
+
+    //식당 클릭 시, 식당 1건 조회
+    @GetMapping("/{restaurantId}")
+    public String searchOne(@PathVariable Long restaurantId, Model model){
+        Restaurant findRestaurant = restaurantService.findOne(restaurantId);
+        model.addAttribute("restaurant", findRestaurant);
+
+        return "식당 상세보기 페이지";
+    }
+
 
 }
