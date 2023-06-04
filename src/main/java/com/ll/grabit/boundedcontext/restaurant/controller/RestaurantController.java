@@ -102,7 +102,7 @@ public class RestaurantController {
     @PostMapping("/{restaurantId}/delete")
     public String delete(@PathVariable("restaurantId") Long id){
         restaurantService.delete(id);
-        return "home";
+        return "/usr/home/main";
     }
 
 
@@ -114,7 +114,7 @@ public class RestaurantController {
         Page<Restaurant> restaurantList = restaurantService.search(addressSearchDto, pageable);
         model.addAttribute("restaurantList", restaurantList);
 
-        return "home";
+        return "/usr/home/main";
     }
 
     //식당 클릭 시, 식당 1건 조회
