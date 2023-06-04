@@ -53,7 +53,6 @@ public class RestaurantController {
     public ResponseEntity<?> restaurantRegister(@ModelAttribute @Valid RestaurantRegisterDto restaurantRegisterDto,
                                                 BindingResult result,
                                                 @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
-
         Map<String, String> errors = new HashMap<>();
         //입력 필드 검증
         if (result.hasErrors()) {

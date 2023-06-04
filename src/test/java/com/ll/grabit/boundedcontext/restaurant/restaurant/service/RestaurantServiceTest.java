@@ -82,6 +82,7 @@ class RestaurantServiceTest {
         //given
         Restaurant beforeRes = restaurantService.findOne(1L);
 
+
         //when
         RestaurantUpdateDto updateDto = new RestaurantUpdateDto();
         updateDto.setRestaurantName("식당수정");
@@ -95,6 +96,9 @@ class RestaurantServiceTest {
         updateDto.setEndTime("23:30");
         updateDto.setPerTimeMaxReservationCount(3);
         restaurantService.update(1L,updateDto, null);
+
+        em.flush();
+        em.clear();
 
         //then
         Restaurant afterRes = restaurantService.findOne(1L);

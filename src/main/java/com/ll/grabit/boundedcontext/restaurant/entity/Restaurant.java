@@ -42,10 +42,10 @@ public class Restaurant {
 
     private Integer perTimeMaxReservationCount;
 
-    @OneToOne(mappedBy = "restaurant", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToOne(mappedBy = "restaurant", orphanRemoval = true)
     private RestaurantImage restaurantImage;
 
-    @OneToMany
+    @OneToMany(mappedBy = "restaurant", orphanRemoval = true)
     private List<Menu> menuList = new ArrayList<>();
 
     @Builder
