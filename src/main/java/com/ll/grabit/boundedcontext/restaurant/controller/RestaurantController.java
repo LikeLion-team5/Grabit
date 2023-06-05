@@ -80,4 +80,11 @@ public class RestaurantController {
         return "home";
     }
 
+    @GetMapping("/restaurantInfo")
+    public String showRestaurantInfo() {
+        return "usr/restaurant/restaurantInfo";
+    }
+
+
+
 }
