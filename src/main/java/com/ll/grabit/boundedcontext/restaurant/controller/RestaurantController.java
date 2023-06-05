@@ -1,16 +1,12 @@
 package com.ll.grabit.boundedcontext.restaurant.controller;
 
-
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ll.grabit.base.rsdata.RsData;
 import com.ll.grabit.boundedcontext.address.dto.AddressSearchDto;
 import com.ll.grabit.boundedcontext.address.entity.Address;
-import com.ll.grabit.boundedcontext.menu.dto.MenuRegisterDto;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
+
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
+
 import com.ll.grabit.boundedcontext.restaurant.service.RestaurantService;
 import com.nimbusds.oauth2.sdk.http.HTTPResponse;
 import jakarta.validation.Valid;
@@ -19,8 +15,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
 
 @Controller
 @RequiredArgsConstructor
@@ -126,5 +125,8 @@ public class RestaurantController {
         return "식당 상세보기 페이지";
     }
 
-
+    @GetMapping("/restaurantInfo")
+    public String showRestaurantInfo() {
+        return "usr/restaurant/restaurantInfo";
+    }
 }

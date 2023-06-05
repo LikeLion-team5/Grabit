@@ -1,8 +1,9 @@
 package com.ll.grabit.base.initdata;
 
 
-import com.ll.grabit.base.util.CustomMultipartFile;
+
 import com.ll.grabit.boundedcontext.address.entity.Address;
+
 import com.ll.grabit.boundedcontext.member.form.MemberCreateDto;
 import com.ll.grabit.boundedcontext.member.service.MemberService;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
@@ -13,10 +14,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Optional;
+
 
 @Configuration
 @Profile({"dev","test"})
