@@ -2,7 +2,10 @@ package com.ll.grabit.boundedcontext.restaurant.entity;
 
 
 
+import com.ll.grabit.boundedcontext.address.entity.Address;
+import com.ll.grabit.boundedcontext.menu.entity.Menu;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
+import com.ll.grabit.boundedcontext.restaurantimage.entity.RestaurantImage;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,6 +13,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -37,8 +42,11 @@ public class Restaurant {
 
     private Integer perTimeMaxReservationCount;
 
-    @OneToOne(mappedBy = "restaurant", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToOne(mappedBy = "restaurant", orphanRemoval = true)
     private RestaurantImage restaurantImage;
+
+    @OneToMany(mappedBy = "restaurant", orphanRemoval = true)
+    private List<Menu> menuList = new ArrayList<>();
 
     @Builder
     public Restaurant(String restaurantName, String description, RestaurantType type, Address address, String detail_address, LocalTime openingTime, LocalTime closingTime, Integer perTimeMaxReservationCount) {

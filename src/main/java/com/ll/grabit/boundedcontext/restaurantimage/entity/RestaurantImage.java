@@ -1,5 +1,6 @@
-package com.ll.grabit.boundedcontext.restaurant.entity;
+package com.ll.grabit.boundedcontext.restaurantimage.entity;
 
+import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
