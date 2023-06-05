@@ -1,6 +1,7 @@
 package com.ll.grabit.boundedcontext.restaurant.controller;
 
 
+import com.ll.grabit.boundedcontext.member.entity.Member;
 import com.ll.grabit.boundedcontext.restaurant.dto.AddressSearchDto;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -77,5 +79,12 @@ public class RestaurantController {
 
         return "home";
     }
+
+    @GetMapping("/restaurantInfo")
+    public String showRestaurantInfo() {
+        return "usr/restaurant/restaurantInfo";
+    }
+
+
 
 }

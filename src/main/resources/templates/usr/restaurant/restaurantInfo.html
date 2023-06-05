@@ -1,0 +1,156 @@
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout/defaultLayout}"
+      layout:fragment="Content">
+<head>
+    <meta charset="UTF-8">
+    <title>식당 정보</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <main class="min-h-screen flex flex-col" style="background-color: #FEE8E8">
+        <div class="flex-grow flex flex-col items-center justify-center">
+            <div class="max-w-3xl mx-auto w-full mt-10 mb-5 px-4">
+                <div class="bg-white  rounded-lg shadow-lg p-5">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <img src="https://i.postimg.cc/MKRjtWYH/IMG-4678-1024x742.jpg" alt="프로필 사진" class="w-32 h-32 sm:w-40 sm:h-40 rounded mr-5">
+                            <div class="ml-2">
+                                <div class="md:flex md:items-center sm:flex-row flex-col">
+                                    <h2 class="text-2xl font-bold mt-0">식당 이름</h2>
+                                    <div class="md:flex md:ml-3 sm:ml-0">
+                                        <a class="normal-case text-base" style="cursor: pointer">
+                                            <i class="fas fa-star text-yellow-500 mr-1"></i>4.5 (554)</a>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col">
+                                    <p class="mt-1">식당 소개입니다.</p>
+
+                                    <div class="flex flex-col sm:flex-row mt-2">
+                                        <div>
+                                            <p class="font-bold">영업 시간</p>
+                                            <p>09:00 ~ 22:00</p>
+                                        </div>
+                                        <div class="md:ml-10 md:mt-0 mt-2">
+                                            <p class="font-bold">전화번호</p>
+                                            <p>02-456-7890</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-2">
+                                        <p class="font-bold">주소</p>
+                                        <p>서울특별시 서초구 양재동 264-7</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="text-lg font-bold mb-2">메뉴</h3>
+                    <div class="h-[200px] overflow-y-auto">
+                        <div class="md:grid md:grid-cols-2 md:gap-4 grid grid-cols-1 gap-4">
+                            <div class="bg-gray-100 p-4 rounded-lg flex items-center">
+                                <img src="https://i.postimg.cc/MKRjtWYH/IMG-4678-1024x742.jpg" alt="프로필 사진" class="w-[50px] h-[50px] rounded mr-5">
+
+                                <h4 class="text-md font-bold mb-2">메뉴 1</h4>
+                                <p class="ml-auto">10,000원</p>
+
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-lg flex items-center">
+                                <img src="https://i.postimg.cc/MKRjtWYH/IMG-4678-1024x742.jpg" alt="프로필 사진" class="w-[50px] h-[50px] rounded mr-5">
+
+                                <h4 class="text-md font-bold mb-2">메뉴 2</h4>
+                                <p class="ml-auto">20,000원</p>
+
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-lg flex items-center">
+                                <img src="https://i.postimg.cc/MKRjtWYH/IMG-4678-1024x742.jpg" alt="프로필 사진" class="w-[50px] h-[50px] rounded mr-5">
+
+                                <h4 class="text-md font-bold mb-2">메뉴 3</h4>
+                                <p class="ml-auto">30,000원</p>
+
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-lg flex items-center">
+                                <img src="https://i.postimg.cc/MKRjtWYH/IMG-4678-1024x742.jpg" alt="프로필 사진" class="w-[50px] h-[50px] rounded mr-5">
+
+                                <h4 class="text-md font-bold mb-2">메뉴 4</h4>
+                                <p class="ml-auto">40,000원</p>
+
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-lg flex items-center">
+                                <img src="https://i.postimg.cc/MKRjtWYH/IMG-4678-1024x742.jpg" alt="프로필 사진" class="w-[50px] h-[50px] rounded mr-5">
+
+                                <h4 class="text-md font-bold mb-2">메뉴 5</h4>
+                                <p class="ml-auto">50,000원</p>
+
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-lg flex items-center">
+                                <img src="https://i.postimg.cc/MKRjtWYH/IMG-4678-1024x742.jpg" alt="프로필 사진" class="w-[50px] h-[50px] rounded mr-5">
+
+                                <h4 class="text-md font-bold mb-2">메뉴 6</h4>
+                                <p class="ml-auto">60,000원</p>
+
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-lg flex items-center">
+                                <img src="https://i.postimg.cc/MKRjtWYH/IMG-4678-1024x742.jpg" alt="프로필 사진" class="w-[50px] h-[50px] rounded mr-5">
+
+                                <h4 class="text-md font-bold mb-2">메뉴 7</h4>
+                                <p class="ml-auto">70,000원</p>
+
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-lg flex items-center">
+                                <img src="https://i.postimg.cc/MKRjtWYH/IMG-4678-1024x742.jpg" alt="프로필 사진" class="w-[50px] h-[50px] rounded mr-5">
+
+                                <h4 class="text-md font-bold mb-2">메뉴 8</h4>
+                                <p class="ml-auto">80,000원</p>
+
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold pt-5">예약하기</h3>
+                    <div class="bg-gray-100 p-4 rounded-lg mt-2">
+                        <form>
+                            <div class="mb-4">
+                                <label for="name" class="block text-sm font-medium text-gray-700">이름</label>
+                                <input type="text" id="name" name="name" class="bg-white border border-gray-300 rounded-md p-2 w-full">
+                            </div>
+                            <div class="mb-4">
+                                <label for="phone" class="block text-sm font-medium text-gray-700">전화번호</label>
+                                <input type="tel" id="phone" name="phone" class="bg-white border border-gray-300 rounded-md p-2 w-full">
+                            </div>
+                            <div class="mb-4">
+                                <label for="date" class="block text-sm font-medium text-gray-700">날짜</label>
+                                <input type="date" id="date" name="date" class="bg-white border border-gray-300 rounded-md p-2 w-full">
+                            </div>
+                            <div class="mb-4">
+                                <label for="reservation-time" class="block text-sm font-medium text-gray-700">시간</label>
+                                <select id="reservation-time" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                    <option selected disabled>예약 시간 선택</option>
+                                    <option value="09:00">09:00</option>
+                                    <option value="09:30">09:30</option>
+                                    <option value="10:00">10:00</option>
+                                    <option value="10:30">10:30</option>
+                                    <option value="11:00">11:00</option>
+                                    <option value="11:30">11:30</option>
+                                    <option value="12:00">12:00</option>
+                                    <option value="12:30">12:30</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label for="party-size" class="block text-sm font-medium text-gray-700">인원 수</label>
+                                <input type="number" id="party-size" name="party-size" min="1" class="bg-white border border-gray-300 rounded-md p-2 w-full">
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="flex justify-center mt-4">
+                <button type="submit" class="text-red-500 py-3 px-20 rounded-lg shadow-md text-lg mb-10" style="background-color: white;">예약하기</button>
+            </div>
+        </div>
+    </main>
+</section>
+</body>
+</html>
