@@ -69,8 +69,8 @@ public class NotProd {
             restaurantDto.setAddress2("성북구");
             restaurantDto.setAddress3("돈암동");
             restaurantDto.setDetail_address("고려대학교 앞 건물 1층");
-            restaurantDto.setStartTime("09:30");
-            restaurantDto.setEndTime("23:30");
+            restaurantDto.setStartTime("21:00");
+            restaurantDto.setEndTime("05:00");
             restaurantDto.setPerTimeMaxReservationCount(3);
             Optional<Address> address = restaurantService.findAddress(restaurantDto);
             for(int i=0; i<20; i++) {
@@ -80,6 +80,8 @@ public class NotProd {
             restaurantDto.setAddress2("도봉구");
             restaurantDto.setAddress3("창동");
             restaurantDto.setDetail_address("창동역 앞 건물 1층");
+            restaurantDto.setStartTime("09:00");
+            restaurantDto.setEndTime("22:00");
             address= restaurantService.findAddress(restaurantDto);
             for(int i=0; i<10; i++) {
                 restaurantService.save(restaurantDto, address.get(), multipartFile);

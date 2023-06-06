@@ -28,10 +28,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.time.LocalTime;
+import java.util.*;
 
 
 @Controller
@@ -166,8 +164,15 @@ public class RestaurantController {
     //식당 클릭 시, 식당 1건 조회
     @GetMapping("/{restaurantId}")
     public String searchOne(@PathVariable Long restaurantId, Model model){
+        //식당 정보
         Restaurant findRestaurant = restaurantService.findOne(restaurantId);
         model.addAttribute("restaurant", findRestaurant);
+
+        //예약 가능 시간
+        int openTime = findRestaurant.getOpeningTime().getHour();
+        int closeTime = findRestaurant.getClosingTime().getHour();
+        List<String> reservationTimeList = getReservationTimeList(openTime, closeTime);
+        model.addAttribute("reservationTimeList", reservationTimeList);
 
         return "식당 상세보기 페이지";
     }
@@ -175,5 +180,23 @@ public class RestaurantController {
     @GetMapping("/restaurantInfo")
     public String showRestaurantInfo() {
         return "usr/restaurant/restaurantInfo";
+    }
+
+    private List<String> getReservationTimeList(int openTime, int closeTime){
+        List<String> reservationTimeList = new ArrayList<>();
+        if(openTime < closeTime){
+            //09:00 ~ 21:00
+            for(int i = openTime; i < closeTime; i++)
+                reservationTimeList.add(i+":00");
+        }else{
+            //21:00 ~ 05:00
+            for(int i = openTime; i <= 24; i++)
+                reservationTimeList.add(i+":00");
+
+            for(int i = 1; i < closeTime; i++)
+                reservationTimeList.add(i+":00");
+        }
+
+        return reservationTimeList;
     }
 }
