@@ -2,6 +2,7 @@ package com.ll.grabit.boundedcontext.restaurant.controller;
 
 import com.ll.grabit.boundedcontext.address.dto.AddressSearchDto;
 import com.ll.grabit.boundedcontext.address.entity.Address;
+import com.ll.grabit.boundedcontext.address.service.AddressService;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
@@ -39,12 +40,14 @@ import java.util.Optional;
 public class RestaurantController {
     private final RestaurantService restaurantService;
 
+    private final AddressService addressService;
+
     @GetMapping("/register")
     public String restaurantRegister(Model model) {
         model.addAttribute("restaurantRegisterDto", new RestaurantRegisterDto());
         List<String> address1List = restaurantService.findAddress1();
         model.addAttribute("address1List", address1List);
-        return "tmp_reg_design";
+        return "/tmp/tmp_reg_design";
     }
 
     @PostMapping("/register")
@@ -110,11 +113,55 @@ public class RestaurantController {
     public String search(@ModelAttribute AddressSearchDto addressSearchDto,
                          @PageableDefault(page = 0, size = 8, sort = "restaurantId", direction = Sort.Direction.ASC) Pageable pageable,
                                    Model model){
+        //대주소 리스트
+        List<String> address1List = addressService.getAddress1List();
+        model.addAttribute("address1List", address1List);
+
         Page<Restaurant> restaurantList = restaurantService.search(addressSearchDto, pageable);
         model.addAttribute("restaurantList", restaurantList);
 
-        return "/usr/home/main";
+        model.addAttribute("maxPage", 10);
+
+//        return "/usr/home/main";
+        return "/tmp/tmp_list";
     }
+
+//    //Ajax 적용 시, 메인 페이지
+//    @GetMapping("/search/main")
+//    public String searchMainPage(@PageableDefault(page = 0, size = 8, sort = "restaurantId", direction = Sort.Direction.ASC) Pageable pageable,
+//                         Model model){
+//        //대주소 리스트
+//        List<String> address1List = addressService.getAddress1List();
+//        model.addAttribute("address1List", address1List);
+//
+//        //식당 리스트
+//        Page<Restaurant> restaurantList = restaurantService.getRestaurantList(pageable);
+//        model.addAttribute("restaurants", restaurantList);
+//
+//        return "/tmp/tmp_list";
+//    }
+//
+//    //Ajax 요청 시 결과
+//    @GetMapping("/search/ajax")
+//    @ResponseBody
+//    public ResponseEntity<?> searchAjax(
+//            AddressSearchDto addressSearchDto,
+//            @PageableDefault(page = 0, size = 8, sort = "restaurantId", direction = Sort.Direction.ASC) Pageable pageable,
+//                                 Model model){
+//        //주소값 필터링
+//        List<Address> addressList = null;
+//        if(!addressSearchDto.getAddress1().isEmpty()){
+//            addressList = addressService.getAddressList(addressSearchDto);
+//        }else{
+//            return new ResponseEntity<>("주소를 입력 해 주세요.", HttpStatusCode.valueOf(HTTPResponse.SC_BAD_REQUEST));
+//        }
+//
+//        //식당 리스트
+//        Page<Restaurant> restaurantList = restaurantService.getRestaurantList(pageable, addressList);
+//        model.addAttribute("maxPage", 10);
+//
+//        return new ResponseEntity<>(restaurantList, HttpStatusCode.valueOf(HTTPResponse.SC_OK));
+//    }
 
     //식당 클릭 시, 식당 1건 조회
     @GetMapping("/{restaurantId}")
