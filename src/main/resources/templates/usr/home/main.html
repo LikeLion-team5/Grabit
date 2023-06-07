@@ -5,6 +5,7 @@
 <head>
     <!-- main CSS 불러오기 -->
     <link rel="stylesheet" href="/resource/common/main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>메인</title>
     <style>
         @media (max-width: 640px) {
@@ -18,494 +19,161 @@
     </style>
 </head>
 
-<body>
 <section layout:fragment="content">
     <main class="flex flex-col" style="background-color: #FEE8E8">
         <div class="flex-grow flex items-center justify-center mt-10">
             <div class="max-w-3xl w-full px-4">
-                <script>
-                    function updateSubcategories() {
-                        var address1Select = document.getElementById("address1");
-                        var address2Select = document.getElementById("address2");
-                        var selectedAddress1 = address1Select.value;
-                        // 중분류(select id="address2") 초기화
-                        address2Select.innerHTML = '<option selected disabled>중분류</option>';
-                        // 선택한 주소에 따라 구를 동적으로 추가
-                        if (selectedAddress1 === "서울특별시") {
-                            address2Select.innerHTML += `
-                            <option value="종로구">종로구</option>
-                            <option value="중구">중구</option>
-                            <option value="용산구">용산구</option>
-                            <option value="성동구">성동구</option>
-                            <option value="광진구">광진구</option>
-                            <option value="동대문구">동대문구</option>
-                            <option value="중랑구">중랑구</option>
-                            <option value="성북구">성북구</option>
-                            <option value="강북구">강북구</option>
-                            <option value="도봉구">도봉구</option>
-                            <option value="노원구">노원구</option>
-                            <option value="은평구">은평구</option>
-                            <option value="서대문구">서대문구</option>
-                            <option value="마포구">마포구</option>
-                            <option value="양천구">양천구</option>
-                            <option value="강서구">강서구</option>
-                            <option value="구로구">구로구</option>
-                            <option value="금천구">금천구</option>
-                            <option value="영등포구">영등포구</option>
-                            <option value="동작구">동작구</option>
-                            <option value="관악구">관악구</option>
-                            <option value="서초구">서초구</option>
-                            <option value="강남구">강남구</option>
-                            <option value="송파구">송파구</option>
-                            <option value="강동구">강동구</option>
-                        `;
-                        } else if (selectedAddress1 === "인천광역시") {
-                            address2Select.innerHTML += `
-                            <option value="연수구">연수구</option>
-                            <option value="부평구">부평구</option>
-                            <!-- 다른 구들을 추가로 나열 -->
-                        `;
-                        } else if (selectedAddress1 === "수원시") {
-                            address2Select.innerHTML += `
-                            <option value="영통구">영통구</option>
-                            <option value="팔달구">팔달구</option>
-                            <!-- 다른 구들을 추가로 나열 -->
-                        `;
-                        } else if (selectedAddress1 === "성남시") {
-                            address2Select.innerHTML += `
-                            <option value="분당구">분당구</option>
-                            <option value="중원구">중원구</option>
-                            <!-- 다른 구들을 추가로 나열 -->
-                        `;
-                        }
-                    }
-
-                    function updateSubcategories2() {
-                        var address2Select = document.getElementById("address2");
-                        var address3Select = document.getElementById("address3");
-                        var selectedAddress2 = address2Select.value;
-                        // 소분류(select id="address3") 초기화
-                        address3Select.innerHTML = '<option selected disabled>소분류</option>';
-                        // 선택한 중분류에 따라 동적으로 소분류 추가
-                        if (selectedAddress2 === "종로구") {
-                            address3Select.innerHTML += `
-        <option value="청운동">청운동</option>
-        <option value="신교동">신교동</option>
-        <!-- 다른 동들을 추가로 나열 -->
-      `;
-                        } else if (selectedAddress2 === "중구") {
-                            address3Select.innerHTML += `
-        <option value="무교동">무교동</option>
-        <option value="다동">다동</option>
-        <!-- 다른 동들을 추가로 나열 -->
-      `;
-                        }
-                        // 다른 중분류에 대한 소분류 추가
-                    }
-                </script>
-
                 <div class="search">
-                    <label for="address1"></label>
-                    <select id="address1" class="bg-white border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" onchange="updateSubcategories()">
-                        <option selected disabled>대분류</option>
-                        <option value="서울특별시">서울특별시</a></option>
-                        <option value="인천광역시">인천광역시</a></option>
-                        <option value="수원시">수원시</a></option>
-                        <option value="성남시">성남시</a></option>
-                    </select>
-
-                    <select id="address2" class="bg-white border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " onchange="updateSubcategories2()">
-                        <option selected disabled>중분류</option>
-                    </select>
-                    <select id="address3" class="bg-white border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        <option selected disabled>소분류</option>
-                    </select>
-
-                    <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only ">Search</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
+                    <form th:action="@{/restaurant/search}" th:method="GET">
+                        <div class="search-wrap flex">
+                            <label for="address1"></label>
+                            <select id="address1" name="address1" class="bg-white border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mr-2">
+                                <option value="">대분류</option>®
+                                <option th:each="address1 : ${address1List}" th:value="${address1}" th:text="${address1}"></option>
+                            </select>
+                            <label for="address2"></label>
+                            <select id="address2" name="address2" class="bg-white border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mr-2">
+                                <option value="">중분류</option>
+                            </select>
+                            <label for="address3"></label>
+                            <select id="address3" name="address3" class="bg-white border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mr-2">
+                                <option value="">소분류</option>
+                            </select>
+                            <button type="submit" class="text-white bg-red-400 hover:bg-red-300 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2">검색</button>
                         </div>
-                        <input type="search" id="default-search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-red-300 rounded-lg bg-white focus:ring-red-400 focus:border-red-400 " placeholder="주소" required>
-                        <button type="submit" class="text-gray-900 absolute right-2.5 bottom-2.5 bg-red-400 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 ">검색</button>
-                    </div>
+                    </form>
                 </div>
 
                 <section class="restaurant-view max-w-3xl mx-auto">
-                    <div class="restaurant-list mt-6">
-                        <ul class="grid grid-cols-4 gap-5">
-                        </ul>
+                    <div id="restaurantList" class="restaurant-list mt-6">
+                        <ol class="grid grid-cols-4 gap-5">
+                            <li class="restaurant_item" th:each="restaurant : ${restaurantList}">
+                                <a href="#" class="block mt-4 text-black font-bold text-base sm:text-lg">
+                                    <span th:text="${restaurant.restaurantName}"></span>
+                                </a>
+                                <img class="block rounded" th:if="${restaurant.restaurantImage != null}" th:src="${restaurant.restaurantImage.imagePath}" alt="" height="200" width="200">
+                                <!--                <img class="block rounded" th:if="${restaurant.restaurantImage == null}" th:src="@{/img/test_image.png}" alt="" height="200" width="200">-->
+
+                                <div>
+                                    <span th:text="${restaurant.description}"></span>
+                                </div>
+                                <div>
+                                    <span th:text="${restaurant.address.address1}"></span>
+                                    <span th:text="${restaurant.address.address2}"></span>
+                                    <span th:text="${restaurant.address.address3}"></span>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="page_wrap"
+                         th:with="start=${(restaurantList.number/maxPage)*maxPage + 1},
+                             end=(${(restaurantList.totalPages == 0) ? 1 : (start + (maxPage - 1) < restaurantList.totalPages ? start + (maxPage - 1) : restaurantList.totalPages)})">
+                        <div class="pagination-list">
+                            <nav aria-label="Page navigation example">
+                                <ul class="inline-flex -space-x-px">
+                                    <!--첫 페이지로 이동-->
+                                    <a th:if="${start > 1}"
+                                       th:href="@{/restaurant/search?(page=0, address1=${addressSearchDto.address1}, address2=${addressSearchDto.address2}, address3=${addressSearchDto.address3})}"
+                                       th:text="'<<'"></a>
+
+                                    <!--이전 페이지로 이동-->
+                                    <a th:if="${start > 1}"
+                                       th:href="@{/restaurant/search?(page=${start - maxPage - 1}, address1=${addressSearchDto.address1}, address2=${addressSearchDto.address2}, address3=${addressSearchDto.address3})}"
+                                       th:text="'<'"></a>
+
+                                    <!--페이지 표기-->
+                                    <a th:each="page: ${#numbers.sequence(start, end)}"
+                                       th:href="@{/restaurant/search?(page=${page - 1}, address1=${addressSearchDto.address1}, address2=${addressSearchDto.address2}, address3=${addressSearchDto.address3})}"
+                                       th:text="${page}"
+                                       th:classappend="${page - 1 == restaurantList.number} ? 'active'"></a>
+
+                                    <!--다음 장으로 이동 -->
+                                    <a th:if="${end < restaurantList.totalPages}"
+                                       th:href="@{/restaurant/search?(page=${start + maxPage - 1}, address1=${addressSearchDto.address1}, address2=${addressSearchDto.address2}, address3=${addressSearchDto.address3})}"
+                                       th:text="'>'"></a>
+
+                                    <!--마지막 페이지로 이동-->
+                                    <a th:if="${end < restaurantList.totalPages}"
+                                       th:href="@{/restaurant/search?(page=${restaurantList.totalPages - 1}, address1=${addressSearchDto.address1}, address2=${addressSearchDto.address2}, address3=${addressSearchDto.address3})}"
+                                       th:text="'>>'"></a>
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
                 </section>
 
-                <section class="pagination-list">
-                    <nav aria-label="Page navigation example">
-                        <ul class="inline-flex -space-x-px">
-                        </ul>
-                    </nav>
-                </section>
+
 
                 <script>
-                    var restaurants = [
-                        {
-                        restaurantName: "종로 일식",
-                        image: "https://i.postimg.cc/MKRjtWYH/IMG-4678-1024x742.jpg",
-                        address: "서울특별시 종로구 청운동 22-4",
-                        address1: "서울특별시",
-                        address2: "종로구",
-                        address3: "청운동",
-                        detail_address: "22-4",
-                        phone: "02-216-4486",
-                        openingHours: "09:00 ~ 22:00",
-                        description: "<p>식당 소개입니다.</p><p>종로 일식 맛집</p>"
-                        },
-                        {
-                            restaurantName: "서울 장어",
-                            image: "https://i.postimg.cc/J0pY2N83/image.jpg",
-                            address: "서울특별시 종로구 신교동 125-45",
-                            phone: "02-226-7864",
-                            openingHours: "09:00 ~ 20:30",
-                            description: "식당 소개입니다."
-                        },
-                        {
-                            restaurantName: "3번 식당",
-                            image: "https://i.postimg.cc/mD583byV/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "4번 식당",
-                            image: "https://i.postimg.cc/mD583byV/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "5번 식당",
-                            image: "https://i.postimg.cc/kX9tj0Yy/4626383-55467-1341.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "6번 식당",
-                            image: "https://i.postimg.cc/pXGXD4wr/96534116-2.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "7번 식당",
-                            image: "https://i.postimg.cc/qBQkTWMw/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "8번 식당",
-                            image: "https://i.postimg.cc/DzqTYMMq/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "9번 식당",
-                            image: "https://i.postimg.cc/DzqTYMMq/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "10번 식당",
-                            image: "https://i.postimg.cc/DzqTYMMq/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "11번 식당",
-                            image: "https://i.postimg.cc/DzqTYMMq/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "12번 식당",
-                            image: "https://i.postimg.cc/DzqTYMMq/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "13번 식당",
-                            image: "https://i.postimg.cc/mD583byV/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "14번 식당",
-                            image: "https://i.postimg.cc/mD583byV/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "15번 식당",
-                            image: "https://i.postimg.cc/kX9tj0Yy/4626383-55467-1341.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "16번 식당",
-                            image: "https://i.postimg.cc/pXGXD4wr/96534116-2.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "17번 식당",
-                            image: "https://i.postimg.cc/qBQkTWMw/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "18번 식당",
-                            image: "https://i.postimg.cc/DzqTYMMq/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "19번 식당",
-                            image: "https://i.postimg.cc/DzqTYMMq/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "20번 식당",
-                            image: "https://i.postimg.cc/DzqTYMMq/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "21번 식당",
-                            image: "https://i.postimg.cc/DzqTYMMq/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "22번 식당",
-                            image: "https://i.postimg.cc/DzqTYMMq/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "23번 식당",
-                            image: "https://i.postimg.cc/mD583byV/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "24번 식당",
-                            image: "https://i.postimg.cc/mD583byV/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "25번 식당",
-                            image: "https://i.postimg.cc/kX9tj0Yy/4626383-55467-1341.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "26번 식당",
-                            image: "https://i.postimg.cc/pXGXD4wr/96534116-2.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "27번 식당",
-                            image: "https://i.postimg.cc/qBQkTWMw/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "28번 식당",
-                            image: "https://i.postimg.cc/DzqTYMMq/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "29번 식당",
-                            image: "https://i.postimg.cc/DzqTYMMq/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "30번 식당",
-                            image: "https://i.postimg.cc/DzqTYMMq/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "31번 식당",
-                            image: "https://i.postimg.cc/DzqTYMMq/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "32번 식당",
-                            image: "https://i.postimg.cc/DzqTYMMq/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "33번 식당",
-                            image: "https://i.postimg.cc/mD583byV/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "34번 식당",
-                            image: "https://i.postimg.cc/mD583byV/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "35번 식당",
-                            image: "https://i.postimg.cc/kX9tj0Yy/4626383-55467-1341.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "36번 식당",
-                            image: "https://i.postimg.cc/pXGXD4wr/96534116-2.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "37번 식당",
-                            image: "https://i.postimg.cc/qBQkTWMw/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "38번 식당",
-                            image: "https://i.postimg.cc/DzqTYMMq/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "39번 식당",
-                            image: "https://i.postimg.cc/DzqTYMMq/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                        {
-                            restaurantName: "40번 식당",
-                            image: "https://i.postimg.cc/DzqTYMMq/image.jpg",
-                            address: "시 구 동 상세주소",
-                            phone: "000-000-0000",
-                            openingHours: "00:00 ~ 00:00"
-                        },
-                    ];
-                    var itemsPerPage = 8;
-                    var currentPage = 1;
-                    var totalPages = Math.ceil(restaurants.length / itemsPerPage);
+                    // 대주소 선택 시
+                    $('#address1').change(function() {
+                        var address1 = $(this).val();
 
-                    function displayRestaurants(page) {
-                        var startIndex = (page - 1) * itemsPerPage;
-                        var endIndex = startIndex + itemsPerPage;
-                        var restaurantList = document.querySelector(".restaurant-list ul");
-                        restaurantList.innerHTML = "";
-                        for (var i = startIndex; i < endIndex && i < restaurants.length; i++) {
-                            var restaurant = restaurants[i];
-                            var listItem = document.createElement("li");
-                            listItem.classList.add("restaurant_item");
-                            var link = document.createElement("a");
-                            link.href = "#";
-                            link.classList.add("block");
-                            listItem.appendChild(link);
-                            var nameLink = document.createElement("a");
-                            nameLink.href = "#";
-                            nameLink.classList.add("block", "mt-4", "text-black", "font-bold", "text-base", "sm:text-lg");
-                            nameLink.innerHTML = "<span>" + restaurant.restaurantName + "</span>";
-                            link.appendChild(nameLink);
-                            var image = document.createElement("img");
-                            image.classList.add("block", "rounded");
-                            image.src = restaurant.image;
-                            image.alt = "";
-                            image.height = 300;
-                            image.width = 200;
-                            link.appendChild(image);
-                            var detailsLink = document.createElement("a");
-                            detailsLink.href = "#";
-                            detailsLink.classList.add("block", "mt-4", "text-gray-600", "text-sm");
-                            link.appendChild(detailsLink);
-                            var detailsSpan = document.createElement("span");
-                            detailsLink.appendChild(detailsSpan);
-                            var detailsHTML = `
-                        <p>${restaurant.description}</p>
-                    `;
-                            detailsSpan.innerHTML = detailsHTML;
-                            restaurantList.appendChild(listItem);
-                        }
-                    }
+                        // Reset the address2 and address3 select fields
+                        var address2Select = $('#address2');
+                        address2Select.empty();
+                        address2Select.append('<option value="">선택해주세요.</option>');
 
-                    function displayPagination() {
-                        var paginationList = document.querySelector(".pagination-list");
-                        paginationList.innerHTML = "";
-                        for (var i = 1; i <= totalPages; i++) {
-                            var listItem = document.createElement("li");
-                            var link = document.createElement("a");
-                            link.href = "#";
-                            link.innerText = i;
-                            listItem.appendChild(link);
-                            if (i === currentPage) {
-                                listItem.classList.add("active");
+                        var address3Select = $('#address3');
+                        address3Select.empty();
+                        address3Select.append('<option value="">선택해주세요.</option>');
+
+                        $.ajax({
+                            url: '/address/search/address2?address1=' + address1, // update as needed
+                            type: 'GET',
+                            success: function(response) {
+                                var address2Select = $('#address2');
+
+                                $.each(response, function(index, address2) {
+                                    address2Select.append('<option value="' + address2 + '">' + address2 + '</option>');
+                                });
+                            },
+                            error: function(jqXHR) {
+                                alert('중주소 정보를 가져오는 데 실패했습니다.');
                             }
-                            listItem.addEventListener("click", function() {
-                                currentPage = parseInt(this.innerText);
-                                displayRestaurants(currentPage);
-                                displayPagination();
-                            });
-                            paginationList.appendChild(listItem);
-                        }
-                    }
-                    displayRestaurants(currentPage);
-                    displayPagination();
+                        });
+                    });
+
+                    // 중주소 클릭 시, 소주소 리스트 받아오기
+                    $('#address2').change(function() {
+                        var address2 = $(this).val();
+
+                        $.ajax({
+                            url: '/address/search/address3?address2=' + address2, // update as needed
+                            type: 'GET',
+                            success: function(response) {
+                                var address3Select = $('#address3');
+                                address3Select.empty();
+                                address3Select.append('<option value="">선택해주세요.</option>');
+
+                                $.each(response, function(index, address3) {
+                                    address3Select.append('<option value="' + address3 + '">' + address3 + '</option>');
+                                });
+                                console.log(response);
+                            },
+                            error: function(jqXHR) {
+                                alert('소주소 정보를 가져오는 데 실패했습니다.');
+                            }
+                        });
+                    });
+
+                    // Search form submission handler
+                    $('.search-wrap').on('submit', function(e) {
+                        e.preventDefault();
+
+                        var address1 = $('#address1').val();
+                        var address2 = $('#address2').val();
+                        var address3 = $('#address3').val();
+
+                        // Navigate to the search results page with the address information in the query parameters
+                        window.location.href = '/restaurant/search?address1=' + encodeURIComponent(address1) +
+                            '&address2=' + encodeURIComponent(address2) +
+                            '&address3=' + encodeURIComponent(address3);
+                    });
                 </script>
             </div>
         </div>
     </main>
 </section>
-</body>
-
 </html>
