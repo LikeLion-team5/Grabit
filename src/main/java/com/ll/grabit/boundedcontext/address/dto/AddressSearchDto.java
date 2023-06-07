@@ -1,4 +1,4 @@
-package com.ll.grabit.boundedcontext.restaurant.dto;
+package com.ll.grabit.boundedcontext.address.dto;
 
 import lombok.Data;
 

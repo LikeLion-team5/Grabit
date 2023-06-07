@@ -55,5 +55,11 @@ public class Member {
         }
 
         return grantedAuthorities;
-}
     }
+
+    public void updateProfile(String nickname, String email, String phone) {
+        this.nickname = nickname;
+        this.email = email;
+        this.phone = phone;
+    }
+}

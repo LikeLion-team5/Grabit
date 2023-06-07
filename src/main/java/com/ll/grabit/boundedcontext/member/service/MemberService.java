@@ -2,6 +2,7 @@ package com.ll.grabit.boundedcontext.member.service;
 
 
 import com.ll.grabit.base.rsdata.RsData;
+import com.ll.grabit.boundedcontext.member.dto.MemberEditDto;
 import com.ll.grabit.boundedcontext.member.entity.Member;
 import com.ll.grabit.boundedcontext.member.form.MemberCreateDto;
 import com.ll.grabit.boundedcontext.member.repository.MemberRepository;
@@ -14,7 +15,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional()
 public class MemberService {
 
     private final PasswordEncoder passwordEncoder;
@@ -24,6 +25,16 @@ public class MemberService {
     public Optional<Member> findByUsername(String username) {
         return memberRepository.findByUsername(username);
     }
+
+    public Optional<Member> findById(Long memberId) {
+        return memberRepository.findById(memberId);
+    }
+
+    public Member findByIdElseThrow(Long memberId) {
+        return findById(memberId).orElseThrow();
+    }
+
+    public Optional<Member> findByNickname(String nickname) { return  memberRepository.findByNickname(nickname); }
 
     @Transactional
     public RsData<Member> join(MemberCreateDto memberCreateDto) {
@@ -36,17 +47,20 @@ public class MemberService {
         String phone = memberCreateDto.getPhone();
 
 
-        if (!password.equals(confirmPassword)){
-            return RsData.of("F-2","비밀번호와 비밀번호 확인이  일치하지 않습니다.");
+        if (!password.equals(confirmPassword)) {
+            return RsData.of("F-2", "비밀번호와 비밀번호 확인이  일치하지 않습니다.");
         }
 
         if (findByUsername(username).isPresent()) {
             return RsData.of("F-1", "해당 아이디(%s)는 이미 사용중입니다.".formatted(username));
         }
 
+        if (findByUsername(nickname).isPresent()) {
+            return RsData.of("F-3", "해당 닉네임(%s)은 이미 사용중입니다.".formatted(nickname));
+        }
 
-        return createAndSave(username, password, email, nickname, phone,"NORMAL");
 
+        return createAndSave(username, password, email , nickname, phone, "NORMAL");
 
 
     }
@@ -72,12 +86,32 @@ public class MemberService {
 
         if (opMember.isPresent()) return RsData.of("S-1", "로그인 되었습니다.", opMember.get());
 
-       return createAndSave(username,"","","","",providerTypeCode);
+        return createAndSave(username, "", "", "", "", providerTypeCode);
 
     }
 
-    public Member findById(Long id) {
-        return memberRepository.findById(id)
-                .orElseThrow();
+    @Transactional
+    public RsData<Member> edit(MemberEditDto memberEditDto, Long memberId) {
+
+        String nickname = memberEditDto.getNickname();
+        String email = memberEditDto.getEmail();
+        String phone = memberEditDto.getPhone();
+
+        Optional<Member> opMember = findById(memberId);
+
+        if (opMember.isEmpty()) {
+            return RsData.of("F-1", "존재하지않는 회원입니다.");
+        }
+
+        Member member = opMember.get();
+
+        if (!member.getNickname().equals(nickname) && findByNickname(nickname).isPresent()) {
+            return RsData.of("F-3", "해당 닉네임(%s)은 이미 사용중입니다.".formatted(nickname));
+        }
+
+        member.updateProfile(nickname, email, phone);
+
+        return RsData.of("S-2", "내 정보 수정이 완료되었습니다.", member);
     }
 }
+
