@@ -2,6 +2,7 @@ package com.ll.grabit.boundedcontext.restaurant.controller;
 
 import com.ll.grabit.boundedcontext.address.dto.AddressSearchDto;
 import com.ll.grabit.boundedcontext.address.entity.Address;
+import com.ll.grabit.boundedcontext.address.service.AddressService;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
@@ -27,10 +28,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.time.LocalTime;
+import java.util.*;
 
 
 @Controller
@@ -39,12 +38,14 @@ import java.util.Optional;
 public class RestaurantController {
     private final RestaurantService restaurantService;
 
+    private final AddressService addressService;
+
     @GetMapping("/register")
     public String restaurantRegister(Model model) {
         model.addAttribute("restaurantRegisterDto", new RestaurantRegisterDto());
         List<String> address1List = restaurantService.findAddress1();
         model.addAttribute("address1List", address1List);
-        return "tmp_reg_design";
+        return "/tmp/tmp_reg_design";
     }
 
     @PostMapping("/register")
@@ -110,17 +111,68 @@ public class RestaurantController {
     public String search(@ModelAttribute AddressSearchDto addressSearchDto,
                          @PageableDefault(page = 0, size = 8, sort = "restaurantId", direction = Sort.Direction.ASC) Pageable pageable,
                                    Model model){
+        //대주소 리스트
+        List<String> address1List = addressService.getAddress1List();
+        model.addAttribute("address1List", address1List);
+
         Page<Restaurant> restaurantList = restaurantService.search(addressSearchDto, pageable);
         model.addAttribute("restaurantList", restaurantList);
 
-        return "/usr/home/main";
+        model.addAttribute("maxPage", 10);
+
+//        return "/usr/home/main";
+        return "/tmp/tmp_list";
     }
+
+//    //Ajax 적용 시, 메인 페이지
+//    @GetMapping("/search/main")
+//    public String searchMainPage(@PageableDefault(page = 0, size = 8, sort = "restaurantId", direction = Sort.Direction.ASC) Pageable pageable,
+//                         Model model){
+//        //대주소 리스트
+//        List<String> address1List = addressService.getAddress1List();
+//        model.addAttribute("address1List", address1List);
+//
+//        //식당 리스트
+//        Page<Restaurant> restaurantList = restaurantService.getRestaurantList(pageable);
+//        model.addAttribute("restaurants", restaurantList);
+//
+//        return "/tmp/tmp_list";
+//    }
+//
+//    //Ajax 요청 시 결과
+//    @GetMapping("/search/ajax")
+//    @ResponseBody
+//    public ResponseEntity<?> searchAjax(
+//            AddressSearchDto addressSearchDto,
+//            @PageableDefault(page = 0, size = 8, sort = "restaurantId", direction = Sort.Direction.ASC) Pageable pageable,
+//                                 Model model){
+//        //주소값 필터링
+//        List<Address> addressList = null;
+//        if(!addressSearchDto.getAddress1().isEmpty()){
+//            addressList = addressService.getAddressList(addressSearchDto);
+//        }else{
+//            return new ResponseEntity<>("주소를 입력 해 주세요.", HttpStatusCode.valueOf(HTTPResponse.SC_BAD_REQUEST));
+//        }
+//
+//        //식당 리스트
+//        Page<Restaurant> restaurantList = restaurantService.getRestaurantList(pageable, addressList);
+//        model.addAttribute("maxPage", 10);
+//
+//        return new ResponseEntity<>(restaurantList, HttpStatusCode.valueOf(HTTPResponse.SC_OK));
+//    }
 
     //식당 클릭 시, 식당 1건 조회
     @GetMapping("/{restaurantId}")
     public String searchOne(@PathVariable Long restaurantId, Model model){
+        //식당 정보
         Restaurant findRestaurant = restaurantService.findOne(restaurantId);
         model.addAttribute("restaurant", findRestaurant);
+
+        //예약 가능 시간
+        int openTime = findRestaurant.getOpeningTime().getHour();
+        int closeTime = findRestaurant.getClosingTime().getHour();
+        List<String> reservationTimeList = getReservationTimeList(openTime, closeTime);
+        model.addAttribute("reservationTimeList", reservationTimeList);
 
         return "식당 상세보기 페이지";
     }
@@ -128,5 +180,23 @@ public class RestaurantController {
     @GetMapping("/restaurantInfo")
     public String showRestaurantInfo() {
         return "usr/restaurant/restaurantInfo";
+    }
+
+    private List<String> getReservationTimeList(int openTime, int closeTime){
+        List<String> reservationTimeList = new ArrayList<>();
+        if(openTime < closeTime){
+            //09:00 ~ 21:00
+            for(int i = openTime; i < closeTime; i++)
+                reservationTimeList.add(i+":00");
+        }else{
+            //21:00 ~ 05:00
+            for(int i = openTime; i <= 24; i++)
+                reservationTimeList.add(i+":00");
+
+            for(int i = 1; i < closeTime; i++)
+                reservationTimeList.add(i+":00");
+        }
+
+        return reservationTimeList;
     }
 }

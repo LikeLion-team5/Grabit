@@ -3,17 +3,11 @@ package com.ll.grabit.boundedcontext.restaurant.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ll.grabit.base.exception.NotFoundDataException;
-import com.ll.grabit.base.rsdata.RsData;
 import com.ll.grabit.base.s3.S3Uploader;
-<<<<<<< HEAD
 import com.ll.grabit.boundedcontext.address.dto.AddressSearchDto;
 import com.ll.grabit.boundedcontext.menu.dto.MenuRegisterDto;
 import com.ll.grabit.boundedcontext.menu.entity.Menu;
 import com.ll.grabit.boundedcontext.menu.repository.MenuRepository;
-import com.ll.grabit.boundedcontext.menu.service.MenuService;
-=======
-import com.ll.grabit.boundedcontext.restaurant.dto.AddressSearchDto;
->>>>>>> 0e001bbe008ed6caa0b8c9bb11661d290c318722
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
 import com.ll.grabit.boundedcontext.address.entity.Address;
@@ -199,5 +193,14 @@ public class RestaurantService {
 
     public List<String> findAddress1() {
         return addressRepository.address1List();
+    }
+
+    public Page<Restaurant> getRestaurantList(Pageable pageable) {
+        Page<Restaurant> result = restaurantRepository.findAll(pageable);
+        return result;
+    }
+
+    public Page<Restaurant> getRestaurantList(Pageable pageable, List<Address> addresses) {
+        return restaurantRepository.findByAddressIn(addresses, pageable);
     }
 }
