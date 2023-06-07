@@ -1,6 +1,6 @@
 package com.ll.grabit.boundedcontext.restaurant.repository;
 
-import com.ll.grabit.boundedcontext.restaurant.entity.Address;
+import com.ll.grabit.boundedcontext.address.entity.Address;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

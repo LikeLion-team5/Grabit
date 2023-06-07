@@ -1,11 +1,12 @@
 package com.ll.grabit.boundedcontext.restaurant.restaurant.service;
 
-import com.ll.grabit.boundedcontext.restaurant.dto.AddressSearchDto;
+import com.ll.grabit.base.rsdata.RsData;
+import com.ll.grabit.boundedcontext.address.dto.AddressSearchDto;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
-import com.ll.grabit.boundedcontext.restaurant.entity.Address;
+import com.ll.grabit.boundedcontext.address.entity.Address;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
-import com.ll.grabit.boundedcontext.restaurant.repository.AddressRepository;
+import com.ll.grabit.boundedcontext.address.repository.AddressRepository;
 import com.ll.grabit.boundedcontext.restaurant.repository.RestaurantRepository;
 import com.ll.grabit.boundedcontext.restaurant.service.RestaurantService;
 import jakarta.persistence.EntityManager;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
@@ -56,8 +58,10 @@ class RestaurantServiceTest {
         dto.setPerTimeMaxReservationCount(3);
 
 
+        Optional<Address> findAddress = restaurantService.findAddress(dto);
+
         //when
-        Restaurant saveRes = restaurantService.save(dto, null);
+        Restaurant saveRes = restaurantService.save(dto,findAddress.get(), null);
         Address address = saveRes.getAddress();
 
         em.flush();
@@ -77,6 +81,7 @@ class RestaurantServiceTest {
         //given
         Restaurant beforeRes = restaurantService.findOne(1L);
 
+
         //when
         RestaurantUpdateDto updateDto = new RestaurantUpdateDto();
         updateDto.setRestaurantName("식당수정");
@@ -90,6 +95,9 @@ class RestaurantServiceTest {
         updateDto.setEndTime("23:30");
         updateDto.setPerTimeMaxReservationCount(3);
         restaurantService.update(1L,updateDto, null);
+
+        em.flush();
+        em.clear();
 
         //then
         Restaurant afterRes = restaurantService.findOne(1L);
@@ -147,7 +155,6 @@ class RestaurantServiceTest {
         assertThat(search.getNumberOfElements()).isEqualTo(8);
         assertThat(search.getTotalElements()).isEqualTo(20);
         assertThat(search.getTotalPages()).isEqualTo(3);
-        assertThat(search.getNumberOfElements()).isEqualTo(8);
     }
     @Test
     @DisplayName("대주소 + 중주소 + 소주소로 식당 검색")
@@ -163,14 +170,12 @@ class RestaurantServiceTest {
         assertThat(search.getNumberOfElements()).isEqualTo(8);
         assertThat(search.getTotalElements()).isEqualTo(10);
         assertThat(search.getTotalPages()).isEqualTo(2);
-        assertThat(search.getNumberOfElements()).isEqualTo(8);
 
         addressSearchDto.setAddress3("창동");
         search = restaurantService.search(addressSearchDto, pageRequest);
         assertThat(search.getNumberOfElements()).isEqualTo(8);
         assertThat(search.getTotalElements()).isEqualTo(10);
         assertThat(search.getTotalPages()).isEqualTo(2);
-        assertThat(search.getNumberOfElements()).isEqualTo(8);
     }
 
 }

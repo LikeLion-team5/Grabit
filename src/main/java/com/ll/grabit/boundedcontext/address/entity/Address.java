@@ -1,4 +1,4 @@
-package com.ll.grabit.boundedcontext.restaurant.entity;
+package com.ll.grabit.boundedcontext.address.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -48,12 +48,14 @@
 
     <body>
     <section layout:fragment="content">
-        <main class="min-h-screen flex flex-col" style="background-color: #FEE8E8">
+        <main class="flex flex-col" style="background-color: #FEE8E8">
             <div class="flex-grow flex items-center justify-center">
                 <div class="max-w-3xl w-full px-4">
                     <form th:action method="POST" onsubmit="editForm__submit(this); return false;" th:object="${editInfo}">
                     <div class="form-control">
-                            <label class="label">
+
+                        
+                        <label class="label">
                                 <p><span class="label-text">닉네임</span></p>
                             </label>
                         <p><input type="text" placeholder="닉네임" th:field="*{nickname}" class="input input-bordered mb-4" id="nickname" /></p>

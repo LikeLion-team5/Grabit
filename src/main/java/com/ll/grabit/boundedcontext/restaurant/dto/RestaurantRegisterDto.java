@@ -1,10 +1,16 @@
 package com.ll.grabit.boundedcontext.restaurant.dto;
 
-import com.ll.grabit.boundedcontext.restaurant.entity.Address;
+import com.ll.grabit.boundedcontext.address.entity.Address;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.restaurant.entity.RestaurantType;
+import jakarta.annotation.Nonnull;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
@@ -12,6 +18,7 @@ import java.time.LocalTime;
 
 @Getter
 @Setter
+@Data
 public class RestaurantRegisterDto {
 
     @NotBlank(message = "식당 이름을 입력해주세요.")
@@ -27,7 +34,7 @@ public class RestaurantRegisterDto {
     private String address1;
     @NotBlank(message = "중주소를 입력해주세요.")
     private String address2;
-    @NotBlank(message = "소주소를 입력해주세요.")
+    @NotNull(message = "소주소를 입력해주세요.")
     private String address3;
     @NotBlank(message = "세부주소를 적어주세요.")
     private String detail_address;
@@ -38,8 +45,14 @@ public class RestaurantRegisterDto {
     @NotBlank(message = "영업마감 시간을 입력해주세요.")
     private String endTime;
 
-    @Range(min = 1L, max = 5L, message = "1~5 사이의 숫자를 입력해주세요.")
+    @Min(value = 1, message = "1이상 의 값을 입력해주세요.")
+    @Max(value = 5, message = "5이하의 값을 입력해주세요.")
+    @NotNull(message = "1~5 사이의 숫자를 입력해주세요.")
     private Integer perTimeMaxReservationCount;
+
+
+    private String menuRegisterDtoList;
+
 
     public Restaurant toEntity(Address address, LocalTime startTime, LocalTime endTime) {
         return Restaurant.builder()

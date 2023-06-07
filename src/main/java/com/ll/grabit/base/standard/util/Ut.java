@@ -1,4 +1,4 @@
-package com.ll.grabit.standard.util;
+package com.ll.grabit.base.standard.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
