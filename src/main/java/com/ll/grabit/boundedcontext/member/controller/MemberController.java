@@ -2,6 +2,7 @@ package com.ll.grabit.boundedcontext.member.controller;
 
 import com.ll.grabit.base.rq.Rq;
 import com.ll.grabit.base.rsdata.RsData;
+import com.ll.grabit.boundedcontext.member.dto.MemberEditDto;
 import com.ll.grabit.boundedcontext.member.entity.Member;
 import com.ll.grabit.boundedcontext.member.form.MemberCreateDto;
 import com.ll.grabit.boundedcontext.member.service.MemberService;
@@ -36,7 +37,6 @@ public class MemberController {
 
     @PostMapping("/join")
     public String join(@ModelAttribute MemberCreateDto memberCreateDto) {
-        memberCreateDto.setPhone(memberCreateDto.getPhone());
         RsData<Member> rsData = memberService.join(memberCreateDto);
 
         if (rsData.isFail()) {
@@ -69,7 +69,28 @@ public class MemberController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/editInfo")
-    public String showEditInfo() {
+    public String showEditInfo(Model model) {
+
+        Member member = memberService.findByUsername((rq.getMember().getUsername())).get();
+
+        MemberEditDto memberEditDto = MemberEditDto.builder()
+                .email(member.getEmail())
+                .phone(member.getPhone())
+                .nickname(member.getNickname())
+                .build();
+        model.addAttribute("editInfo", memberEditDto);
+
         return "usr/member/editInfo";
+    }
+
+    @PostMapping("/editInfo")
+    public String editInfo(MemberEditDto memberEditDto) {
+        RsData<Member> rsData = memberService.edit(memberEditDto, rq.getMember().getId());
+
+        if (rsData.isFail()) {
+            return "common/js";
+        }
+
+        return "redirect:/member/myInfo";
     }
 }
