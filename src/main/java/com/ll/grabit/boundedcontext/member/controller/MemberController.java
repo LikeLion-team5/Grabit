@@ -48,13 +48,14 @@ public class MemberController {
     }
 
     @GetMapping("/myInfo")
-    public String showMe(Model model) {
+    public String showMyInfo(Model model) {
         if(rq.isLogout()){
             return rq.historyBack("로그인이 필요합니다.");
         }
         Member member = memberService.findByUsername(rq.getMember().getUsername()).get();
 
         model.addAttribute("userInfo",member);
+        model.addAttribute("isMyInfoPage", true);
 
         return "usr/member/myInfo";
     }
