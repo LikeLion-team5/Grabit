@@ -1,0 +1,21 @@
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout/defaultLayout}"
+      layout:fragment="Content">
+<head>
+    <meta charset="UTF-8">
+    <title>리뷰 등록</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <form th:method="POST" th:action>
+        <input type="radio" name="rating" value="1"/>
+        <input type="radio" name="rating" value="2"/>
+        <input type="radio" name="rating" value="3"/>
+        <input type="radio" name="rating" value="4"/>
+        <input type="radio" name="rating" value="5" checked />
+        <input type="text" name="content" placeholder="내용">
+        <button type="submit">전송</button>
+    </form>
+</section>
+</body>
+</html>
