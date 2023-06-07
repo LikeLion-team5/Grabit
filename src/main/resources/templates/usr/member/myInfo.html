@@ -34,34 +34,32 @@
                         <div class="bg-white rounded-md mb-5 px-6 py-3 flex justify-center items-center">
                             <h2 class="text-xl text-red-400 font-semibold">내 정보</h2>
                         </div>
-                        <div class="max-w-3xl bg-white rounded-lg shadow-lg p-5 h-[200px] md:h-[150px] mx-auto mb-5 items-center justify-center relative">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="flex items-center">
-                                    <i class="fa-solid fa-user custom-icon"></i>
-                                    <!-- 프로필 사진
-                                    <img src="경로/프로필사진.jpg" alt="프로필 사진" class="w-auto h-auto rounded-full mr-10">
-                                    -->
-                                    <div class="ml-7" >
-                                        <div>
-                                            <h2>별명</h2>
-                                            <h2 class="text-2xl font-bold mt-0 mb-5" th:text="${userInfo.nickname}">그래빗</h2>
+                    </div>
+                    <div class="max-w-3xl bg-white rounded-lg shadow-lg p-5 h-[300px] md:h-[150px] mx-auto mb-5 items-center justify-center relative">
+                        <div class="flex items-center justify-center md:justify-between mb-4">
+                            <div class="flex items-center flex-col md:flex-row">
+                                <i class="fa-solid fa-user custom-icon"></i>
+                                <!-- 프로필 사진
+                                <img src="경로/프로필사진.jpg" alt="프로필 사진" class="w-auto h-auto rounded-full mr-10">
+                                -->
+                                <div class="md:ml-7">
+                                    <div class="flex justify-center md:justify-start">
+                                        <h2 class="text-2xl font-bold mt-3 md:mt-1 mb-3" th:text="${userInfo.username}">그래빗</h2>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <div class="flex flex-col md:flex-row">
+                                            <p>이메일 <span class="hidden md:inline mr-1">:</span></p>
+                                            <p th:text="${userInfo.email}">grabit@example.com</p>
                                         </div>
-                                        <div class="flex flex-col">
-                                            <div class="flex flex-col md:flex-row">
-                                                <p>이메일 <span class="hidden md:inline mr-1">:</span></p>
-                                                <p th:text="${userInfo.email}">grabit@example.com</p>
-                                            </div>
-                                            <div class="flex flex-col md:flex-row">
-                                                <p>전화번호 <span class="hidden md:inline mr-1">:</span></p>
-                                                <p th:text="${userInfo.phone}">123-456-7890</p>
-                                            </div>
-
+                                        <div class="flex flex-col md:flex-row">
+                                            <p>전화번호 <span class="hidden md:inline mr-1">:</span></p>
+                                            <p th:text="${userInfo.phone}">123-456-7890</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="self-start absolute right-5">
-                              <li sec:authorize="isAuthenticated()" ><a th:href="@{/member/editInfo}"> <i class="text-red-500 rounded text-lg flex-nowrap"></i>정보 수정</a></li>
+                                <button sec:authorize="isAuthenticated()" th:href="@{/member/editInfo}" class="text-red-500 rounded text-lg">전체 보기</button>
                             </div>
                         </div>
                     </div>
