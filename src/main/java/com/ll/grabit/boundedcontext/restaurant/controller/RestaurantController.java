@@ -120,8 +120,8 @@ public class RestaurantController {
 
         model.addAttribute("maxPage", 10);
 
-//        return "/usr/home/main";
-        return "/tmp/tmp_list";
+        return "/usr/home/main";
+
     }
 
 //    //Ajax 적용 시, 메인 페이지
