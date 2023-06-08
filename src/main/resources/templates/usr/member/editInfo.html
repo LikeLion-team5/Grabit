@@ -1,4 +1,7 @@
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{common/layout/defaultLayout}" layout:fragment="Content" xmlns="http://www.w3.org/1999/html">
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout/defaultLayout}">
+
 <head>
     <title>내 정보 수정하기</title>
     <script>
@@ -37,8 +40,8 @@
 </head>
 
 <body>
-<section layout:fragment="content">
-    <main class="flex flex-col" style="background-color: #FEE8E8">
+<th:block layout:fragment="Content">
+    <main class="flex flex-1 flex-col">
         <div class="flex-grow flex items-center justify-center">
             <div class="max-w-3xl w-full px-4">
                 <form th:action method="POST" onsubmit="editForm__submit(this); return false;" th:object="${editInfo}">
@@ -94,6 +97,6 @@
             </div>
         </div>
     </main>
-</section>
+</th:block>
 </body>
 </html>

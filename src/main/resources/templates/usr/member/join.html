@@ -1,7 +1,6 @@
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layout/defaultLayout}"
-      layout:fragment="Content">
+      layout:decorate="~{common/layout/defaultLayout}">
 
     <head>
 
@@ -43,8 +42,8 @@
     </head>
 
     <body>
-    <section layout:fragment="content">
-        <main class="flex flex-col" style="background-color: #FEE8E8">
+    <th:block layout:fragment="Content">
+        <main class="flex flex-1 flex-col">
             <div class="flex-grow flex items-center justify-center">
                 <div class="max-w-3xl w-full px-4">
                     <form th:action method="POST" onsubmit="JoinForm__submit(this); return false;">
@@ -93,7 +92,7 @@
                 </div>
             </div>
         </main>
-    </section>
+    </th:block>
     </body>
 
     <style>

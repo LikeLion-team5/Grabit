@@ -1,7 +1,6 @@
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layout/defaultLayout}"
-      layout:fragment="Content" xmlns:sec="http://www.w3.org/1999/xhtml">
+      layout:decorate="~{common/layout/defaultLayout}">
 
     <head>
         <title>내 정보</title>
@@ -26,8 +25,8 @@
     </style>
 
     <body>
-    <section layout:fragment="content">
-        <main class="flex flex-col" style="background-color: #FEE8E8">
+    <th:block layout:fragment="Content">
+        <main class="flex flex-1 flex-col">
             <div class="flex-grow flex items-center justify-center">
                 <div class="max-w-3xl w-full mt-5 px-4">
                     <div class="flex w-full justify-between">
@@ -55,7 +54,6 @@
                                                 <p>전화번호 <span class="hidden md:inline mr-1">:</span></p>
                                                 <p th:text="${userInfo.phone}">123-456-7890</p>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -201,6 +199,6 @@
                 </div>
             </div>
         </main>
-    </section>
+    </th:block>
     </body>
 </html>
