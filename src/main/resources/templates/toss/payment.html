@@ -5,36 +5,48 @@
 </head>
 
 <body>
-<section>
-  <!-- ... -->
-  <span>총 주문금액</span>
-  <span>15,000 원</span>
-  <button onclick="payment()">15,000원 결제하기</button>
-</section>
+  <section>
+    <!-- ... -->
+    <span>총 주문금액</span>
+    <span>15,000 원</span>
+    <button onclick="payment()">15,000원 결제하기</button>
+  </section>
+
+  <script src="https://js.tosspayments.com/v1/payment"></script>
+
+
+
+  <script th:inline="javascript">
+    const clientKey = "test_ck_7XZYkKL4Mrjg6qGRJ2L80zJwlEWR";
+    const tossPayments = TossPayments(clientKey);
+
+
+    function payment() {
+      const method = "카드"; // "카드" 혹은 "가상계좌"
+      const uuid = createUUID();
+      const restaurant_id  = [[ ${restaurant.restaurantId} ]];
+      const orderId = restaurant_id + "_" + uuid;
+      const buyerName = [[ ${member.username} ]];
+
+      const paymentData = {
+        amount: 10000,
+        orderId: orderId,
+        orderName: "식당 예약",
+        customerName: buyerName,
+        successUrl: window.location.origin + "/" + restaurant_id + "/success",
+        failUrl: window.location.origin + "/" + restaurant_id + "/fail",
+      };
+      tossPayments.requestPayment(method, paymentData);
+    }
+
+    function createUUID() {
+      return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+              (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+      );
+    }
+
+
+  </script>
 </body>
-
-<script src="https://js.tosspayments.com/v1/payment"></script>
-<script>
-
-  const clientKey = "test_ck_7XZYkKL4Mrjg6qGRJ2L80zJwlEWR";
-  const tossPayments = TossPayments(clientKey);
-
-  function payment() {
-    const method = "카드"; // "카드" 혹은 "가상계좌"
-
-    const paymentData = {
-      amount: 10000,
-      orderId: "Y6pPMnYP-d1ggC4fIcxjn",
-      orderName: "토스 티셔츠 외 2건",
-      customerName: "박토스",
-      successUrl: window.location.origin +  "/success",
-      failUrl: window.location.origin +  "/fail"
-    };
-
-    tossPayments.requestPayment(method, paymentData);
-  }
-
-
-</script>
 
 </html>

@@ -48,6 +48,7 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant", orphanRemoval = true)
     private List<Menu> menuList = new ArrayList<>();
 
+
     @Builder
     public Restaurant(String restaurantName, String description, RestaurantType type, Address address, String detail_address, LocalTime openingTime, LocalTime closingTime, Integer perTimeMaxReservationCount) {
         this.restaurantName = restaurantName;

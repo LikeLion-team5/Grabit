@@ -3,36 +3,33 @@ package com.ll.grabit.boundedcontext.payment.eneity;
 import com.ll.grabit.boundedcontext.member.entity.Member;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
-@Getter
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long paymentId;
 
-    private String status;
+    private String paymentKey;
+    private String orderId;
 
-    private Integer reservationPrice;
+    private Integer amount;
 
-    private Integer numberOfPeople;
-
-    private LocalDate 방문날짜;
-    private LocalTime 방문시간;
-
+    private LocalDateTime payedDate;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
-
-    @ManyToOne
-    @JoinColumn(name = "restaurant_id")
-    private Restaurant restaurant;
-
-
-
 }
+
