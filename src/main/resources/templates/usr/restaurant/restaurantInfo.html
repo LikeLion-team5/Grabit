@@ -16,14 +16,14 @@
                             <img src="https://i.postimg.cc/MKRjtWYH/IMG-4678-1024x742.jpg" alt="프로필 사진" class="w-32 h-32 sm:w-40 sm:h-40 rounded mr-5">
                             <div class="ml-2">
                                 <div class="md:flex md:items-center sm:flex-row flex-col">
-                                    <h2 class="text-2xl font-bold mt-0">식당 이름</h2>
+                                    <h2 class="text-2xl font-bold mt-0" th:text="${restaurant.restaurantName}"></h2>
                                     <div class="md:flex md:ml-3 sm:ml-0">
                                         <a class="normal-case text-base" style="cursor: pointer">
                                             <i class="fas fa-star text-yellow-500 mr-1"></i>4.5 (554)</a>
                                     </div>
                                 </div>
                                 <div class="flex flex-col">
-                                    <p class="mt-1">식당 소개입니다.</p>
+                                    <p class="mt-1" th:text="${restaurant.description}"></p>
 
                                     <div class="flex flex-col sm:flex-row mt-2">
                                         <div>
@@ -38,7 +38,7 @@
 
                                     <div class="mt-2">
                                         <p class="font-bold">주소</p>
-                                        <p>서울특별시 서초구 양재동 264-7</p>
+                                        <p th:text="${restaurant.address.address1} + ' ' + ${restaurant.address.address2} + ' ' + ${restaurant.address.address3} + ' ' + ${restaurant.detail_address}"></p>
                                     </div>
                                 </div>
                             </div>
@@ -125,14 +125,7 @@
                                 <label for="reservation-time" class="block text-sm font-medium text-gray-700">시간</label>
                                 <select id="reservation-time" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                     <option selected disabled>예약 시간 선택</option>
-                                    <option value="09:00">09:00</option>
-                                    <option value="09:30">09:30</option>
-                                    <option value="10:00">10:00</option>
-                                    <option value="10:30">10:30</option>
-                                    <option value="11:00">11:00</option>
-                                    <option value="11:30">11:30</option>
-                                    <option value="12:00">12:00</option>
-                                    <option value="12:30">12:30</option>
+                                    <option th:each="time : ${reservationTimeList}" th:value="${time}" th:text="${time}"></option>
                                 </select>
                             </div>
                             <div class="mb-4">
@@ -149,6 +142,49 @@
             <div class="flex justify-center mt-4">
                 <button type="submit" class="text-red-500 py-3 px-20 rounded-lg shadow-md text-lg mb-10" style="background-color: white;">예약하기</button>
             </div>
+
+            <script>
+                function submitReservation() {
+                    // 예약 정보 수집
+                    var name = document.getElementById('name').value;
+                    var phone = document.getElementById('phone').value;
+                    var date = document.getElementById('date').value;
+                    var time = document.getElementById('reservation-time').value;
+                    var partySize = document.getElementById('party-size').value;
+
+                    // 예약 정보 유효성 검사 (예: 필수 필드 체크)
+
+                    // 예약 정보 객체 생성
+                    var reservation = {
+                        name: name,
+                        phone: phone,
+                        date: date,
+                        time: time,
+                        partySize: partySize
+                    };
+
+                    // 백엔드 API 엔드포인트로 예약 정보 전송
+                    fetch('/api/reservations', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(reservation)
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            // 예약 성공 시 처리 로직
+                            console.log('예약이 성공적으로 완료되었습니다.');
+                        })
+                        .catch(error => {
+                            // 예약 실패 시 처리 로직
+                            console.error('예약 도중 오류가 발생했습니다:', error);
+                        });
+                }
+
+            </script>
+
+
         </div>
     </main>
 </section>
