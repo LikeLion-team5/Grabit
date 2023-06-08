@@ -54,9 +54,19 @@ public class NotProd {
                     .phone("01012345678")
                     .build();
 
+            MemberCreateDto memberCreateDto4 = MemberCreateDto.builder()
+                    .username("admin")
+                    .password("1234")
+                    .confirmPassword("1234")
+                    .email("admin@example.com")
+                    .nickname("관리자")
+                    .phone("01012345678")
+                    .build();
+
             memberService.join(memberCreateDto1);
             memberService.join(memberCreateDto2);
             memberService.join(memberCreateDto3);
+            memberService.join(memberCreateDto4);
 
             MultipartFile multipartFile = null;
 

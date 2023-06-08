@@ -51,7 +51,7 @@ public class Member {
         grantedAuthorities.add(new SimpleGrantedAuthority("member"));
 
         if ("admin".equals(username)) {
-            grantedAuthorities.add(new SimpleGrantedAuthority("user1"));
+            grantedAuthorities.add(new SimpleGrantedAuthority("admin"));
         }
 
         return grantedAuthorities;
