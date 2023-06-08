@@ -23,7 +23,9 @@ public class ReservationController {
         this.reservationService = reservationService;
     }
 
-    @PostMapping
+
+
+    @PostMapping("/check")
     public ResponseEntity<Long> createReservation(@RequestBody ReservationRequestDto reservationDto) {
         Long reservationId = reservationService.createReservation(reservationDto);
         return ResponseEntity.ok(reservationId);

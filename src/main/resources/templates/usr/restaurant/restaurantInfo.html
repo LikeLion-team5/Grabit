@@ -28,7 +28,7 @@
                                     <div class="flex flex-col sm:flex-row mt-2">
                                         <div>
                                             <p class="font-bold">영업 시간</p>
-                                            <p>09:00 ~ 22:00</p>
+                                            <p th:text="${restaurant.openingTime} + ' ~ ' + ${restaurant.closingTime}"></p>
                                         </div>
                                         <div class="md:ml-10 md:mt-0 mt-2">
                                             <p class="font-bold">전화번호</p>
@@ -108,7 +108,7 @@
                     </div>
                     <h3 class="text-lg font-bold pt-5">예약하기</h3>
                     <div class="bg-gray-100 p-4 rounded-lg mt-2">
-                        <form>
+                        <form onsubmit="submitReservationForm(this)">
                             <div class="mb-4">
                                 <label for="name" class="block text-sm font-medium text-gray-700">이름</label>
                                 <input type="text" id="name" name="name" class="bg-white border border-gray-300 rounded-md p-2 w-full">
@@ -144,46 +144,45 @@
             </div>
 
             <script>
-                function submitReservation() {
-                    // 예약 정보 수집
-                    var name = document.getElementById('name').value;
-                    var phone = document.getElementById('phone').value;
-                    var date = document.getElementById('date').value;
-                    var time = document.getElementById('reservation-time').value;
-                    var partySize = document.getElementById('party-size').value;
+                function submitReservationForm(form) {
+                    form.name.value = form.name.value.trim();
+                    form.phone.value = form.phone.value.trim();
+                    form.date.value = form.date.value.trim();
+                    form.partySize.value = form.partySize.value.trim();
 
-                    // 예약 정보 유효성 검사 (예: 필수 필드 체크)
+                    if (form.name.value === '') {
+                        alert('이름을 입력해주세요.');
+                        form.name.focus();
+                        return;
+                    }
 
-                    // 예약 정보 객체 생성
-                    var reservation = {
-                        name: name,
-                        phone: phone,
-                        date: date,
-                        time: time,
-                        partySize: partySize
-                    };
+                    if (form.phone.value === '') {
+                        alert('전화번호를 입력해주세요.');
+                        form.phone.focus();
+                        return;
+                    }
 
-                    // 백엔드 API 엔드포인트로 예약 정보 전송
-                    fetch('/api/reservations', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(reservation)
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            // 예약 성공 시 처리 로직
-                            console.log('예약이 성공적으로 완료되었습니다.');
-                        })
-                        .catch(error => {
-                            // 예약 실패 시 처리 로직
-                            console.error('예약 도중 오류가 발생했습니다:', error);
-                        });
+                    if (form.date.value === '') {
+                        alert('날짜를 선택해주세요.');
+                        form.date.focus();
+                        return;
+                    }
+
+                    if (form.reservationTime.value === '') {
+                        alert('예약 시간을 선택해주세요.');
+                        form.reservationTime.focus();
+                        return;
+                    }
+
+                    if (form.partySize.value === '') {
+                        alert('인원 수를 입력해주세요.');
+                        form.partySize.focus();
+                        return;
+                    }
+
+                    form.submit();
                 }
-
             </script>
-
 
         </div>
     </main>
