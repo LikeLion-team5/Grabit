@@ -1,0 +1,40 @@
+<html>
+
+<head>
+  <meta charset="utf-8" />
+</head>
+
+<body>
+<section>
+  <!-- ... -->
+  <span>총 주문금액</span>
+  <span>15,000 원</span>
+  <button onclick="payment()">15,000원 결제하기</button>
+</section>
+</body>
+
+<script src="https://js.tosspayments.com/v1/payment"></script>
+<script>
+
+  const clientKey = "test_ck_7XZYkKL4Mrjg6qGRJ2L80zJwlEWR";
+  const tossPayments = TossPayments(clientKey);
+
+  function payment() {
+    const method = "카드"; // "카드" 혹은 "가상계좌"
+
+    const paymentData = {
+      amount: 10000,
+      orderId: "Y6pPMnYP-d1ggC4fIcxjn",
+      orderName: "토스 티셔츠 외 2건",
+      customerName: "박토스",
+      successUrl: window.location.origin +  "/success",
+      failUrl: window.location.origin +  "/fail"
+    };
+
+    tossPayments.requestPayment(method, paymentData);
+  }
+
+
+</script>
+
+</html>
