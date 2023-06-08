@@ -1,0 +1,54 @@
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>리뷰 등록</title>
+</head>
+<body>
+<th:block layout:fragment="Content">
+    <main class="flex flex-1 flex-col">
+        <div class="flex-grow flex items-center justify-center">
+            <form th:method="POST" th:action class="max-w-3xl w-full mt-5 px-4">
+                <div class="flex w-full justify-between">
+                    <div class="bg-white rounded-lg mb-5 px-6 py-3 flex justify-center items-center">
+                        <h2 class="text-xl text-red-400 font-semibold">리뷰 등록</h2>
+                    </div>
+                </div>
+                <div class="text-black max-w-3xl bg-white rounded-lg shadow-lg py-5 px-8 h-[300px] md:h-[500px] mx-auto mb-5 flex flex-col">
+                    <div class="flex justify-between border-b pb-2">
+                        <div>
+                            <span class="font-bold">그래빗 식당</span>
+                        </div>
+                        <div>
+                            <span>2023-05-23</span>
+                        </div>
+                    </div>
+                    <div class="flex mt-4 flex-1 h-full">
+                        <div class="flex flex-col w-full">
+                            <div class="flex items-center mb-4">
+                                <span>평점</span>
+                                <div class="rating ml-2">
+                                    <input type="radio" name="rating" class="mask mask-star bg-warning" value="1"/>
+                                    <input type="radio" name="rating" class="mask mask-star bg-warning" value="2"/>
+                                    <input type="radio" name="rating" class="mask mask-star bg-warning" value="3"/>
+                                    <input type="radio" name="rating" class="mask mask-star bg-warning" value="4"/>
+                                    <input type="radio" name="rating" class="mask mask-star bg-warning" value="5" checked />
+                                </div>
+                            </div>
+                            <div class="flex flex-1 w-full">
+                                <textarea id="content" name="content" class="flex-1 resize-none focus:outline-none" placeholder="내용을 입력해주세요"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="rounded-lg mb-5 px-6 flex justify-center">
+                        <button type="submit" class="text-xl text-red-400 font-semibold bg-white py-3 px-20 rounded-xl">등록하기</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+</th:block>
+</body>
+</html>
