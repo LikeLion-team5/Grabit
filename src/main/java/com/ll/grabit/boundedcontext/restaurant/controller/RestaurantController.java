@@ -66,14 +66,22 @@ public class RestaurantController {
         }
 
         //주소123 을 가지고 Address 조회
+        System.out.println(restaurantRegisterDto.getAddress1());
+        System.out.println(restaurantRegisterDto.getAddress2());
+        System.out.println(restaurantRegisterDto.getAddress3());
         Address address = null;
         if (restaurantRegisterDto.getAddress1() != "" && restaurantRegisterDto.getAddress2() != "" && restaurantRegisterDto.getAddress3().isEmpty()) {
+            //address 1 ~ 2 만 있는 경우
             restaurantRegisterDto.setAddress3("");
             Optional<Address> findAddress = restaurantService.findAddress(restaurantRegisterDto);
             if (!findAddress.isPresent()) {
                 errors.put("addressGlobalError", "올바른 형식의 주소를 입력해주세요.");
                 return new ResponseEntity<>(errors, HttpStatusCode.valueOf(HTTPResponse.SC_BAD_REQUEST));
             }
+            address = findAddress.get();
+        } else {
+            //address 1 ~ 3 모두 입력하는 상황
+            Optional<Address> findAddress = restaurantService.findAddress(restaurantRegisterDto);
             address = findAddress.get();
         }
         restaurantService.save(restaurantRegisterDto, address, file);
