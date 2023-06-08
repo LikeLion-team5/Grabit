@@ -64,4 +64,8 @@ public class Rq {
         req.setAttribute("alertMsg", msg);
         return "common/js";
     }
+
+    public String currentPageUrl() {
+        return req.getRequestURI();
+    }
 }
