@@ -23,9 +23,9 @@
                     </select>
                 </div>
                 <div th:if="${#lists.isEmpty(reviewList)}">
-                    <div class="text-gray-400 max-w-3xl bg-white rounded-lg shadow-lg p-5 h-[600px] mb-5 flex justify-center items-center">
+                    <div class="text-gray-400 max-w-3xl bg-white rounded-lg shadow-lg p-5 h-[200px] mb-5 flex justify-center items-center">
                         <span class="mr-1">리뷰가 존재하지 않습니다</span>
-                        <i class="fa-regular fa-face-sad-tear" style="position:relative; top:1px;"></i>
+                        <i class="fa-regular fa-face-sad-tear" style="position:relative; top:-1px;"></i>
                     </div>
                 </div>
                 <ul th:if="${!#lists.isEmpty(reviewList)}">
@@ -54,8 +54,8 @@
                                 </div>
                             </div>
                             <div class="flex justify-end">
-                                <button class="text-red-400"><a th:href="@{|/review/modify/${review.id}|}">수정</a></button>
-                                <button class="text-red-400 ml-4"><a th:href="@{|/review/delete/${review.id}|}">삭제</a></button>
+                                <a class="text-red-400 mr-5" th:href="@{|/review/modify/${review.id}|}">수정</a>
+                                <a class="text-red-400" th:href="@{|/review/delete/${review.id}|}" onclick="return confirm('정말로 삭제하시겠습니까?');">삭제</a>
                             </div>
                         </div>
                     </li>

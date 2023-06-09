@@ -11,3 +11,4 @@ public class AddReviewForm {
     private int rating;
     private String content;
 }
+
