@@ -18,7 +18,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ReviewService {
 
@@ -39,6 +39,7 @@ public class ReviewService {
         return RsData.of("S-1", "리뷰가 생성되었습니다.", review);
     }
 
+    @Transactional
     private Review createAndSave(String content, int rating, Long restaurantId, Long reviewerId) {
         Restaurant restaurant = restaurantService.findOne(restaurantId);
         Member reviewer = memberService.findByIdElseThrow(reviewerId);
@@ -75,6 +76,7 @@ public class ReviewService {
         return RsData.of("S-1", "리뷰수정 가능합니다.");
     }
 
+    @Transactional
     public RsData edit(Long id, Review updatedReview) {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("리뷰를 찾을 수 없습니다. " + id));
@@ -97,6 +99,7 @@ public class ReviewService {
         return RsData.of("S-1", "삭제가 가능합니다.");
     }
 
+    @Transactional
     public RsData delete(Review review) {
         reviewRepository.delete(review);
 
