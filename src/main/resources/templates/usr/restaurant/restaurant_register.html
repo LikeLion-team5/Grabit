@@ -224,7 +224,11 @@
       }
       formData.append('menuRegisterDtoList', JSON.stringify(menus));
 
-      console.log(formData);
+
+      // CSRF 토큰
+      var header = $("meta[name='_csrf_header']").attr('content');
+      var token = $("meta[name='_csrf']").attr('content');
+
 
       $.ajax({
         url: '/restaurant/register', // your api url
@@ -232,6 +236,11 @@
         processData: false,  // tell jQuery not to process the data
         contentType: false,  // tell jQuery not to set contentType
         data: formData,
+
+        //CSRF 토큰 값 세팅
+        beforeSend: function(xhr){
+          xhr.setRequestHeader(header, token);
+        },
         success: function(response) {
           alert('식당이 성공적으로 등록되었습니다.');
           window.location.href = '/';

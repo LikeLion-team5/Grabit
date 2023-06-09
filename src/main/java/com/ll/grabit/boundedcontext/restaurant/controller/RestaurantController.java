@@ -20,6 +20,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,14 +41,16 @@ public class RestaurantController {
 
     private final AddressService addressService;
 
+    @PreAuthorize("isAuthenticated() and hasAuthority('admin')")
     @GetMapping("/register")
     public String restaurantRegister(Model model) {
         model.addAttribute("restaurantRegisterDto", new RestaurantRegisterDto());
         List<String> address1List = restaurantService.findAddress1();
         model.addAttribute("address1List", address1List);
-        return "/tmp/tmp_reg_design";
+        return "usr/restaurant/restaurant_register";
     }
 
+    @PreAuthorize("isAuthenticated() and hasAuthority('admin')")
     @PostMapping("/register")
     @ResponseBody
     public ResponseEntity<?> restaurantRegister(@ModelAttribute @Valid RestaurantRegisterDto restaurantRegisterDto,
@@ -89,6 +92,7 @@ public class RestaurantController {
         return new ResponseEntity<>("등록 성공", HttpStatusCode.valueOf(HTTPResponse.SC_OK));
     }
 
+    @PreAuthorize("isAuthenticated() and hasAuthority('admin')")
     @GetMapping("/{restaurantId}/edit")
     public String update(@PathVariable("restaurantId") Long id, RestaurantUpdateDto restaurantUpdateDto,
                          Model model) {
@@ -96,6 +100,7 @@ public class RestaurantController {
         return "registerForm";
     }
 
+    @PreAuthorize("isAuthenticated() and hasAuthority('admin')")
     @PostMapping("/{restaurantId}/edit")
     public String update(@PathVariable("restaurantId") Long id, @ModelAttribute @Valid RestaurantUpdateDto restaurantUpdateDto,
                          BindingResult bindingResult,
@@ -107,6 +112,7 @@ public class RestaurantController {
         return "home";
     }
 
+    @PreAuthorize("isAuthenticated() and hasAuthority('admin')")
     @PostMapping("/{restaurantId}/delete")
     public String delete(@PathVariable("restaurantId") Long id){
         restaurantService.delete(id);
@@ -116,6 +122,7 @@ public class RestaurantController {
 
     //메인 페이지(Ajax 이용할 예정이라, 추후 수정 예정)
     @GetMapping("/search")
+    @PreAuthorize("isAnonymous()")
     public String search(@ModelAttribute AddressSearchDto addressSearchDto,
                          @PageableDefault(page = 0, size = 8, sort = "restaurantId", direction = Sort.Direction.ASC) Pageable pageable,
                                    Model model){
