@@ -1,14 +1,28 @@
 package com.ll.grabit.boundedcontext.reservation.dto;
 
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class ReservationRequestDto {
+    @NotBlank
     private String name;
+    @NotBlank
     private String phone;
+    @Future
+    @NotNull
     private LocalDate date;
-    private LocalTime time;
+    @NotNull
+    private LocalTime reservationTime;
+    @NotNull
     private int partySize;
+    @NotNull
+    private Long memberId;
+    @NotNull
+    private Long restaurantId;
 
     public String getName() {
         return name;
@@ -22,8 +36,16 @@ public class ReservationRequestDto {
         return date;
     }
 
-    public LocalTime getTime() {
-        return time;
+    public LocalTime getReservationTime() {
+        return reservationTime;
+    }
+
+    public Long getMemberId() {
+        return memberId;
+    }
+
+    public Long getRestaurantId() {
+        return restaurantId;
     }
 
     public int getPartySize() {
@@ -43,11 +65,19 @@ public class ReservationRequestDto {
         this.date = date;
     }
 
-    public void setTime(LocalTime time) {
-        this.time = time;
+    public void setReservationTime(LocalTime reservationTime) {
+        this.reservationTime = reservationTime;
     }
 
     public void setPartySize(int partySize) {
         this.partySize = partySize;
+    }
+
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
+    }
+
+    public void setRestaurantId(Long restaurantId) {
+        this.restaurantId = restaurantId;
     }
 }

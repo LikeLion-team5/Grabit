@@ -8,8 +8,11 @@ public class ReservationResponseDto {
     private String name;
     private String phone;
     private LocalDate date;
-    private LocalTime time;
+    private LocalTime reservationTime;
     private int partySize;
+    private Long memberId;
+    private Long restaurantId;
+    private String restaurantName;
 
     public Long getReservationId() {
         return reservationId;
@@ -27,12 +30,28 @@ public class ReservationResponseDto {
         return date;
     }
 
-    public LocalTime getTime() {
-        return time;
+    public LocalTime getReservationTime() {
+        return reservationTime;
     }
 
     public int getPartySize() {
         return partySize;
+    }
+
+    public Long getMemberId() {
+        return memberId;
+    }
+
+    public Long getRestaurantId() {
+        return restaurantId;
+    }
+
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
     }
 
     public void setReservationId(Long reservationId) {
@@ -51,14 +70,19 @@ public class ReservationResponseDto {
         this.date = date;
     }
 
-    public void setTime(LocalTime time) {
-        this.time = time;
+    public void setReservationTime(LocalTime reservationTime) {
+        this.reservationTime = reservationTime;
     }
 
     public void setPartySize(int partySize) {
         this.partySize = partySize;
     }
 
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
+    }
 
-
+    public void setRestaurantId(Long restaurantId) {
+        this.restaurantId = restaurantId;
+    }
 }

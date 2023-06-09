@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>식당 정보</title>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <meta name="_csrf" th:content="${_csrf.token}">
 </head>
 <body>
 <section layout:fragment="content">
@@ -108,7 +110,8 @@
                     </div>
                     <h3 class="text-lg font-bold pt-5">예약하기</h3>
                     <div class="bg-gray-100 p-4 rounded-lg mt-2">
-                        <form onsubmit="submitReservationForm(this)">
+                        <form id="reservationForm" action="/reservation/reservation" method="post">
+                            <input type="hidden" name="restaurantId" th:value="${restaurant.restaurantId}" >
                             <div class="mb-4">
                                 <label for="name" class="block text-sm font-medium text-gray-700">이름</label>
                                 <input type="text" id="name" name="name" class="bg-white border border-gray-300 rounded-md p-2 w-full">
@@ -122,8 +125,8 @@
                                 <input type="date" id="date" name="date" class="bg-white border border-gray-300 rounded-md p-2 w-full">
                             </div>
                             <div class="mb-4">
-                                <label for="reservation-time" class="block text-sm font-medium text-gray-700">시간</label>
-                                <select id="reservation-time" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                <label for="reservationTime" class="block text-sm font-medium text-gray-700">시간</label>
+                                <select id="reservationTime" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                     <option selected disabled>예약 시간 선택</option>
                                     <option th:each="time : ${reservationTimeList}" th:value="${time}" th:text="${time}"></option>
                                 </select>
@@ -132,55 +135,87 @@
                                 <label for="party-size" class="block text-sm font-medium text-gray-700">인원 수</label>
                                 <input type="number" id="party-size" name="party-size" min="1" class="bg-white border border-gray-300 rounded-md p-2 w-full">
                             </div>
-
                         </form>
-
                     </div>
-
                 </div>
             </div>
             <div class="flex justify-center mt-4">
-                <button type="submit" class="text-red-500 py-3 px-20 rounded-lg shadow-md text-lg mb-10" style="background-color: white;">예약하기</button>
+                <button type="button" onclick="submitReservationForm()" class="text-red-500 py-3 px-20 rounded-lg shadow-md text-lg mb-10" style="background-color: white;">예약하기</button>
             </div>
 
             <script>
-                function submitReservationForm(form) {
-                    form.name.value = form.name.value.trim();
-                    form.phone.value = form.phone.value.trim();
-                    form.date.value = form.date.value.trim();
-                    form.partySize.value = form.partySize.value.trim();
+                function submitReservationForm() {
+                    var form = document.getElementById('reservationForm');
+                    var name = form.name.value.trim();
+                    var phone = form.phone.value.trim();
+                    var date = form.date.value.trim();
+                    var reservationTime = form['reservationTime'].value.trim();
+                    var partySize = form['party-size'].value.trim();
+                    var restaurantId =  form.restaurantId.value;
 
-                    if (form.name.value === '') {
+
+                    if (name === '') {
                         alert('이름을 입력해주세요.');
-                        form.name.focus();
-                        return;
+                        return false;
                     }
 
-                    if (form.phone.value === '') {
+                    if (phone === '') {
                         alert('전화번호를 입력해주세요.');
-                        form.phone.focus();
-                        return;
+                        return false;
                     }
 
-                    if (form.date.value === '') {
+                    if (date === '') {
                         alert('날짜를 선택해주세요.');
-                        form.date.focus();
-                        return;
+                        return false;
                     }
 
-                    if (form.reservationTime.value === '') {
+                    if (reservationTime === '') {
                         alert('예약 시간을 선택해주세요.');
-                        form.reservationTime.focus();
-                        return;
+                        return false;
                     }
 
-                    if (form.partySize.value === '') {
+                    if (partySize === '') {
                         alert('인원 수를 입력해주세요.');
-                        form.partySize.focus();
-                        return;
+                        return false;
                     }
 
-                    form.submit();
+                    // AJAX 요청 생성
+                    var xhr = new XMLHttpRequest();
+                    var header = $("meta[name='_csrf_header']").attr('content');
+                    var token = $("meta[name='_csrf']").attr('content');
+                    xhr.open('POST', '/reservation/check', true);
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.setRequestHeader(header, token);
+
+                    // 요청 데이터 설정
+                    var data = {
+                        name: name,
+                        phone: phone,
+                        date: date,
+                        reservationTime: reservationTime,
+                        partySize: partySize,
+                        restaurantId: restaurantId
+                    };
+
+                    // 요청 전송
+                    xhr.send(JSON.stringify(data));
+
+
+                    // 응답 처리
+                    xhr.onload = function() {
+                        const data = JSON.parse(xhr.response);
+
+                        if (data.resultCode === "S-1") {
+                            alert('예약이 완료되었습니다.');
+
+                            alert('예약이 성공하였습니다.');
+                            // window.location.href = "/"
+                        } else {
+                            alert('예약 요청에 실패했습니다. 다시 시도해주세요.');
+                        }
+                    };
+
+                    return true;
                 }
             </script>
 

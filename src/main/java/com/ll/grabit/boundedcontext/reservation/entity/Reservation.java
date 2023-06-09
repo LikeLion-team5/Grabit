@@ -2,6 +2,7 @@ package com.ll.grabit.boundedcontext.reservation.entity;
 
 import com.ll.grabit.boundedcontext.member.entity.Member;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
+
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,22 +26,26 @@ public class Reservation {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     private String name;
 
     private String phone;
 
     private LocalDate date;
 
-    private LocalTime time;
+    private LocalTime reservationTime;
 
     private int partySize;
 
     @Builder
-    public Reservation(String name, String phone, LocalDate date, LocalTime time, int partySize) {
+    public Reservation(String name, String phone, LocalDate date, LocalTime reservationTime, int partySize) {
         this.name = name;
         this.phone = phone;
         this.date = date;
-        this.time = time;
+        this.reservationTime = reservationTime;
         this.partySize = partySize;
     }
     public Long getReservationId() {
@@ -55,9 +60,6 @@ public class Reservation {
         return restaurant;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
 
     public String getName() {
         return name;
@@ -83,12 +85,12 @@ public class Reservation {
         this.date = date;
     }
 
-    public LocalTime getTime() {
-        return time;
+    public LocalTime getReservationTime() {
+        return reservationTime;
     }
 
-    public void setTime(LocalTime time) {
-        this.time = time;
+    public void setReservationTime(LocalTime reservationTime) {
+        this.reservationTime = reservationTime;
     }
 
     public int getPartySize() {
@@ -98,6 +100,17 @@ public class Reservation {
     public void setPartySize(int partySize) {
         this.partySize = partySize;
     }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+        restaurant.getReservations().add(this);
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+        member.getReservations().add(this);
+    }
 }
+
 
 

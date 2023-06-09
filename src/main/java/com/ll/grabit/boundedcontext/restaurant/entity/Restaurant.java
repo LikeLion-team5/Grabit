@@ -4,6 +4,7 @@ package com.ll.grabit.boundedcontext.restaurant.entity;
 
 import com.ll.grabit.boundedcontext.address.entity.Address;
 import com.ll.grabit.boundedcontext.menu.entity.Menu;
+import com.ll.grabit.boundedcontext.reservation.entity.Reservation;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
 import com.ll.grabit.boundedcontext.restaurantimage.entity.RestaurantImage;
 import jakarta.persistence.*;
@@ -47,6 +48,9 @@ public class Restaurant {
 
     @OneToMany(mappedBy = "restaurant", orphanRemoval = true)
     private List<Menu> menuList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "restaurant")
+    private List<Reservation> reservations = new ArrayList<>();
 
     @Builder
     public Restaurant(String restaurantName, String description, RestaurantType type, Address address, String detail_address, LocalTime openingTime, LocalTime closingTime, Integer perTimeMaxReservationCount) {
