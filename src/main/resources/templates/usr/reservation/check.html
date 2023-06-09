@@ -21,22 +21,25 @@
                         <option>오래된순</option>
                     </select>
                 </div>
-                <div class="text-black max-w-3xl bg-white rounded-lg shadow-lg p-5 h-[200px] mx-auto mb-5 flex flex-col overflow-y-auto">
+                <div th:each="reservation : ${reservations}" class="text-black max-w-3xl bg-white rounded-lg shadow-lg p-5 h-[200px] mx-auto mb-5 flex flex-col overflow-y-auto">
                     <div class="flex justify-between border-b pb-2">
                         <div>
-                            <span class="font-bold">AAA 식당</span>
+                            <span th:text="${reservation.restaurantName}" class="font-bold text-black"></span>
                         </div>
                         <div>
-                            <span>2023-05-28 / 오후 7:00</span>
+                            <span th:text="${reservation.date} + ' ' + ${reservation.reservationTime}"></span>
                         </div>
                     </div>
                     <div class="flex mt-4 flex-1 h-full justify-between">
                         <div class="flex flex-col justify-between">
                             <div>
-                                <span>인원수: 2명</span>
+                                <span th:text="'인원수: ' + ${reservation.partySize} + '명'"></span>
                             </div>
                             <div>
                                 <span>현재 예약 상태: 예약 확정</span>
+                            </div>
+                            <div>
+                                <span>예약 ID:</span><span th:text="${reservation.reservationId}"></span>
                             </div>
                             <div>
                                 <span>요청사항: 애기의자 2개 준비해주시면 감사하겠습니다.</span>

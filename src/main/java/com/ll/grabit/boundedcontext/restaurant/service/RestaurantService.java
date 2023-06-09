@@ -203,4 +203,5 @@ public class RestaurantService {
     public Page<Restaurant> getRestaurantList(Pageable pageable, List<Address> addresses) {
         return restaurantRepository.findByAddressIn(addresses, pageable);
     }
+
 }
