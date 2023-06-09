@@ -3,6 +3,7 @@ package com.ll.grabit.boundedcontext.reservation.controller;
 import com.ll.grabit.base.rq.Rq;
 import com.ll.grabit.base.rsdata.RsData;
 import com.ll.grabit.boundedcontext.member.entity.Member;
+import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.member.repository.MemberRepository;
 import com.ll.grabit.boundedcontext.reservation.dto.ReservationRequestDto;
 import com.ll.grabit.boundedcontext.reservation.dto.ReservationResponseDto;
@@ -42,8 +43,10 @@ public class ReservationController {
             String loggedInUserId = rq.getMember().getUsername();
             Member loggedInMember = memberRepository.findByUsername(loggedInUserId).orElse(null);
             Long restaurantId = reservationDto.getRestaurantId();
+            String restaurantName = reservationDto.getRestaurantName();
             if (loggedInMember != null && restaurantId != null && restaurantRepository.existsById(restaurantId)) {
                 reservationDto.setMemberId(loggedInMember.getId());
+                reservationDto.setRestaurantName(restaurantName);
                 Long reservationId = reservationService.createReservation(reservationDto);
                 return RsData.of("S-1", "예약에 성공하셨습니다.", reservationId);
             }
@@ -60,6 +63,7 @@ public class ReservationController {
             if (loggedInMember != null) {
                 List<ReservationResponseDto> reservationList = reservationService.getReservationsByMemberId(loggedInMember.getId());
                 model.addAttribute("reservations", reservationList);
+
             }
         }
 
@@ -77,4 +81,6 @@ public class ReservationController {
         List<ReservationResponseDto> responseDtoList = reservationService.getReservationsByMemberId(id);
         return ResponseEntity.ok(responseDtoList);
     }
+
+
 }

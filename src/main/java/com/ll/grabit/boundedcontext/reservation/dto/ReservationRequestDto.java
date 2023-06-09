@@ -23,6 +23,8 @@ public class ReservationRequestDto {
     private Long memberId;
     @NotNull
     private Long restaurantId;
+    @NotBlank
+    private String restaurantName;
 
     public String getName() {
         return name;
@@ -52,6 +54,10 @@ public class ReservationRequestDto {
         return partySize;
     }
 
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
     // Setter 메서드
     public void setName(String name) {
         this.name = name;
@@ -79,5 +85,9 @@ public class ReservationRequestDto {
 
     public void setRestaurantId(Long restaurantId) {
         this.restaurantId = restaurantId;
+    }
+
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
     }
 }

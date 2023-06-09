@@ -43,6 +43,7 @@ public class ReservationService {
         reservation.setPartySize(reservationDto.getPartySize());
         reservation.setMember(member);
         reservation.setRestaurant(restaurant);
+        reservation.setRestaurantName(restaurant.getRestaurantName());
 
         Reservation savedReservation = reservationRepository.save(reservation);
         return savedReservation.getReservationId();
@@ -74,6 +75,7 @@ public class ReservationService {
             reservationDto.setDate(reservation.getDate());
             reservationDto.setReservationTime(reservation.getReservationTime());
             reservationDto.setPartySize(reservation.getPartySize());
+            reservationDto.setRestaurantName(reservation.getRestaurantName());
 
             reservationDtos.add(reservationDto);
         }
@@ -86,4 +88,5 @@ public class ReservationService {
 
         reservationRepository.delete(reservation);
     }
+
 }

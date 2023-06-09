@@ -40,6 +40,8 @@ public class Reservation {
 
     private int partySize;
 
+    private String restaurantName;
+
     @Builder
     public Reservation(String name, String phone, LocalDate date, LocalTime reservationTime, int partySize) {
         this.name = name;
@@ -63,6 +65,10 @@ public class Reservation {
 
     public String getName() {
         return name;
+    }
+
+    public String getRestaurantName() {
+        return this.restaurantName;
     }
 
     public void setName(String name) {
@@ -110,6 +116,12 @@ public class Reservation {
         this.member = member;
         member.getReservations().add(this);
     }
+
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
+    }
+
+
 }
 
 
