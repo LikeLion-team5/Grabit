@@ -1,0 +1,59 @@
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>리뷰 조회</title>
+</head>
+
+<body>
+<th:block layout:fragment="Content">
+    <main class="flex flex-1 flex-col">
+        <div class="flex-grow flex items-center justify-center">
+            <div class="max-w-3xl w-full mt-5 px-4">
+                <div class="flex w-full justify-between sticky top-0 z-5">
+                    <div class="bg-white rounded-lg mb-5 px-6 py-3 flex justify-center items-center">
+                        <h2 class="text-xl text-red-400 font-semibold">리뷰 조회</h2>
+                    </div>
+                    <select class="select rounded-lg max-w-xs">
+                        <option disabled selected>정렬</option>
+                        <option>최신순</option>
+                        <option>오래된순</option>
+                        <option>평점 높은 순</option>
+                        <option>평점 낮은 순</option>
+                    </select>
+                </div>
+                <ul th:if="${!#lists.isEmpty(reviewList)}">
+                    <li th:each="review: ${reviewList}">
+                        <div class="text-black max-w-3xl bg-white rounded-lg shadow-lg p-5 min-h-[200px] mx-auto mb-5 flex flex-col overflow-y-auto">
+                            <div class="flex justify-between border-b pb-2">
+                                <div>
+                                    <span th:text="${review.restaurant.restaurantName}"></span>
+                                </div>
+                                <div>
+                                    <span th:text="${#temporals.format(review.createdAt, 'yy.MM.dd HH:mm')}"></span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col mt-4 flex-1 justify-between">
+                                <div class="flex flex-col justify-around">
+                                    <div class="flex items-center mb-2">
+                                        <span>평점</span>
+                                        <i class="fa-sharp fa-solid fa-star text-[color:#ffe812]"></i>
+                                    </div>
+                                    <div>
+                                        <span th:text="${review.content}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-end">
+                                <button class="text-red-400">수정</button>
+                                <button class="text-red-400 ml-4">삭제</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+</th:block>
+</body>
+</html>
