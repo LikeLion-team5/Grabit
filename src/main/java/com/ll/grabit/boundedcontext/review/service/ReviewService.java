@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -61,4 +62,16 @@ public class ReviewService {
     public Optional<Review> findById(Long reviewId) {
         return reviewRepository.findById(reviewId);
     }
+
+    public void modifyReview(Long id, Review updatedReview) {
+        Review existingReview = reviewRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("No Review found with id: " + id));
+
+        existingReview.setContent(updatedReview.getContent());
+        existingReview.setRating(updatedReview.getRating());
+
+        reviewRepository.save(existingReview);
+    }
+
+
 }

@@ -22,6 +22,12 @@
                         <option>평점 낮은 순</option>
                     </select>
                 </div>
+                <div th:if="${#lists.isEmpty(reviewList)}">
+                    <div class="text-gray-400 max-w-3xl bg-white rounded-lg shadow-lg p-5 h-[600px] mb-5 flex justify-center items-center">
+                        <span class="mr-1">리뷰가 존재하지 않습니다</span>
+                        <i class="fa-regular fa-face-sad-tear" style="position:relative; top:1px;"></i>
+                    </div>
+                </div>
                 <ul th:if="${!#lists.isEmpty(reviewList)}">
                     <li th:each="review: ${reviewList}">
                         <div class="text-black max-w-3xl bg-white rounded-lg shadow-lg p-5 min-h-[200px] mx-auto mb-5 flex flex-col overflow-y-auto">
@@ -36,8 +42,11 @@
                             <div class="flex flex-col mt-4 flex-1 justify-between">
                                 <div class="flex flex-col justify-around">
                                     <div class="flex items-center mb-2">
-                                        <span>평점</span>
-                                        <i class="fa-sharp fa-solid fa-star text-[color:#ffe812]"></i>
+                                        <span class="mr-1">평점</span>
+                                        <span th:each="i : ${#numbers.sequence(1,5)}">
+                                            <span th:if="${i <= review.rating}" style="color: #ffe812;">&#9733;</span> <!-- filled star -->
+                                            <span th:if="${i > review.rating}" style="color: #ffe812;">&#9734;</span> <!-- empty star -->
+                                        </span>
                                     </div>
                                     <div>
                                         <span th:text="${review.content}"></span>
@@ -45,7 +54,7 @@
                                 </div>
                             </div>
                             <div class="flex justify-end">
-                                <button class="text-red-400"><a th:href="@{/review/modify/1}">수정</a></button>
+                                <button class="text-red-400"><a th:href="@{|/review/modify/${review.id}|}">수정</a></button>
                                 <button class="text-red-400 ml-4">삭제</button>
                             </div>
                         </div>

@@ -27,13 +27,10 @@
                         <div class="flex flex-col w-full">
                             <div class="flex items-center mb-4">
                                 <span>평점</span>
-                                <div class="rating ml-2">
-                                    <input type="radio" name="rating" class="mask mask-star bg-warning" value="1"/>
-                                    <input type="radio" name="rating" class="mask mask-star bg-warning" value="2"/>
-                                    <input type="radio" name="rating" class="mask mask-star bg-warning" value="3"/>
-                                    <input type="radio" name="rating" class="mask mask-star bg-warning" value="4"/>
-                                    <input type="radio" name="rating" class="mask mask-star bg-warning" value="5" checked />
-                                </div>
+                                <span th:each="i : ${#numbers.sequence(1,5)}">
+                                    <span th:if="${i <= review.rating}" style="color: #ffe812;">&#9733;</span> <!-- filled star -->
+                                    <span th:if="${i > review.rating}" style="color: #ffe812;">&#9734;</span> <!-- empty star -->
+                                </span>
                             </div>
                             <div class="flex flex-1 w-full">
                                 <textarea id="content" name="content" class="flex-1 resize-none focus:outline-none" placeholder="내용을 입력해주세요" th:text="${review.content}"></textarea>

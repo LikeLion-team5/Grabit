@@ -70,4 +70,12 @@ public class ReviewController {
 
         return "usr/review/modify";
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/modify/{reviewId}")
+    public String modify(@PathVariable Long reviewId, Review review) {
+        reviewService.modifyReview(reviewId, review);
+
+        return "redirect:/review/check";
+    }
 }
