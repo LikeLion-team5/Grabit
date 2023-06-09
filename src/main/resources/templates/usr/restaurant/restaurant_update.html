@@ -5,8 +5,7 @@
 
 <head>
   <title>식당 등록</title>
-  <meta name="_csrf_header" th:content="${_csrf.headerName}">
-  <meta name="_csrf" th:content="${_csrf.token}">
+  <!-- Your script can go here -->
 </head>
 
 <body>
@@ -14,12 +13,13 @@
   <main class="min-h-screen flex flex-col" style="background-color: #FEE8E8">
     <div class="flex-grow flex items-center justify-center">
       <div class="max-w-3xl w-full px-4">
-        <form id="restaurant-form" th:action method="POST" th:object="${restaurantRegisterDto}" onsubmit="return false;">
+        <form id="restaurant-form" th:action method="POST" th:object="${restaurantUpdateDto}" onsubmit="return false;">
           <div class="form-control">
             <label class="label">
               <span class="label-text">식당 이름</span>
             </label>
-            <input type="text" id="restaurantName" name="restaurantName" placeholder="식당 이름을 입력해주세요." class="input input-bordered mb-4" autofocus />
+            <input type="text" id="restaurantName" name="restaurantName"
+                   th:text="*{restaurantName}" placeholder="식당 이름을 입력해주세요." class="input input-bordered mb-4" autofocus />
 
             <label class="label">
               <span class="label-text">식당 이미지</span>
