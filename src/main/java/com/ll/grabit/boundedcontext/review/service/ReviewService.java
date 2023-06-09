@@ -73,5 +73,9 @@ public class ReviewService {
         reviewRepository.save(existingReview);
     }
 
+    public RsData delete(Review review) {
+        reviewRepository.delete(review);
 
+        return RsData.of("S-1", "리뷰를 삭제하였습니다.");
+    }
 }

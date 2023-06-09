@@ -44,8 +44,8 @@
                                     <div class="flex items-center mb-2">
                                         <span class="mr-1">평점</span>
                                         <span th:each="i : ${#numbers.sequence(1,5)}">
-                                            <span th:if="${i <= review.rating}" style="color: #ffe812;">&#9733;</span> <!-- filled star -->
-                                            <span th:if="${i > review.rating}" style="color: #ffe812;">&#9734;</span> <!-- empty star -->
+                                            <span th:if="${i <= review.rating}" style="color: #ffd700;">&#9733;</span> <!-- filled star -->
+                                            <span th:if="${i > review.rating}" style="color: #ffd700;">&#9734;</span> <!-- empty star -->
                                         </span>
                                     </div>
                                     <div>
@@ -55,7 +55,7 @@
                             </div>
                             <div class="flex justify-end">
                                 <button class="text-red-400"><a th:href="@{|/review/modify/${review.id}|}">수정</a></button>
-                                <button class="text-red-400 ml-4">삭제</button>
+                                <button class="text-red-400 ml-4"><a th:href="@{|/review/delete/${review.id}|}">삭제</a></button>
                             </div>
                         </div>
                     </li>

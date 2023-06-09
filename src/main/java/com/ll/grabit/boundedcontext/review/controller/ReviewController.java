@@ -78,4 +78,13 @@ public class ReviewController {
 
         return "redirect:/review/check";
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/delete/{reviewId}")
+    public String delete(@PathVariable Long reviewId) {
+        Review review = reviewService.findById(reviewId).orElseThrow();
+        reviewService.delete(review);
+
+        return "redirect:/review/check";
+    }
 }
