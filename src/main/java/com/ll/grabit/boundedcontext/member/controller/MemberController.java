@@ -7,6 +7,8 @@ import com.ll.grabit.boundedcontext.member.entity.Member;
 import com.ll.grabit.boundedcontext.member.form.MemberCreateDto;
 import com.ll.grabit.boundedcontext.member.service.MemberService;
 import com.ll.grabit.base.standard.util.Ut;
+import com.ll.grabit.boundedcontext.review.entity.Review;
+import com.ll.grabit.boundedcontext.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -16,12 +18,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/member")
 @RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
+    private final ReviewService reviewService;
 
     private final Rq rq;
 
@@ -51,8 +56,10 @@ public class MemberController {
             return rq.historyBack("로그인이 필요합니다.");
         }
         Member member = memberService.findByUsername(rq.getMember().getUsername()).get();
+        List<Review> reviewList = reviewService.findByReviewerId(member.getId());
 
         model.addAttribute("userInfo",member);
+        model.addAttribute("reviewList", reviewList);
 
         return "usr/member/myInfo";
     }
