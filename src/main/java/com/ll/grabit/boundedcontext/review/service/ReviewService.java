@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -53,7 +54,11 @@ public class ReviewService {
         return reviewRepository.save(review);
     }
 
-    public List<Review> findByReviewerId(Long reviewerId) {
-        return reviewRepository.findByReviewerId(reviewerId);
+    public List<Review> findByReviewerId(Long id) {
+        return reviewRepository.findByReviewerId(id);
+    }
+
+    public Optional<Review> findById(Long reviewId) {
+        return reviewRepository.findById(reviewId);
     }
 }
