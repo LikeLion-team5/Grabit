@@ -58,7 +58,7 @@
                                 </div>
                             </div>
                             <div class="self-start absolute right-5">
-                                <button sec:authorize="isAuthenticated()" class="text-red-500 rounded text-lg"><a th:href="@{/member/editInfo}">정보 수정</a></button>
+                                <a sec:authorize="isAuthenticated()" class="text-red-500 rounded text-lg" th:href="@{/member/editInfo}">정보 수정</a>
                             </div>
                         </div>
                     </div>
@@ -70,7 +70,7 @@
                                 </div>
                             </div>
                             <div class="self-start">
-                                <button class="text-red-500 rounded text-lg"><a th:href="@{/reservation/check}">전체 보기</a></button>
+                                <a class="text-red-500 rounded text-lg" th:href="@{/reservation/check}">전체 보기</a>
                             </div>
                         </div>
                         <div class="flex overflow-x-auto">
@@ -126,7 +126,7 @@
                                 </div>
                             </div>
                             <div class="self-start">
-                                <button class="text-red-500 rounded text-lg"><a th:href="@{/review/check}">전체 보기</a></button>
+                                <a class="text-red-500 rounded text-lg" th:href="@{/review/check}">전체 보기</a>
                             </div>
                         </div>
                         <div class="flex overflow-x-auto">
