@@ -1,7 +1,6 @@
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layout/defaultLayout}"
-      layout:fragment="Content">
+      layout:decorate="~{common/layout/defaultLayout}">
 
     <head>
         <title>로그인</title>
@@ -38,8 +37,8 @@
     </head>
 
     <body>
-    <section layout:fragment="content">
-        <main class="flex flex-col" style="background-color: #FEE8E8">
+    <th:block layout:fragment="Content">
+        <main class="flex flex-1 flex-col">
             <div class="flex-grow flex items-center justify-center">
                 <div class="max-w-3xl w-full mt-8 px-4">
                     <div class="flex justify-center md:mt-12">
@@ -77,6 +76,6 @@
                 </div>
             </div>
         </main>
-    </section>
+    </th:block>
     </body>
 </html>

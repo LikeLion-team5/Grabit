@@ -1,17 +1,17 @@
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layout/defaultLayout}"
-      layout:fragment="Content">
+      layout:decorate="~{common/layout/defaultLayout}">
 
 <head>
     <!-- main CSS 불러오기 -->
     <link rel="stylesheet" href="/resource/common/main.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <title>메인</title>
     <style>
         @media (max-width: 640px) {
-            .search{
+            .search {
                 margin-top: 50px;
             }
+
             .restaurant-list ul {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
@@ -19,156 +19,173 @@
     </style>
 </head>
 
-<section layout:fragment="content">
-    <main class="flex flex-col" style="background-color: #FEE8E8">
-        <div class="flex-grow flex items-center justify-center mt-10">
-            <div class="max-w-3xl w-full px-4">
-                <div class="search">
-                    <form th:action="@{/restaurant/search}" th:method="GET">
-                        <div class="search-wrap flex">
-                            <label for="address1"></label>
-                            <select id="address1" name="address1" class="bg-white border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mr-2">
-                                <option value="">대분류</option>®
-                                <option th:each="address1 : ${address1List}" th:value="${address1}" th:text="${address1}"></option>
-                            </select>
-                            <label for="address2"></label>
-                            <select id="address2" name="address2" class="bg-white border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mr-2">
-                                <option value="">중분류</option>
-                            </select>
-                            <label for="address3"></label>
-                            <select id="address3" name="address3" class="bg-white border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mr-2">
-                                <option value="">소분류</option>
-                            </select>
-                            <button type="submit" class="text-white bg-red-400 hover:bg-red-300 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2">검색</button>
-                        </div>
-                    </form>
+<body>
+<th:block layout:fragment="Content">
+    <main class="flex-1 flex justify-center">
+        <div class="max-w-3xl w-full px-4 py-4 flex flex-col">
+
+            <div class="flex-1"></div>
+
+            <div class="search">
+                <form th:action="@{/restaurant/search}" th:method="GET">
+                    <div class="search-wrap flex">
+                        <label for="address1"></label>
+                        <select id="address1" name="address1"
+                                class="bg-white border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mr-2">
+                            <option value="">대분류</option>
+                            ®
+                            <option th:each="address1 : ${address1List}" th:value="${address1}"
+                                    th:text="${address1}"></option>
+                        </select>
+                        <label for="address2"></label>
+                        <select id="address2" name="address2"
+                                class="bg-white border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mr-2">
+                            <option value="">중분류</option>
+                        </select>
+                        <label for="address3"></label>
+                        <select id="address3" name="address3"
+                                class="bg-white border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mr-2">
+                            <option value="">소분류</option>
+                        </select>
+                        <button type="submit"
+                                class="text-white bg-red-400 hover:bg-red-300 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2">
+                            검색
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <section class="restaurant-view max-w-3xl mx-auto">
+                <div id="restaurantList" class="restaurant-list">
+                    <ol class="grid grid-cols-4 gap-x-5 gap-y-10">
+                        <li class="restaurant_item" th:each="restaurant : ${restaurantList}">
+                            <a href="#" class="block mt-4 text-black font-bold text-base sm:text-lg">
+                                <span th:text="${restaurant.restaurantName}"></span>
+                            </a>
+                            <img class="block rounded" th:if="${restaurant.restaurantImage != null}"
+                                 th:src="${restaurant.restaurantImage.imagePath}" alt="" height="200" width="200">
+                            <!--                <img class="block rounded" th:if="${restaurant.restaurantImage == null}" th:src="@{/img/test_image.png}" alt="" height="200" width="200">-->
+
+                            <div>
+                                <span th:text="${restaurant.description}"></span>
+                            </div>
+                            <div>
+                                <span th:text="${restaurant.address.address1}"></span>
+                                <span th:text="${restaurant.address.address2}"></span>
+                                <span th:text="${restaurant.address.address3}"></span>
+                            </div>
+                        </li>
+                    </ol>
                 </div>
 
-                <section class="restaurant-view max-w-3xl mx-auto">
-                    <div id="restaurantList" class="restaurant-list mt-6">
-                        <ol class="grid grid-cols-4 gap-5">
-                            <li class="restaurant_item" th:each="restaurant : ${restaurantList}">
-                                <a th:href="@{restaurantInfo/{restaurantId}(restaurantId=${restaurant.restaurantId})}" class="block mt-4">
-                                    <span th:text="${restaurant.restaurantName}" class="font-bold text-black text-base sm:text-lg"></span>
-                                <img class="block rounded" th:if="${restaurant.restaurantImage != null}" th:src="${restaurant.restaurantImage.imagePath}" alt="" height="200" width="200">
-                                <!--                <img class="block rounded" th:if="${restaurant.restaurantImage == null}" th:src="@{/img/test_image.png}" alt="" height="200" width="200">-->
-
-                                <div>
-                                    <span th:text="${restaurant.description}"></span>
-                                </div>
-                                </a>
-                            </li>
-                        </ol>
-                    </div>
-
-                    <div class="page_wrap"
-                         th:with="start=${(restaurantList.number/maxPage)*maxPage + 1},
+                <div class="page_wrap"
+                     th:with="start=${(restaurantList.number/maxPage)*maxPage + 1},
                              end=(${(restaurantList.totalPages == 0) ? 1 : (start + (maxPage - 1) < restaurantList.totalPages ? start + (maxPage - 1) : restaurantList.totalPages)})">
-                        <div class="pagination-list">
-                            <nav aria-label="Page navigation example">
-                                <ul class="inline-flex -space-x-px">
-                                    <!--첫 페이지로 이동-->
-                                    <a th:if="${start > 1}"
-                                       th:href="@{/restaurant/search?(page=0, address1=${addressSearchDto.address1}, address2=${addressSearchDto.address2}, address3=${addressSearchDto.address3})}"
-                                       th:text="'<<'"></a>
+                    <div class="pagination-list">
+                        <nav aria-label="Page navigation example">
+                            <ul class="inline-flex -space-x-px">
+                                <!--첫 페이지로 이동-->
+                                <a th:if="${start > 1}"
+                                   th:href="@{/restaurant/search?(page=0, address1=${addressSearchDto.address1}, address2=${addressSearchDto.address2}, address3=${addressSearchDto.address3})}"
+                                   th:text="'<<'"></a>
 
-                                    <!--이전 페이지로 이동-->
-                                    <a th:if="${start > 1}"
-                                       th:href="@{/restaurant/search?(page=${start - maxPage - 1}, address1=${addressSearchDto.address1}, address2=${addressSearchDto.address2}, address3=${addressSearchDto.address3})}"
-                                       th:text="'<'"></a>
+                                <!--이전 페이지로 이동-->
+                                <a th:if="${start > 1}"
+                                   th:href="@{/restaurant/search?(page=${start - maxPage - 1}, address1=${addressSearchDto.address1}, address2=${addressSearchDto.address2}, address3=${addressSearchDto.address3})}"
+                                   th:text="'<'"></a>
 
-                                    <!--페이지 표기-->
-                                    <a th:each="page: ${#numbers.sequence(start, end)}"
-                                       th:href="@{/restaurant/search?(page=${page - 1}, address1=${addressSearchDto.address1}, address2=${addressSearchDto.address2}, address3=${addressSearchDto.address3})}"
-                                       th:text="${page}"
-                                       th:classappend="${page - 1 == restaurantList.number} ? 'active'"></a>
+                                <!--페이지 표기-->
+                                <a th:each="page: ${#numbers.sequence(start, end)}"
+                                   th:href="@{/restaurant/search?(page=${page - 1}, address1=${addressSearchDto.address1}, address2=${addressSearchDto.address2}, address3=${addressSearchDto.address3})}"
+                                   th:text="${page}"
+                                   th:classappend="${page - 1 == restaurantList.number} ? 'active'"></a>
 
-                                    <!--다음 장으로 이동 -->
-                                    <a th:if="${end < restaurantList.totalPages}"
-                                       th:href="@{/restaurant/search?(page=${start + maxPage - 1}, address1=${addressSearchDto.address1}, address2=${addressSearchDto.address2}, address3=${addressSearchDto.address3})}"
-                                       th:text="'>'"></a>
+                                <!--다음 장으로 이동 -->
+                                <a th:if="${end < restaurantList.totalPages}"
+                                   th:href="@{/restaurant/search?(page=${start + maxPage - 1}, address1=${addressSearchDto.address1}, address2=${addressSearchDto.address2}, address3=${addressSearchDto.address3})}"
+                                   th:text="'>'"></a>
 
-                                    <!--마지막 페이지로 이동-->
-                                    <a th:if="${end < restaurantList.totalPages}"
-                                       th:href="@{/restaurant/search?(page=${restaurantList.totalPages - 1}, address1=${addressSearchDto.address1}, address2=${addressSearchDto.address2}, address3=${addressSearchDto.address3})}"
-                                       th:text="'>>'"></a>
-                                </ul>
-                            </nav>
-                        </div>
+                                <!--마지막 페이지로 이동-->
+                                <a th:if="${end < restaurantList.totalPages}"
+                                   th:href="@{/restaurant/search?(page=${restaurantList.totalPages - 1}, address1=${addressSearchDto.address1}, address2=${addressSearchDto.address2}, address3=${addressSearchDto.address3})}"
+                                   th:text="'>>'"></a>
+                            </ul>
+                        </nav>
                     </div>
-                </section>
+                </div>
+            </section>
 
+            <div class="flex-1"></div>
 
+            <script>
+                // 대주소 선택 시
+                $('#address1').change(function () {
+                    var address1 = $(this).val();
 
-                <script>
-                    // 대주소 선택 시
-                    $('#address1').change(function() {
-                        var address1 = $(this).val();
+                    // Reset the address2 and address3 select fields
+                    var address2Select = $('#address2');
+                    address2Select.empty();
+                    address2Select.append('<option value="">선택해주세요.</option>');
 
-                        // Reset the address2 and address3 select fields
-                        var address2Select = $('#address2');
-                        address2Select.empty();
-                        address2Select.append('<option value="">선택해주세요.</option>');
+                    var address3Select = $('#address3');
+                    address3Select.empty();
+                    address3Select.append('<option value="">선택해주세요.</option>');
 
-                        var address3Select = $('#address3');
-                        address3Select.empty();
-                        address3Select.append('<option value="">선택해주세요.</option>');
+                    $.ajax({
+                        url: '/address/search/address2?address1=' + address1, // update as needed
+                        type: 'GET',
+                        success: function (response) {
+                            var address2Select = $('#address2');
 
-                        $.ajax({
-                            url: '/address/search/address2?address1=' + address1, // update as needed
-                            type: 'GET',
-                            success: function(response) {
-                                var address2Select = $('#address2');
-
-                                $.each(response, function(index, address2) {
-                                    address2Select.append('<option value="' + address2 + '">' + address2 + '</option>');
-                                });
-                            },
-                            error: function(jqXHR) {
-                                alert('중주소 정보를 가져오는 데 실패했습니다.');
-                            }
-                        });
+                            $.each(response, function (index, address2) {
+                                address2Select.append('<option value="' + address2 + '">' + address2 + '</option>');
+                            });
+                        },
+                        error: function (jqXHR) {
+                            alert('중주소 정보를 가져오는 데 실패했습니다.');
+                        }
                     });
+                });
 
-                    // 중주소 클릭 시, 소주소 리스트 받아오기
-                    $('#address2').change(function() {
-                        var address2 = $(this).val();
+                // 중주소 클릭 시, 소주소 리스트 받아오기
+                $('#address2').change(function () {
+                    var address2 = $(this).val();
 
-                        $.ajax({
-                            url: '/address/search/address3?address2=' + address2, // update as needed
-                            type: 'GET',
-                            success: function(response) {
-                                var address3Select = $('#address3');
-                                address3Select.empty();
-                                address3Select.append('<option value="">선택해주세요.</option>');
+                    $.ajax({
+                        url: '/address/search/address3?address2=' + address2, // update as needed
+                        type: 'GET',
+                        success: function (response) {
+                            var address3Select = $('#address3');
+                            address3Select.empty();
+                            address3Select.append('<option value="">선택해주세요.</option>');
 
-                                $.each(response, function(index, address3) {
-                                    address3Select.append('<option value="' + address3 + '">' + address3 + '</option>');
-                                });
-                                console.log(response);
-                            },
-                            error: function(jqXHR) {
-                                alert('소주소 정보를 가져오는 데 실패했습니다.');
-                            }
-                        });
+                            $.each(response, function (index, address3) {
+                                address3Select.append('<option value="' + address3 + '">' + address3 + '</option>');
+                            });
+                            console.log(response);
+                        },
+                        error: function (jqXHR) {
+                            alert('소주소 정보를 가져오는 데 실패했습니다.');
+                        }
                     });
+                });
 
-                    // Search form submission handler
-                    $('.search-wrap').on('submit', function(e) {
-                        e.preventDefault();
+                // Search form submission handler
+                $('.search-wrap').on('submit', function (e) {
+                    e.preventDefault();
 
-                        var address1 = $('#address1').val();
-                        var address2 = $('#address2').val();
-                        var address3 = $('#address3').val();
+                    var address1 = $('#address1').val();
+                    var address2 = $('#address2').val();
+                    var address3 = $('#address3').val();
 
-                        // Navigate to the search results page with the address information in the query parameters
-                        window.location.href = '/restaurant/search?address1=' + encodeURIComponent(address1) +
-                            '&address2=' + encodeURIComponent(address2) +
-                            '&address3=' + encodeURIComponent(address3);
-                    });
-                </script>
-            </div>
+                    // Navigate to the search results page with the address information in the query parameters
+                    window.location.href = '/restaurant/search?address1=' + encodeURIComponent(address1) +
+                        '&address2=' + encodeURIComponent(address2) +
+                        '&address3=' + encodeURIComponent(address3);
+                });
+            </script>
         </div>
     </main>
-</section>
+</th:block>
+</body>
 </html>

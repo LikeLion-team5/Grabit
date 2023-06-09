@@ -1,15 +1,15 @@
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layout/defaultLayout}"
-      layout:fragment="Content">
+      layout:decorate="~{common/layout/defaultLayout}">
 <head>
     <meta charset="UTF-8">
     <title>식당 정보</title>
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <meta name="_csrf" th:content="${_csrf.token}">
 </head>
+
 <body>
-<section layout:fragment="content">
-    <main class="min-h-screen flex flex-col" style="background-color: #FEE8E8">
+<th:block layout:fragment="Content">
+    <main class="min-h-screen flex flex-1 flex-col">
         <div class="flex-grow flex flex-col items-center justify-center">
             <div class="max-w-3xl mx-auto w-full mt-10 mb-5 px-4">
                 <div class="bg-white  rounded-lg shadow-lg p-5">
@@ -221,6 +221,6 @@
 
         </div>
     </main>
-</section>
+</th:block>
 </body>
 </html>

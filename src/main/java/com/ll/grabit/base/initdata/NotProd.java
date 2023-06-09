@@ -1,13 +1,13 @@
 package com.ll.grabit.base.initdata;
 
-
-
+import com.ll.grabit.boundedcontext.member.entity.Member;
 import com.ll.grabit.boundedcontext.address.entity.Address;
-
 import com.ll.grabit.boundedcontext.member.form.MemberCreateDto;
 import com.ll.grabit.boundedcontext.member.service.MemberService;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
+import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.restaurant.service.RestaurantService;
+import com.ll.grabit.boundedcontext.review.service.ReviewService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +24,8 @@ public class NotProd {
     @Bean
     public CommandLineRunner initData(
             MemberService memberService,
-            RestaurantService restaurantService
+            RestaurantService restaurantService,
+            ReviewService reviewService
     ) {
         return args -> {
             MemberCreateDto memberCreateDto1 = MemberCreateDto.builder()
@@ -54,9 +55,9 @@ public class NotProd {
                     .phone("01012345678")
                     .build();
 
-            memberService.join(memberCreateDto1);
-            memberService.join(memberCreateDto2);
-            memberService.join(memberCreateDto3);
+            Member member1 = memberService.join(memberCreateDto1).getData();
+            Member member2 = memberService.join(memberCreateDto2).getData();
+            Member member3 = memberService.join(memberCreateDto3).getData();
 
             MultipartFile multipartFile = null;
 
@@ -76,6 +77,10 @@ public class NotProd {
             for(int i=0; i<20; i++) {
                 restaurantService.save(restaurantDto,address.get(), multipartFile);
             }
+
+            Restaurant restaurant1 = restaurantService.save(restaurantDto, address.get(), multipartFile);
+            Restaurant restaurant2 = restaurantService.save(restaurantDto, address.get(), multipartFile);
+            Restaurant restaurant3 = restaurantService.save(restaurantDto, address.get(), multipartFile);
 
             restaurantDto.setAddress2("도봉구");
             restaurantDto.setAddress3("창동");
@@ -150,6 +155,18 @@ public class NotProd {
             for(int i=0; i<10; i++) {
                 restaurantService.save(restaurantDto, address.get(), multipartFile);
             }
+
+            reviewService.addReview("맛있었습니다!!", 3, restaurant1.getRestaurantId(), member1.getId());
+            reviewService.addReview("맛없어요!!", 1, restaurant1.getRestaurantId(), member2.getId());
+            reviewService.addReview("적당해요!!", 3, restaurant1.getRestaurantId(), member3.getId());
+
+            reviewService.addReview("맛있었습니다!!", 5, restaurant2.getRestaurantId(), member1.getId());
+            reviewService.addReview("맛없어요!!", 1, restaurant2.getRestaurantId(), member2.getId());
+            reviewService.addReview("적당해요!!", 3, restaurant2.getRestaurantId(), member3.getId());
+
+            reviewService.addReview("맛있었습니다!!", 5, restaurant3.getRestaurantId(), member1.getId());
+            reviewService.addReview("맛없어요!!", 1, restaurant3.getRestaurantId(), member2.getId());
+            reviewService.addReview("적당해요!!", 3, restaurant3.getRestaurantId(), member3.getId());
         };
     }
 }
