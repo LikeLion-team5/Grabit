@@ -59,18 +59,42 @@ public class ReviewService {
         return reviewRepository.findByReviewerId(id);
     }
 
-    public Optional<Review> findById(Long reviewId) {
-        return reviewRepository.findById(reviewId);
+    public Optional<Review> findById(Long id) {
+        return reviewRepository.findById(id);
     }
 
-    public void modifyReview(Long id, Review updatedReview) {
-        Review existingReview = reviewRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("No Review found with id: " + id));
+    public RsData canEdit(Member member, Review review) {
+        if(member == null){
+            return RsData.of("F-1", "먼저 로그인을 해주세요.");
+        }
 
-        existingReview.setContent(updatedReview.getContent());
-        existingReview.setRating(updatedReview.getRating());
+        if(member.getId() != review.getReviewer().getId()){
+            return RsData.of("F-2", "리뷰를 수정할 권한이 없습니다.");
+        }
 
-        reviewRepository.save(existingReview);
+        return RsData.of("S-1", "리뷰수정 가능합니다.");
+    }
+
+    public RsData edit(Long id, Review updatedReview) {
+        Review review = reviewRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("리뷰를 찾을 수 없습니다. " + id));
+
+        review.setContent(updatedReview.getContent());
+        review.setRating(updatedReview.getRating());
+
+        reviewRepository.save(review);
+
+        return RsData.of("S-1", "리뷰를 수정하였습니다.");
+    }
+
+    public RsData canDelete(Member member, Review review) {
+        if (review == null)
+            return RsData.of("F-1", "이미 삭제되었습니다.");
+
+        if(member.getId() != review.getReviewer().getId())
+            return RsData.of("F-2", "삭제할 권한이 없습니다.");
+
+        return RsData.of("S-1", "삭제가 가능합니다.");
     }
 
     public RsData delete(Review review) {
