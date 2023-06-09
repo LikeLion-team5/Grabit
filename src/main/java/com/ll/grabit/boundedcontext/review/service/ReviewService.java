@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -50,5 +53,29 @@ public class ReviewService {
                 .build();
 
         return reviewRepository.save(review);
+    }
+
+    public List<Review> findByReviewerId(Long id) {
+        return reviewRepository.findByReviewerId(id);
+    }
+
+    public Optional<Review> findById(Long reviewId) {
+        return reviewRepository.findById(reviewId);
+    }
+
+    public void modifyReview(Long id, Review updatedReview) {
+        Review existingReview = reviewRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("No Review found with id: " + id));
+
+        existingReview.setContent(updatedReview.getContent());
+        existingReview.setRating(updatedReview.getRating());
+
+        reviewRepository.save(existingReview);
+    }
+
+    public RsData delete(Review review) {
+        reviewRepository.delete(review);
+
+        return RsData.of("S-1", "리뷰를 삭제하였습니다.");
     }
 }

@@ -156,7 +156,7 @@ public class NotProd {
                 restaurantService.save(restaurantDto, address.get(), multipartFile);
             }
 
-            reviewService.addReview("맛있었습니다!!", 5, restaurant1.getRestaurantId(), member1.getId());
+            reviewService.addReview("맛있었습니다!!", 3, restaurant1.getRestaurantId(), member1.getId());
             reviewService.addReview("맛없어요!!", 1, restaurant1.getRestaurantId(), member2.getId());
             reviewService.addReview("적당해요!!", 3, restaurant1.getRestaurantId(), member3.getId());
 
