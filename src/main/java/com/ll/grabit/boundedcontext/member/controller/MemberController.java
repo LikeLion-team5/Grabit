@@ -30,8 +30,6 @@ public class MemberController {
     @GetMapping("/join")
     public String showJoin(Model model) {
 
-        model.addAttribute("isJoinPage", true);
-
         return "usr/member/join";
     }
 
@@ -55,15 +53,12 @@ public class MemberController {
         Member member = memberService.findByUsername(rq.getMember().getUsername()).get();
 
         model.addAttribute("userInfo",member);
-        model.addAttribute("isMyInfoPage", true);
 
         return "usr/member/myInfo";
     }
 
     @GetMapping("/login")
     public String showLogin(Model model) {
-
-        model.addAttribute("isLoginPage", true);
 
         return "usr/member/login";
     }
