@@ -59,7 +59,7 @@
                 <div id="restaurantList" class="restaurant-list">
                     <ol class="grid grid-cols-4 gap-x-5 gap-y-10">
                         <li class="restaurant_item" th:each="restaurant : ${restaurantList}">
-                            <a href="#" class="block mt-4 text-black font-bold text-base sm:text-lg">
+                            <a th:href="@{restaurantInfo/{restaurantId}(restaurantId=${restaurant.restaurantId})}" class="block mt-4 text-black font-bold text-base sm:text-lg">
                                 <span th:text="${restaurant.restaurantName}"></span>
                             </a>
                             <img class="block rounded" th:if="${restaurant.restaurantImage != null}"
@@ -68,11 +68,6 @@
 
                             <div>
                                 <span th:text="${restaurant.description}"></span>
-                            </div>
-                            <div>
-                                <span th:text="${restaurant.address.address1}"></span>
-                                <span th:text="${restaurant.address.address2}"></span>
-                                <span th:text="${restaurant.address.address3}"></span>
                             </div>
                         </li>
                     </ol>
