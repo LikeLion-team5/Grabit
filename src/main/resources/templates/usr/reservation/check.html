@@ -30,7 +30,7 @@
                             <span th:text="${reservation.restaurantName}" class="font-bold text-black"></span>
                         </div>
                         <div class="flex items-end">
-                            <button type="button" th:onclick="'cancelReservation(' + ${reservation.reservationId} + ')'" class="text-red-500 rounded">예약 취소</button>
+                            <button type="button" th:if="${reservation.status == '대기'}" th:onclick="'cancelReservation(' + ${reservation.reservationId} + ')'" class="text-red-500 rounded">예약 취소</button>
                         </div>
                     </div>
                     <div class="flex mt-4 flex-1 h-full justify-between">
