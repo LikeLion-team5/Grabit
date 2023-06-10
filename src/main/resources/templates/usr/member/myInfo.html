@@ -83,48 +83,18 @@
                             </div>
                         </div>
                         <div class="flex overflow-x-auto">
-                            <div class="flex-shrink-0 pl-7 bg-white rounded-lg shadow-lg p-4 mr-3" style="height: 150px; width: 150px;">
-                                <h2 class="text-xl font-semibold mb-3">AAA 식당</h2>
-                                <p>2023-06-01</p>
-                                <p>오후 7:00</p>
-                                <p>2명</p>
-                            </div>
-                            <div class="flex-shrink-0 pl-7 bg-white rounded-lg shadow-lg p-4 mr-3" style="height: 150px; width: 150px;">
-                                <h2 class="text-xl font-semibold mb-3">BBB 식당</h2>
-                                <p>2023-06-01</p>
-                                <p>오후 7:00</p>
-                                <p>2명</p>
-                            </div>
-                            <div class="flex-shrink-0 pl-7 bg-white rounded-lg shadow-lg p-4 mr-3" style="height: 150px; width: 150px;">
-                                <h2 class="text-xl font-semibold mb-3">CCC 식당</h2>
-                                <p>2023-06-01</p>
-                                <p>오후 7:00</p>
-                                <p>2명</p>
-                            </div>
-                            <div class="flex-shrink-0 pl-7 bg-white rounded-lg shadow-lg p-4 mr-3" style="height: 150px; width: 150px;">
-                                <h2 class="text-xl font-semibold mb-3">DDD 식당</h2>
-                                <p>2023-06-01</p>
-                                <p>오후 7:00</p>
-                                <p>2명</p>
-                            </div>
-                            <div class="flex-shrink-0 pl-7 bg-white rounded-lg shadow-lg p-4 mr-3" style="height: 150px; width: 150px;">
-                                <h2 class="text-xl font-semibold mb-3">EEE 식당</h2>
-                                <p>2023-06-01</p>
-                                <p>오후 7:00</p>
-                                <p>2명</p>
-                            </div>
-                            <div class="flex-shrink-0 pl-7 bg-white rounded-lg shadow-lg p-4 mr-3" style="height: 150px; width: 150px;">
-                                <h2 class="text-xl font-semibold mb-3">FFF 식당</h2>
-                                <p>2023-06-01</p>
-                                <p>오후 7:00</p>
-                                <p>2명</p>
-                            </div>
-                            <div class="flex-shrink-0 pl-7 bg-white rounded-lg shadow-lg p-4 mr-3" style="height: 150px; width: 150px;">
-                                <h2 class="text-xl font-semibold mb-3">GGG 식당</h2>
-                                <p>2023-06-01</p>
-                                <p>오후 7:00</p>
-                                <p>2명</p>
-                            </div>
+                            <ul th:if="${!#lists.isEmpty(reservations)}">
+                                <li th:each="reservation: ${reservations}">
+                                    <div class="flex-shrink-0 pl-7 bg-white rounded-lg shadow-lg p-4 mr-3" style="height: 150px; width: 150px;">
+                                        <h2 class="text-xl font-semibold mb-3" th:text="${reservation.restaurantName}"></h2>
+                                        <p th:text="${#temporals.format(reservation.date, 'yy.MM.dd')}" class="mb-1"></p>
+                                        <div class="flex items-center mb-1">
+                                            <p th:text="${reservation.reservationTime}"></p>
+                                        </div>
+                                        <p th:text="'예약 상태:' + ' ' + ${reservation.status}"></p>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                     <div class="max-w-3xl bg-white rounded-lg shadow-lg p-5 h-[255px] mx-auto mb-5 overflow-x-auto">
