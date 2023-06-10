@@ -26,6 +26,8 @@ public class ReservationRequestDto {
     @NotBlank
     private String restaurantName;
 
+    private String status;
+
     public String getName() {
         return name;
     }
@@ -57,6 +59,8 @@ public class ReservationRequestDto {
     public String getRestaurantName() {
         return restaurantName;
     }
+
+    public String getStatus() { return status; }
 
     // Setter 메서드
     public void setName(String name) {
@@ -90,4 +94,6 @@ public class ReservationRequestDto {
     public void setRestaurantName(String restaurantName) {
         this.restaurantName = restaurantName;
     }
+
+    public void setStatus(String status) { this.status = status; }
 }

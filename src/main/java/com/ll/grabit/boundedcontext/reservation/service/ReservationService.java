@@ -44,6 +44,7 @@ public class ReservationService {
         reservation.setMember(member);
         reservation.setRestaurant(restaurant);
         reservation.setRestaurantName(restaurant.getRestaurantName());
+        reservation.setStatus("PENDING");
 
         Reservation savedReservation = reservationRepository.save(reservation);
         return savedReservation.getReservationId();
@@ -61,6 +62,14 @@ public class ReservationService {
         reservationDto.setReservationTime(reservation.getReservationTime());
         reservationDto.setPartySize(reservation.getPartySize());
 
+        if (reservation.getStatus().equals("CONFIRMED")) {
+            reservationDto.setStatus("확정");
+        } else if (reservation.getStatus().equals("CANCELLED")) {
+            reservationDto.setStatus("취소");
+        } else {
+            reservationDto.setStatus("대기");
+        }
+
         return reservationDto;
     }
 
@@ -77,6 +86,14 @@ public class ReservationService {
             reservationDto.setPartySize(reservation.getPartySize());
             reservationDto.setRestaurantName(reservation.getRestaurantName());
 
+            if (reservation.getStatus().equals("CONFIRMED")) {
+                reservationDto.setStatus("확정");
+            } else if (reservation.getStatus().equals("CANCELLED")) {
+                reservationDto.setStatus("취소");
+            } else {
+                reservationDto.setStatus("대기");
+            }
+
             reservationDtos.add(reservationDto);
         }
         return reservationDtos;
@@ -87,6 +104,19 @@ public class ReservationService {
                 .orElseThrow(() -> new NoSuchElementException("Reservation not found with ID: " + id));
 
         reservationRepository.delete(reservation);
+    }
+
+    public void confirmReservation(Long id) {
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Reservation not found with ID: " + id));
+
+        if (reservation.getStatus().equals("PENDING")) {
+            // 예약 확정
+            reservation.setStatus("CONFIRMED");
+            reservationRepository.save(reservation);
+        } else {
+            throw new IllegalStateException("Reservation cannot be confirmed.");
+        }
     }
 
 }

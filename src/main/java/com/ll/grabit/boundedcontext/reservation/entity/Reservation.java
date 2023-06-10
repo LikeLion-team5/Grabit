@@ -42,13 +42,16 @@ public class Reservation {
 
     private String restaurantName;
 
+    private String status;
+
     @Builder
-    public Reservation(String name, String phone, LocalDate date, LocalTime reservationTime, int partySize) {
+    public Reservation(String name, String phone, LocalDate date, LocalTime reservationTime, int partySize, String status) {
         this.name = name;
         this.phone = phone;
         this.date = date;
         this.reservationTime = reservationTime;
         this.partySize = partySize;
+        this.status = status;
     }
     public Long getReservationId() {
         return reservationId;

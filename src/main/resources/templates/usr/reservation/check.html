@@ -42,7 +42,7 @@
                                 <span th:text="'인원수: ' + ${reservation.partySize} + '명'"></span>
                             </div>
                             <div>
-                                <span>현재 예약 상태: 예약 확정</span>
+                                <span th:text="'예약 상태: ' + ${reservation.status}"></span>
                             </div>
                         </div>
                         <div class="flex items-end">
