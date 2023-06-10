@@ -42,13 +42,16 @@ public class Reservation {
 
     private String restaurantName;
 
+    private String status;
+
     @Builder
-    public Reservation(String name, String phone, LocalDate date, LocalTime reservationTime, int partySize) {
+    public Reservation(String name, String phone, LocalDate date, LocalTime reservationTime, int partySize, String status) {
         this.name = name;
         this.phone = phone;
         this.date = date;
         this.reservationTime = reservationTime;
         this.partySize = partySize;
+        this.status = status;
     }
     public Long getReservationId() {
         return reservationId;
@@ -121,8 +124,16 @@ public class Reservation {
         this.restaurantName = restaurantName;
     }
 
+    public void cancelReservation() {
+        if (status.equals("PENDING")) {
+            status = "CANCELLED";
+        } else {
+            throw new IllegalStateException("Reservation cannot be cancelled.");
+        }
+    }
+
+    public String getStatus() { return status; }
+
+    public void setStatus(String status) { this.status = status; }
 
 }
-
-
-

@@ -59,9 +59,9 @@
                 <div id="restaurantList" class="restaurant-list">
                     <ol class="grid grid-cols-4 gap-x-5 gap-y-10">
                         <li class="restaurant_item" th:each="restaurant : ${restaurantList}">
-                            <a href="#" class="block mt-4 text-black font-bold text-base sm:text-lg">
-                                <span th:text="${restaurant.restaurantName}"></span>
-                            </a>
+                            <a th:href="@{restaurantInfo/{restaurantId}(restaurantId=${restaurant.restaurantId})}" class="block mt-4">
+                                <span th:text="${restaurant.restaurantName}" class = "text-black font-bold text-base sm:text-lg"></span>
+
                             <img class="block rounded" th:if="${restaurant.restaurantImage != null}"
                                  th:src="${restaurant.restaurantImage.imagePath}" alt="" height="200" width="200">
                             <!--                <img class="block rounded" th:if="${restaurant.restaurantImage == null}" th:src="@{/img/test_image.png}" alt="" height="200" width="200">-->
@@ -69,11 +69,7 @@
                             <div>
                                 <span th:text="${restaurant.description}"></span>
                             </div>
-                            <div>
-                                <span th:text="${restaurant.address.address1}"></span>
-                                <span th:text="${restaurant.address.address2}"></span>
-                                <span th:text="${restaurant.address.address3}"></span>
-                            </div>
+                            </a>
                         </li>
                     </ol>
                 </div>

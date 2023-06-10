@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -44,6 +45,7 @@ public class ReservationService {
         reservation.setMember(member);
         reservation.setRestaurant(restaurant);
         reservation.setRestaurantName(restaurant.getRestaurantName());
+        reservation.setStatus("PENDING");
 
         Reservation savedReservation = reservationRepository.save(reservation);
         return savedReservation.getReservationId();
@@ -61,12 +63,24 @@ public class ReservationService {
         reservationDto.setReservationTime(reservation.getReservationTime());
         reservationDto.setPartySize(reservation.getPartySize());
 
+        if (reservation.getStatus().equals("CONFIRMED")) {
+            reservationDto.setStatus("확정");
+        } else if (reservation.getStatus().equals("CANCELLED")) {
+            reservationDto.setStatus("취소");
+        } else {
+            reservationDto.setStatus("대기");
+        }
+
         return reservationDto;
     }
 
     public List<ReservationResponseDto> getReservationsByMemberId(Long member_id) {
         List<Reservation> reservations = reservationRepository.findAllByMemberId(member_id);
+
+        reservations.sort(Comparator.comparing(Reservation::getDate));
+
         List<ReservationResponseDto> reservationDtos = new ArrayList<>();
+
         for (Reservation reservation : reservations) {
             ReservationResponseDto reservationDto = new ReservationResponseDto();
             reservationDto.setReservationId(reservation.getReservationId());
@@ -76,6 +90,16 @@ public class ReservationService {
             reservationDto.setReservationTime(reservation.getReservationTime());
             reservationDto.setPartySize(reservation.getPartySize());
             reservationDto.setRestaurantName(reservation.getRestaurantName());
+
+            if (reservation.getStatus().equals("CONFIRMED")) {
+                reservationDto.setStatus("확정");
+            } else if (reservation.getStatus().equals("CANCELLED")) {
+                reservationDto.setStatus("취소");
+            } else if (reservation.getStatus().equals("COMPLETED")) {
+                reservationDto.setStatus("방문 완료");
+            } else {
+                reservationDto.setStatus("대기");
+            }
 
             reservationDtos.add(reservationDto);
         }
@@ -87,6 +111,39 @@ public class ReservationService {
                 .orElseThrow(() -> new NoSuchElementException("Reservation not found with ID: " + id));
 
         reservationRepository.delete(reservation);
+    }
+
+    public void confirmReservation(Long id) {
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Reservation not found with ID: " + id));
+
+        if (reservation.getStatus().equals("PENDING")) {
+            // 예약 확정
+            reservation.setStatus("CONFIRMED");
+            reservationRepository.save(reservation);
+        } else {
+            throw new IllegalStateException("Reservation cannot be confirmed.");
+        }
+    }
+
+    public void completeReservation(Long id) {
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Reservation not found with ID: " + id));
+
+        if (!reservation.getStatus().equals("CONFIRMED")) {
+            throw new IllegalStateException("Reservation cannot be completed.");
+        }
+
+        reservation.setStatus("COMPLETED");
+        reservationRepository.save(reservation);
+    }
+
+    public void cancelReservation(Long id) {
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Reservation not found with ID: " + id));
+
+        reservation.cancelReservation();
+        reservationRepository.save(reservation);
     }
 
 }

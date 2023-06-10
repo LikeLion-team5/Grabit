@@ -13,6 +13,7 @@ public class ReservationResponseDto {
     private Long memberId;
     private Long restaurantId;
     private String restaurantName;
+    private String status;
 
     public Long getReservationId() {
         return reservationId;
@@ -50,6 +51,8 @@ public class ReservationResponseDto {
         return restaurantName;
     }
 
+    public String getStatus() { return status; }
+
     public void setRestaurantName(String restaurantName) {
         this.restaurantName = restaurantName;
     }
@@ -84,5 +87,9 @@ public class ReservationResponseDto {
 
     public void setRestaurantId(Long restaurantId) {
         this.restaurantId = restaurantId;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
