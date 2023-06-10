@@ -95,6 +95,8 @@ public class ReservationService {
                 reservationDto.setStatus("확정");
             } else if (reservation.getStatus().equals("CANCELLED")) {
                 reservationDto.setStatus("취소");
+            } else if (reservation.getStatus().equals("COMPLETED")) {
+                reservationDto.setStatus("방문 완료");
             } else {
                 reservationDto.setStatus("대기");
             }
@@ -122,6 +124,18 @@ public class ReservationService {
         } else {
             throw new IllegalStateException("Reservation cannot be confirmed.");
         }
+    }
+
+    public void completeReservation(Long id) {
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Reservation not found with ID: " + id));
+
+        if (!reservation.getStatus().equals("CONFIRMED")) {
+            throw new IllegalStateException("Reservation cannot be completed.");
+        }
+
+        reservation.setStatus("COMPLETED");
+        reservationRepository.save(reservation);
     }
 
     public void cancelReservation(Long id) {

@@ -92,4 +92,10 @@ public class ReservationController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/{id}/complete")
+    public ResponseEntity<Void> completeReservation(@PathVariable Long id) {
+        reservationService.completeReservation(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
