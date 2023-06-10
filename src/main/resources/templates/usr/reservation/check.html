@@ -3,7 +3,10 @@
       layout:decorate="~{common/layout/defaultLayout}">
 
 <head>
+    <meta charset="UTF-8">
     <title>예약 조회</title>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <meta name="_csrf" th:content="${_csrf.token}">
 </head>
 
 <body>
@@ -27,7 +30,7 @@
                             <span th:text="${reservation.restaurantName}" class="font-bold text-black"></span>
                         </div>
                         <div class="flex items-end">
-                            <a class="text-red-500 rounded">예약 취소</a>
+                            <button type="button" th:onclick="'cancelReservation(' + ${reservation.reservationId} + ')'" class="text-red-500 rounded">예약 취소</button>
                         </div>
                     </div>
                     <div class="flex mt-4 flex-1 h-full justify-between">
@@ -53,6 +56,28 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            function cancelReservation(reservationId) {
+                var csrfHeader = $("meta[name='_csrf_header']").attr('content');
+                var csrfToken = $("meta[name='_csrf']").attr('content');
+
+                $.ajax({
+                    type: "POST",
+                    url: "/reservation/" + reservationId + "/cancel",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader(csrfHeader, csrfToken);
+                    },
+                    success: function () {
+                        alert('예약이 취소되었습니다.');
+                        location.reload();
+                    },
+                    error: function () {
+                        alert('예약 취소에 실패했습니다. 다시 시도해주세요.');
+                    }
+                });
+            }
+        </script>
     </main>
 </th:block>
 </body>

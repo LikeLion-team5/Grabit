@@ -82,5 +82,9 @@ public class ReservationController {
         return ResponseEntity.ok(responseDtoList);
     }
 
-
+    @PostMapping("/{id}/cancel")
+    public ResponseEntity<Void> cancelReservation(@PathVariable Long id) {
+        reservationService.cancelReservation(id);
+        return ResponseEntity.noContent().build();
+    }
 }

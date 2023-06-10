@@ -124,6 +124,14 @@ public class Reservation {
         this.restaurantName = restaurantName;
     }
 
+    public void cancelReservation() {
+        if (status.equals("PENDING")) {
+            status = "CANCELLED";
+        } else {
+            throw new IllegalStateException("Reservation cannot be cancelled.");
+        }
+    }
+
 
 }
 

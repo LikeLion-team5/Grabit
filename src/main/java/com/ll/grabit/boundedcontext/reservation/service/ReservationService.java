@@ -119,4 +119,12 @@ public class ReservationService {
         }
     }
 
+    public void cancelReservation(Long id) {
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Reservation not found with ID: " + id));
+
+        reservation.cancelReservation();
+        reservationRepository.save(reservation);
+    }
+
 }
