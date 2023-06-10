@@ -55,7 +55,6 @@ public class ReviewController {
 
         if(member != null){
             List<Review> reviewList = reviewService.findByReviewerId(member.getId());
-
             model.addAttribute("reviewList", reviewList);
         }
 
@@ -64,8 +63,13 @@ public class ReviewController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify/{reviewId}")
-    public String showModify(@PathVariable Long reviewId, Model model) {
+    public String showEdit(@PathVariable Long reviewId, Model model) {
         Review review = reviewService.findById(reviewId).orElseThrow();
+
+        RsData canModifyRsData = reviewService.canEdit(rq.getMember(), review);
+
+        if (canModifyRsData.isFail()) return rq.historyBack(canModifyRsData.getMsg());
+
         model.addAttribute("review", review);
 
         return "usr/review/modify";
@@ -73,16 +77,21 @@ public class ReviewController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{reviewId}")
-    public String modify(@PathVariable Long reviewId, Review review) {
-        reviewService.modifyReview(reviewId, review);
+    public String edit(@PathVariable Long reviewId, Review review) {
+        reviewService.edit(reviewId, review);
 
         return "redirect:/review/check";
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{reviewId}")
-    public String delete(@PathVariable Long reviewId) {
+    public String showDelete(@PathVariable Long reviewId) {
         Review review = reviewService.findById(reviewId).orElseThrow();
+
+        RsData canDeleteRsData = reviewService.canDelete(rq.getMember(), review);
+
+        if(canDeleteRsData.isFail()) return rq.historyBack(canDeleteRsData.getMsg());
+
         reviewService.delete(review);
 
         return "redirect:/review/check";

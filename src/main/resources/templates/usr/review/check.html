@@ -44,7 +44,7 @@
                                     <div class="flex items-center mb-2">
                                         <span class="mr-1">평점</span>
                                         <span th:each="i : ${#numbers.sequence(1,5)}">
-                                            <span th:if="${i <= review.rating}" style="color: #ffd700;">&#9733;</span> <!-- filled star -->
+                                            <span th:if="${i <= review.rating}" class="text-yellow-500">&#9733;</span> <!-- filled star -->
                                             <span th:if="${i > review.rating}" style="color: #ffd700;">&#9734;</span> <!-- empty star -->
                                         </span>
                                     </div>
