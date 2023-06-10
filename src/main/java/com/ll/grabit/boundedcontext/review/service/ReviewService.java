@@ -40,7 +40,7 @@ public class ReviewService {
     }
 
     @Transactional
-    private Review createAndSave(String content, int rating, Long restaurantId, Long reviewerId) {
+    public Review createAndSave(String content, int rating, Long restaurantId, Long reviewerId) {
         Restaurant restaurant = restaurantService.findOne(restaurantId);
         Member reviewer = memberService.findByIdElseThrow(reviewerId);
 
