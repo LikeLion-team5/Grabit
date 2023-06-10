@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -75,7 +76,11 @@ public class ReservationService {
 
     public List<ReservationResponseDto> getReservationsByMemberId(Long member_id) {
         List<Reservation> reservations = reservationRepository.findAllByMemberId(member_id);
+
+        reservations.sort(Comparator.comparing(Reservation::getDate));
+
         List<ReservationResponseDto> reservationDtos = new ArrayList<>();
+
         for (Reservation reservation : reservations) {
             ReservationResponseDto reservationDto = new ReservationResponseDto();
             reservationDto.setReservationId(reservation.getReservationId());
