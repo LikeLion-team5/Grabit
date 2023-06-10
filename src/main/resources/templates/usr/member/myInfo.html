@@ -91,7 +91,7 @@
                                         <div class="flex items-center mb-1">
                                             <p th:text="${reservation.reservationTime}"></p>
                                         </div>
-                                        <p th:text="'예약 상태:' + ' ' + ${reservation.status}"></p>
+                                        <p th:text="${reservation.status}"></p>
                                     </div>
                                 </li>
                             </ul>
