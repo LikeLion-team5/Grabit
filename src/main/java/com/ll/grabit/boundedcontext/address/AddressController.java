@@ -26,8 +26,8 @@ public class AddressController {
 
     @GetMapping("/search/address3")
     @ResponseBody
-    public List<String> searchAddress3(String address2){
-        List<String> searchAddress3 = addressService.searchAddress3(address2);
+    public List<String> searchAddress3(String address1, String address2){
+        List<String> searchAddress3 = addressService.searchAddress3(address1, address2);
         return searchAddress3;
     }
 }

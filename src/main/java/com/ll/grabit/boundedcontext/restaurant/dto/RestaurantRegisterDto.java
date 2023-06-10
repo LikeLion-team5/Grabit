@@ -34,7 +34,7 @@ public class RestaurantRegisterDto {
     private String address1;
     @NotBlank(message = "중주소를 입력해주세요.")
     private String address2;
-    @NotNull(message = "소주소를 입력해주세요.")
+//    @NotNull(message = "소주소를 입력해주세요.")
     private String address3;
     @NotBlank(message = "세부주소를 적어주세요.")
     private String detail_address;

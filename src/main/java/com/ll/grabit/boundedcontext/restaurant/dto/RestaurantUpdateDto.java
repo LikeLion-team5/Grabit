@@ -30,7 +30,7 @@ public class RestaurantUpdateDto {
     private String address1;
     @NotBlank(message = "중주소를 입력해주세요.")
     private String address2;
-    @NotBlank(message = "소주소를 입력해주세요.")
+//    @NotBlank(message = "소주소를 입력해주세요.")
     private String address3;
     @NotBlank(message = "세부주소를 적어주세요.")
     private String detail_address;
@@ -45,6 +45,8 @@ public class RestaurantUpdateDto {
     @Max(value = 5, message = "5이하의 값을 입력해주세요.")
     @NotNull(message = "1~5 사이의 숫자를 입력해주세요.")
     private Integer perTimeMaxReservationCount;
+
+    private String menuUpdateDtoList;
 
     public Restaurant toEntity(Address address, LocalTime startTime, LocalTime endTime) {
         return Restaurant.builder()

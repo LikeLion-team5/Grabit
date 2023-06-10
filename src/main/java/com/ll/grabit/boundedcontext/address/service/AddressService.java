@@ -18,8 +18,8 @@ public class AddressService {
     public List<String> searchAddress2(String address1) {
         return addressRepository.address2List(address1);
     }
-    public List<String> searchAddress3(String address2) {
-        return addressRepository.address3List(address2);
+    public List<String> searchAddress3(String address1, String address2) {
+        return addressRepository.address3List(address1, address2);
     }
 
     public List<String> getAddress1List() {

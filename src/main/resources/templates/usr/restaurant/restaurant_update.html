@@ -4,8 +4,9 @@
       layout:fragment="Content">
 
 <head>
-  <title>식당 등록</title>
-  <!-- Your script can go here -->
+  <title>식당 수정 페이지</title>
+  <!--  <meta name="_csrf_header" th:content="${_csrf.headerName}">-->
+  <!--  <meta name="_csrf" th:content="${_csrf.token}">-->
 </head>
 
 <body>
@@ -15,31 +16,45 @@
       <div class="max-w-3xl w-full px-4">
         <form id="restaurant-form" th:action method="POST" th:object="${restaurantUpdateDto}" onsubmit="return false;">
           <div class="form-control">
+
+            <input type="text" value="@PathVariable" hidden>
+
             <label class="label">
               <span class="label-text">식당 이름</span>
             </label>
             <input type="text" id="restaurantName" name="restaurantName"
-                   th:text="*{restaurantName}" placeholder="식당 이름을 입력해주세요." class="input input-bordered mb-4" autofocus />
+                   th:value="*{restaurantName}" placeholder="식당 이름을 입력해주세요." class="input input-bordered mb-4" autofocus />
 
             <label class="label">
               <span class="label-text">식당 이미지</span>
             </label>
-            <input type="file" id="restaurantImage" name="file" accept="image/*" class="input input-bordered mb-4" autofocus />
+<!--            <input type="file" id="restaurantImage" name="file" accept="image/*" class="input input-bordered mb-4" autofocus />-->
+            <input type="file" id="restaurantImage" name="file" accept="image/*" class="input input-bordered mb-4" autofocus
+                   th:style="${image != null and image.uploadFileName != null} ? 'display: none;' : ''" />
+           <div id="current_image">
+             <a th:if="${image != null and image.uploadFileName != null}" th:text="'기존 이미지 = ' + ${image.uploadFileName}">
+             </a>
+             <span th:if="${image != null and image.uploadFileName != null}"
+                   th:text="X"
+                   th:id="deleteImageButton" onclick="deleteImage();"></span>
+           </div>
+
 
             <label class="label">
               <span class="label-text">식당 소개</span>
             </label>
-            <input type="text" id="description" name="description" placeholder="식당 소개를 입력해주세요." class="input input-bordered mb-4" autofocus />
+            <input type="text" id="description" name="description"
+                   th:value="*{description}" placeholder="식당 소개를 입력해주세요." class="input input-bordered mb-4" autofocus />
 
             <label class="label">
               <span class="label-text">식당 유형</span>
             </label>
             <select id="type" name="type" class="input input-bordered mb-4">
               <option value="">식당 유형을 선택해주세요.</option>
-              <option value="Korean">한식</option>
-              <option value="Chinese">중식</option>
-              <option value="Japanese">일식</option>
-              <option value="Western">양식</option>
+              <option value="Korean" th:selected="*{type.equals('Korean')}">한식</option>
+              <option value="Chinese" th:selected="*{type.equals('Chinese')}">중식</option>
+              <option value="Japanese" th:selected="*{type.equals('Japanese')}">일식</option>
+              <option value="Western" th:selected="*{type.equals('Western')}">양식</option>
             </select>
 
 
@@ -51,7 +66,8 @@
             </label>
             <select id="address1" name="address1" class="input input-bordered mb-4">
               <option value="">선택해주세요</option>®
-              <option th:each="address1 : ${address1List}" th:vale="${address1}" th:text="${address1}"></option>
+              <option th:each="address1 : ${address1List}" th:vale="${address1}" th:text="${address1}"
+                      th:selected="${address1.equals(restaurantUpdateDto.address1)}"></option>
             </select>
 
             <label for="address2">
@@ -59,6 +75,7 @@
             </label>
             <select id="address2" name="address2" class="input input-bordered mb-4">
               <option value="">선택해주세요</option>
+              <option th:value="*{address2}" th:text="*{address2}" th:selected="*{address2 != null}"></option>
             </select>
 
 
@@ -67,42 +84,21 @@
             </label>
             <select id="address3" name="address3" class="input input-bordered mb-4">
               <option value="">선택해주세요</option>
+              <option th:value="*{address3}" th:text="*{address3}" th:selected="*{address3 != null}"></option>
             </select>
 
             <label class="label">
               <span class="label-text">상세 주소</span>
             </label>
-            <input type="text" id="detail_address" name="detail_address" placeholder="상세주소 적어주세요." class="input input-bordered mb-4">
+            <input type="text" id="detail_address" name="detail_address" th:value="*{detail_address}" placeholder="상세주소 적어주세요." class="input input-bordered mb-4">
 
             <label class="label">
               <span class="label-text">오픈시간</span>
             </label>
             <select id="startTime" name="startTime" class="input input-bordered mb-4">
               <option value="">오픈시간 선택</option>
-              <option value="01:00">01:00</option>
-              <option value="02:00">02:00</option>
-              <option value="03:00">03:00</option>
-              <option value="04:00">04:00</option>
-              <option value="05:00">05:00</option>
-              <option value="06:00">06:00</option>
-              <option value="07:00">07:00</option>
-              <option value="08:00">08:00</option>
-              <option value="09:00">09:00</option>
-              <option value="10:00">10:00</option>
-              <option value="11:00">11:00</option>
-              <option value="12:00">12:00</option>
-              <option value="13:00">13:00</option>
-              <option value="14:00">14:00</option>
-              <option value="15:00">15:00</option>
-              <option value="16:00">16:00</option>
-              <option value="17:00">17:00</option>
-              <option value="18:00">18:00</option>
-              <option value="19:00">19:00</option>
-              <option value="20:00">20:00</option>
-              <option value="21:00">21:00</option>
-              <option value="22:00">22:00</option>
-              <option value="23:00">23:00</option>
-              <option value="24:00">24:00</option>
+              <option th:each="num : ${#numbers.sequence(1,24)}" th:value="${num} + ':00'" th:text="${num} + ':00'"
+                      th:selected="*{startTime} == ${num}"></option>
             </select>
 
             <label class="label">
@@ -110,42 +106,26 @@
             </label>
             <select id="endTime" name="endTime" class="input input-bordered mb-4">
               <option value="">마감시간 선택</option>
-              <option value="01:00">01:00</option>
-              <option value="02:00">02:00</option>
-              <option value="03:00">03:00</option>
-              <option value="04:00">04:00</option>
-              <option value="05:00">05:00</option>
-              <option value="06:00">06:00</option>
-              <option value="07:00">07:00</option>
-              <option value="08:00">08:00</option>
-              <option value="09:00">09:00</option>
-              <option value="10:00">10:00</option>
-              <option value="11:00">11:00</option>
-              <option value="12:00">12:00</option>
-              <option value="13:00">13:00</option>
-              <option value="14:00">14:00</option>
-              <option value="15:00">15:00</option>
-              <option value="16:00">16:00</option>
-              <option value="17:00">17:00</option>
-              <option value="18:00">18:00</option>
-              <option value="19:00">19:00</option>
-              <option value="20:00">20:00</option>
-              <option value="21:00">21:00</option>
-              <option value="22:00">22:00</option>
-              <option value="23:00">23:00</option>
-              <option value="24:00">24:00</option>
+              <option th:each="num : ${#numbers.sequence(1,24)}" th:value="${num} + ':00'" th:text="${num} + ':00'"
+                      th:selected="*{endTime} == ${num}"></option>
             </select>
 
             <label class="label">
-              <span class="label-text">마감시간</span>
+              <span class="label-text">시간 당 최대 예약 수</span>
             </label>
             <input type="number" id="perTimeMaxReservationCount" name="perTimeMaxReservationCount" placeholder="1~5 사이의 숫자를 입력해주세요."
-              class="input input-bordered mb-4">
+                   th:value="*{perTimeMaxReservationCount}"
+                   class="input input-bordered mb-4">
 
 
             <!-- Dynamic Menu Fields -->
             <div id="menu-fields">
               <!-- Menu fields will be added here -->
+              <div th:each="menu,i : ${menuList}" th:id="'menu' + ${i.index}">
+                <input type="text" name="menuName" th:value="${menu.menuName}">
+                <input type="number" name="price" th:value="${menu.price}">
+                <button type="button" class="remove-menu-button"> 메뉴 삭제</button>
+              </div>
             </div>
 
             <!-- Add Menu Button -->
@@ -155,9 +135,12 @@
             <!-- Rest of your form goes here -->
           </div>
           <div class="flex justify-center">
-            <button class="bg-white text-red-500 py-3 px-20 rounded-lg shadow-md text-lg mb-5">식당 등록</button>
+              <button class="bg-white text-red-500 py-3 px-20 rounded-lg shadow-md text-lg mb-5">식당 수정</button>
           </div>
         </form>
+          <form id="deleteForm" method="post" th:action="@{|/restaurant/${restaurantId}/delete|}" style="display: none;">
+          </form>
+          <button id="deleteButton" class="bg-white text-red-500 py-3 px-20 rounded-lg shadow-md text-lg mb-5">식당 삭제</button>
       </div>
     </div>
   </main>
@@ -170,28 +153,47 @@
   }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script th:inline="javascript">
+  var restaurantId = /*[[${restaurantId}]]*/ 'default';
+  var menuIndex = /*[[${menuList.size()}]]*/ 0;
+</script>
+
+<!--식당을 삭제할 것인지 물어보는 이벤트-->
+<script>
+    document.getElementById('deleteButton').addEventListener('click', function () {
+        if (confirm('식당정보를 삭제하시겠습니까?')) {
+            document.getElementById('deleteForm').submit();
+        }
+    });
+</script>
+
+<script>
+    //메뉴 삭제 이벤트
+    let menuFields = document.getElementById('menu-fields');
+    menuFields.addEventListener('click', function(e) {
+        // Check if the clicked element is a remove-menu-button
+        if (e.target && e.target.classList.contains('remove-menu-button')) {
+            // Remove the parent div of the clicked button
+            e.target.parentElement.remove();
+        }
+    });
+</script>
+
 <script>
   $(function() {
-    var menuIndex = 0;
 
     // 메뉴 추가 버튼 클릭 이벤트 시, 메뉴 등록 칸 추가
     $('#add-menu-button').click(function() {
       $('#menu-fields').append('<div id="menu' + menuIndex + '">' +
               '<input type="text" name="menuName" placeholder="메뉴 이름을 입력해주세요." />' +
-              '<span th:if="${#fields.hasErrors(\'menuName\')}" th:errors="*{menuName}"></span>' +
               '<input type="number" name="price" placeholder="메뉴 가격은 500원 ~ 1,000,000원 입니다." />' +
-              '<span th:if="${#fields.hasErrors(\'price\')}" th:errors="*{price}"></span>' +
               '<button type="button" class="remove-menu-button">메뉴 삭제</button>' +
               '</div>');
       menuIndex++;
-
-      // 메뉴 삭제 버튼 클릭 시, 메뉴 칸 삭제
-      $('#menu' + (menuIndex - 1) + ' .remove-menu-button').click(function() {
-        $(this).parent().remove();
-      });
     });
 
-    // 식당등록 버튼 클릭 시, formData 로 보낸다.
+    // 식당수정 버튼 클릭 시, formData 로 보낸다.
     $('#restaurant-form').submit(function(e) {
       e.preventDefault();
 
@@ -223,7 +225,7 @@
       for (var key in data) {
         formData.append(key, data[key]); // append other data
       }
-      formData.append('menuRegisterDtoList', JSON.stringify(menus));
+      formData.append('menuUpdateDtoList', JSON.stringify(menus));
 
 
       // CSRF 토큰
@@ -232,18 +234,18 @@
 
 
       $.ajax({
-        url: '/restaurant/register', // your api url
+        url: '/restaurant/' + restaurantId + '/edit', // your api url
         type: 'POST',
         processData: false,  // tell jQuery not to process the data
         contentType: false,  // tell jQuery not to set contentType
         data: formData,
 
         //CSRF 토큰 값 세팅
-        beforeSend: function(xhr){
-          xhr.setRequestHeader(header, token);
-        },
+        // beforeSend: function(xhr){
+        //   xhr.setRequestHeader(header, token);
+        // },
         success: function(response) {
-          alert('식당이 성공적으로 등록되었습니다.');
+          alert('식당이 성공적으로 수정되었습니다.');
           window.location.href = '/';
         },
         error: function(jqXHR) {
@@ -294,10 +296,11 @@
 
     // 중주소 클릭 시, 소주소 리스트 받아오기
     $('#address2').change(function() {
+        var address1 = $('#address1').val()
       var address2 = $(this).val();
 
       $.ajax({
-        url: '/address/search/address3?address2=' + address2, // update as needed
+          url: '/address/search/address3?address1=' + address1 + '&address2=' + address2, // update as needed
         type: 'GET',
         success: function(response) {
           var address3Select = $('#address3');
@@ -316,6 +319,35 @@
     });
 
   });
+</script>
+
+<!--기존 이미지 삭제 하는 JS-->
+<script type="text/javascript">
+  function toggleImageUpload() {
+    var imageUpload = document.getElementById('restaurantImage');
+
+    if (imageUpload.style.display === 'none') {
+      imageUpload.style.display = 'block';
+    } else {
+      imageUpload.style.display = 'none';
+    }
+  }
+
+  function deleteImage() {
+    $.ajax({
+      url: "/restaurant/" + restaurantId + "/image/delete",
+      type: "POST",
+      success: function(response) {
+        // 서버에서 이미지 삭제가 성공적으로 수행되면 이미지 업로드 영역을 표시
+          $('#current_image').empty();
+          toggleImageUpload();
+      },
+      error: function(error) {
+        // 이미지 삭제 요청이 실패하면 오류 메시지를 출력
+          console.log(error);
+      }
+    });
+  }
 </script>
 
 </html>
