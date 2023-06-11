@@ -193,9 +193,7 @@ public class NotProd {
             }
 
             ReservationRequestDto reservationRequestDto1 = new ReservationRequestDto();
-            reservationRequestDto1.setMemberId(
-              
-              .getId());
+            reservationRequestDto1.setMemberId(member1.getId());
             reservationRequestDto1.setRestaurantId(restaurant2.getRestaurantId());
             reservationRequestDto1.setName("예약자1");
             reservationRequestDto1.setPhone("01012345678");
