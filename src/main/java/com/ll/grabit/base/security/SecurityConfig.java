@@ -17,15 +17,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authorize -> authorize
                                 .anyRequest().permitAll()
-                ).csrf(
-                /*
+                )/*.csrf(
+
                 식당 등록 테스트를 위해서 csrf 토큰 꺼둔다. POST, PUT, DELETE 같은
                 데이터 변경이 일어날만한 HTTP 메서드에서는 csrf 토큰을 함께 받아야지 실행이 된다.
                 따라서 원할한 테스트를 위해서 꺼둔다.
-                 */
+
                         csrfConfigurer -> csrfConfigurer
                                 .disable()
-                )
+                )*/
                 .formLogin(
                         formLogin -> formLogin
                                 .loginPage("/member/login")

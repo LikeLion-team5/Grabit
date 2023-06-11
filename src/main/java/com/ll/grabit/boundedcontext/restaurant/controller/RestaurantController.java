@@ -240,7 +240,7 @@ public class RestaurantController {
 //    }
 
     //식당 클릭 시, 식당 1건 조회
-    @GetMapping("/{restaurantId}")
+    @GetMapping("/restaurantInfo/{restaurantId}")
     public String searchOne(@PathVariable Long restaurantId, Model model){
         //식당 정보
         Restaurant findRestaurant = restaurantService.findOne(restaurantId);
@@ -252,7 +252,7 @@ public class RestaurantController {
         List<String> reservationTimeList = getReservationTimeList(openTime, closeTime);
         model.addAttribute("reservationTimeList", reservationTimeList);
 
-        return "식당 상세보기 페이지";
+        return "/usr/restaurant/restaurantInfo";
     }
 
     @GetMapping("/restaurantInfo")
@@ -277,4 +277,5 @@ public class RestaurantController {
 
         return reservationTimeList;
     }
+
 }

@@ -30,6 +30,10 @@ public class MemberService {
         return memberRepository.findById(memberId);
     }
 
+    public Member findByIdElseThrow(Long memberId) {
+        return findById(memberId).orElseThrow();
+    }
+
     public Optional<Member> findByNickname(String nickname) { return  memberRepository.findByNickname(nickname); }
 
     @Transactional

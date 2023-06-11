@@ -210,6 +210,7 @@ public class RestaurantService {
         return restaurantRepository.findByAddressIn(addresses, pageable);
     }
 
+
     public void deleteImage(Long id) {
         Restaurant findRestaurant = findOne(id);
         RestaurantImage restaurantImage = findRestaurant.getRestaurantImage();

@@ -1,6 +1,7 @@
 package com.ll.grabit.boundedcontext.member.entity;
 
 
+import com.ll.grabit.boundedcontext.reservation.entity.Reservation;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -38,6 +39,9 @@ public class Member {
     private String email;
 
     private String phone;
+
+    @OneToMany(mappedBy = "member")
+    private List<Reservation> reservations = new ArrayList<>();
 
     @CreatedDate
     private LocalDateTime createDate;

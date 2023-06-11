@@ -1,15 +1,17 @@
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layout/defaultLayout}"
-      layout:fragment="Content">
+      layout:decorate="~{common/layout/defaultLayout}">
 
 <head>
+    <meta charset="UTF-8">
     <title>예약 조회</title>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <meta name="_csrf" th:content="${_csrf.token}">
 </head>
 
 <body>
-<section layout:fragment="content">
-    <main class="flex flex-col" style="background-color: #FEE8E8">
+<th:block layout:fragment="Content">
+    <main class="flex flex-1 flex-col">
         <div class="flex-grow flex items-center justify-center">
             <div class="max-w-3xl w-full mt-8 px-4">
                 <div class="flex w-full justify-between">
@@ -22,89 +24,61 @@
                         <option>오래된순</option>
                     </select>
                 </div>
-                <div class="text-black max-w-3xl bg-white rounded-lg shadow-lg p-5 h-[200px] mx-auto mb-5 flex flex-col overflow-y-auto">
+                <div th:each="reservation : ${reservations}" class="text-black max-w-3xl bg-white rounded-lg shadow-lg p-5 h-[200px] mx-auto mb-5 flex flex-col overflow-y-auto">
                     <div class="flex justify-between border-b pb-2">
                         <div>
-                            <span class="font-bold">AAA 식당</span>
+                            <span th:text="${reservation.restaurantName}" class="font-bold text-black"></span>
                         </div>
-                        <div>
-                            <span>2023-05-28 / 오후 7:00</span>
+                        <div class="flex items-end">
+                            <button type="button" th:if="${reservation.status == '대기'}" th:onclick="'cancelReservation(' + ${reservation.reservationId} + ')'" class="text-red-500 rounded">예약 취소</button>
                         </div>
                     </div>
                     <div class="flex mt-4 flex-1 h-full justify-between">
                         <div class="flex flex-col justify-between">
                             <div>
-                                <span>인원수: 2명</span>
+                                <span th:text="'예약 날짜: ' + ${reservation.date}"></span>
                             </div>
                             <div>
-                                <span>현재 예약 상태: 예약 확정</span>
+                                <span th:text="'예약 시간: ' + ${reservation.reservationTime}"></span>
                             </div>
                             <div>
-                                <span>요청사항: 애기의자 2개 준비해주시면 감사하겠습니다.</span>
-                            </div>
-                        </div>
-                        <div class="flex items-end hidden">
-                            <span class="text-red-400">리뷰작성</span>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="text-black max-w-3xl bg-white rounded-lg shadow-lg p-5 h-[200px] mx-auto mb-5 flex flex-col overflow-y-auto">
-                    <div class="flex justify-between border-b pb-2">
-                        <div>
-                            <span class="font-bold">BBB 식당</span>
-                        </div>
-                        <div>
-                            <span>2023-05-28 / 오후 7:00</span>
-                        </div>
-                    </div>
-                    <div class="flex mt-4 flex-1 h-full justify-between">
-                        <div class="flex flex-col justify-between">
-                            <div>
-                                <span>인원수: 2명</span>
+                                <span th:text="'인원수: ' + ${reservation.partySize} + '명'"></span>
                             </div>
                             <div>
-                                <span>현재 예약 상태: 예약 확정</span>
-                            </div>
-                            <div>
-                                <span>요청사항: 애기의자 2개 준비해주시면 감사하겠습니다.</span>
-                            </div>
-                        </div>
-                        <div class="flex items-end hidden">
-                            <span class="text-red-400">리뷰작성</span>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="text-black max-w-3xl bg-white rounded-lg shadow-lg p-5 h-[200px] mx-auto mb-5 flex flex-col overflow-y-auto">
-                    <div class="flex justify-between border-b pb-2">
-                        <div>
-                            <span class="font-bold">CCC 식당</span>
-                        </div>
-                        <div>
-                            <span>2023-05-28 / 오후 7:00</span>
-                        </div>
-                    </div>
-                    <div class="flex mt-4 flex-1 h-full justify-between">
-                        <div class="flex flex-col justify-between">
-                            <div>
-                                <span>인원수: 2명</span>
-                            </div>
-                            <div>
-                                <span>현재 예약 상태: 방문 완료</span>
-                            </div>
-                            <div>
-                                <span>요청사항: 애기의자 2개 준비해주시면 감사하겠습니다.</span>
+                                <span th:text="'예약 상태: ' + ${reservation.status}"></span>
                             </div>
                         </div>
                         <div class="flex items-end">
-                            <span class="text-red-400">리뷰작성</span>
+                            <a class="text-red-500 rounded" th:if="${reservation.status == '방문 완료'}" th:href="@{/review/add/1}">리뷰 작성</a>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
+
+        <script>
+            function cancelReservation(reservationId) {
+                var csrfHeader = $("meta[name='_csrf_header']").attr('content');
+                var csrfToken = $("meta[name='_csrf']").attr('content');
+
+                $.ajax({
+                    type: "POST",
+                    url: "/reservation/" + reservationId + "/cancel",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader(csrfHeader, csrfToken);
+                    },
+                    success: function () {
+                        alert('예약이 취소되었습니다.');
+                        location.reload();
+                    },
+                    error: function () {
+                        alert('예약 취소에 실패했습니다. 다시 시도해주세요.');
+                    }
+                });
+            }
+        </script>
     </main>
-</section>
+</th:block>
 </body>
 </html>

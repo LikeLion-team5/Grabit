@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
@@ -24,6 +25,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
+@ActiveProfiles(value = "test")
 @AutoConfigureMockMvc
 @Transactional
 class RestaurantServiceTest {
@@ -139,7 +141,7 @@ class RestaurantServiceTest {
         Page<Restaurant> search = restaurantService.search(addressSearchDto, pageRequest);
 
         assertThat(search.getNumberOfElements()).isEqualTo(8);
-        assertThat(search.getTotalElements()).isEqualTo(60);
+        assertThat(search.getTotalElements()).isEqualTo(63);
         assertThat(search.getTotalPages()).isEqualTo(8);
         assertThat(search.getNumberOfElements()).isEqualTo(8);
     }

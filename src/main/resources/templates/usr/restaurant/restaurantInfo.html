@@ -1,13 +1,15 @@
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layout/defaultLayout}"
-      layout:fragment="Content">
+      layout:decorate="~{common/layout/defaultLayout}">
 <head>
     <meta charset="UTF-8">
     <title>식당 정보</title>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <meta name="_csrf" th:content="${_csrf.token}">
 </head>
+
 <body>
-<section layout:fragment="content">
-    <main class="min-h-screen flex flex-col" style="background-color: #FEE8E8">
+<th:block layout:fragment="Content">
+    <main class="min-h-screen flex flex-1 flex-col">
         <div class="flex-grow flex flex-col items-center justify-center">
             <div class="max-w-3xl mx-auto w-full mt-10 mb-5 px-4">
                 <div class="bg-white  rounded-lg shadow-lg p-5">
@@ -16,19 +18,19 @@
                             <img src="https://i.postimg.cc/MKRjtWYH/IMG-4678-1024x742.jpg" alt="프로필 사진" class="w-32 h-32 sm:w-40 sm:h-40 rounded mr-5">
                             <div class="ml-2">
                                 <div class="md:flex md:items-center sm:flex-row flex-col">
-                                    <h2 class="text-2xl font-bold mt-0">식당 이름</h2>
+                                    <h2 class="text-2xl font-bold mt-0" th:text="${restaurant.restaurantName}"></h2>
                                     <div class="md:flex md:ml-3 sm:ml-0">
                                         <a class="normal-case text-base" style="cursor: pointer">
                                             <i class="fas fa-star text-yellow-500 mr-1"></i>4.5 (554)</a>
                                     </div>
                                 </div>
                                 <div class="flex flex-col">
-                                    <p class="mt-1">식당 소개입니다.</p>
+                                    <p class="mt-1" th:text="${restaurant.description}"></p>
 
                                     <div class="flex flex-col sm:flex-row mt-2">
                                         <div>
                                             <p class="font-bold">영업 시간</p>
-                                            <p>09:00 ~ 22:00</p>
+                                            <p th:text="${restaurant.openingTime} + ' ~ ' + ${restaurant.closingTime}"></p>
                                         </div>
                                         <div class="md:ml-10 md:mt-0 mt-2">
                                             <p class="font-bold">전화번호</p>
@@ -38,7 +40,7 @@
 
                                     <div class="mt-2">
                                         <p class="font-bold">주소</p>
-                                        <p>서울특별시 서초구 양재동 264-7</p>
+                                        <p th:text="${restaurant.address.address1} + ' ' + ${restaurant.address.address2} + ' ' + ${restaurant.address.address3} + ' ' + ${restaurant.detail_address}"></p>
                                     </div>
                                 </div>
                             </div>
@@ -108,7 +110,8 @@
                     </div>
                     <h3 class="text-lg font-bold pt-5">예약하기</h3>
                     <div class="bg-gray-100 p-4 rounded-lg mt-2">
-                        <form>
+                        <form id="reservationForm" action="/reservation/reservation" method="post">
+                            <input type="hidden" name="restaurantId" th:value="${restaurant.restaurantId}" >
                             <div class="mb-4">
                                 <label for="name" class="block text-sm font-medium text-gray-700">이름</label>
                                 <input type="text" id="name" name="name" class="bg-white border border-gray-300 rounded-md p-2 w-full">
@@ -122,35 +125,102 @@
                                 <input type="date" id="date" name="date" class="bg-white border border-gray-300 rounded-md p-2 w-full">
                             </div>
                             <div class="mb-4">
-                                <label for="reservation-time" class="block text-sm font-medium text-gray-700">시간</label>
-                                <select id="reservation-time" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                <label for="reservationTime" class="block text-sm font-medium text-gray-700">시간</label>
+                                <select id="reservationTime" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                     <option selected disabled>예약 시간 선택</option>
-                                    <option value="09:00">09:00</option>
-                                    <option value="09:30">09:30</option>
-                                    <option value="10:00">10:00</option>
-                                    <option value="10:30">10:30</option>
-                                    <option value="11:00">11:00</option>
-                                    <option value="11:30">11:30</option>
-                                    <option value="12:00">12:00</option>
-                                    <option value="12:30">12:30</option>
+                                    <option th:each="time : ${reservationTimeList}" th:value="${time}" th:text="${time}"></option>
                                 </select>
                             </div>
                             <div class="mb-4">
                                 <label for="party-size" class="block text-sm font-medium text-gray-700">인원 수</label>
                                 <input type="number" id="party-size" name="party-size" min="1" class="bg-white border border-gray-300 rounded-md p-2 w-full">
                             </div>
-
                         </form>
-
                     </div>
-
                 </div>
             </div>
             <div class="flex justify-center mt-4">
-                <button type="submit" class="text-red-500 py-3 px-20 rounded-lg shadow-md text-lg mb-10" style="background-color: white;">예약하기</button>
+                <button type="button" onclick="submitReservationForm()" class="text-red-500 py-3 px-20 rounded-lg shadow-md text-lg mb-10" style="background-color: white;">예약하기</button>
             </div>
+
+            <script>
+                function submitReservationForm() {
+                    var form = document.getElementById('reservationForm');
+                    var name = form.name.value.trim();
+                    var phone = form.phone.value.trim();
+                    var date = form.date.value.trim();
+                    var reservationTime = form['reservationTime'].value.trim();
+                    var partySize = form['party-size'].value.trim();
+                    var restaurantId =  form.restaurantId.value;
+
+
+                    if (name === '') {
+                        alert('이름을 입력해주세요.');
+                        return false;
+                    }
+
+                    if (phone === '') {
+                        alert('전화번호를 입력해주세요.');
+                        return false;
+                    }
+
+                    if (date === '') {
+                        alert('날짜를 선택해주세요.');
+                        return false;
+                    }
+
+                    if (reservationTime === '') {
+                        alert('예약 시간을 선택해주세요.');
+                        return false;
+                    }
+
+                    if (partySize === '') {
+                        alert('인원 수를 입력해주세요.');
+                        return false;
+                    }
+
+                    // AJAX 요청 생성
+                    var xhr = new XMLHttpRequest();
+                    var header = $("meta[name='_csrf_header']").attr('content');
+                    var token = $("meta[name='_csrf']").attr('content');
+                    xhr.open('POST', '/reservation/check', true);
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.setRequestHeader(header, token);
+
+                    // 요청 데이터 설정
+                    var data = {
+                        name: name,
+                        phone: phone,
+                        date: date,
+                        reservationTime: reservationTime,
+                        partySize: partySize,
+                        restaurantId: restaurantId
+                    };
+
+                    // 요청 전송
+                    xhr.send(JSON.stringify(data));
+
+
+                    // 응답 처리
+                    xhr.onload = function() {
+                        const data = JSON.parse(xhr.response);
+
+                        if (data.resultCode === "S-1") {
+                            alert('예약이 완료되었습니다.');
+
+                            alert('예약이 성공하였습니다.');
+                            // window.location.href = "/"
+                        } else {
+                            alert('예약 요청에 실패했습니다. 다시 시도해주세요.');
+                        }
+                    };
+
+                    return true;
+                }
+            </script>
+
         </div>
     </main>
-</section>
+</th:block>
 </body>
 </html>
