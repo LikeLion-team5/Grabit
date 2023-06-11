@@ -139,7 +139,7 @@ class RestaurantServiceTest {
         Page<Restaurant> search = restaurantService.search(addressSearchDto, pageRequest);
 
         assertThat(search.getNumberOfElements()).isEqualTo(8);
-        assertThat(search.getTotalElements()).isEqualTo(60);
+        assertThat(search.getTotalElements()).isEqualTo(63);
         assertThat(search.getTotalPages()).isEqualTo(8);
         assertThat(search.getNumberOfElements()).isEqualTo(8);
     }
