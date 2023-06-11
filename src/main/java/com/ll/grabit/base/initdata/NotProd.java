@@ -1,13 +1,15 @@
 package com.ll.grabit.base.initdata;
 
-
-
+import com.ll.grabit.boundedcontext.member.entity.Member;
 import com.ll.grabit.boundedcontext.address.entity.Address;
-
 import com.ll.grabit.boundedcontext.member.form.MemberCreateDto;
 import com.ll.grabit.boundedcontext.member.service.MemberService;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
+import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.restaurant.service.RestaurantService;
+import com.ll.grabit.boundedcontext.reservation.dto.ReservationRequestDto;
+import com.ll.grabit.boundedcontext.reservation.service.ReservationService;
+import com.ll.grabit.boundedcontext.review.service.ReviewService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +17,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Optional;
 
 
@@ -24,7 +28,9 @@ public class NotProd {
     @Bean
     public CommandLineRunner initData(
             MemberService memberService,
-            RestaurantService restaurantService
+            RestaurantService restaurantService,
+            ReservationService reservationService,
+            ReviewService reviewService
     ) {
         return args -> {
             MemberCreateDto memberCreateDto1 = MemberCreateDto.builder()
@@ -54,9 +60,9 @@ public class NotProd {
                     .phone("01012345678")
                     .build();
 
-            memberService.join(memberCreateDto1);
-            memberService.join(memberCreateDto2);
-            memberService.join(memberCreateDto3);
+            Member member1 = memberService.join(memberCreateDto1).getData();
+            Member member2 = memberService.join(memberCreateDto2).getData();
+            Member member3 = memberService.join(memberCreateDto3).getData();
 
             MultipartFile multipartFile = null;
 
@@ -76,6 +82,10 @@ public class NotProd {
             for(int i=0; i<20; i++) {
                 restaurantService.save(restaurantDto,address.get(), multipartFile);
             }
+
+            Restaurant restaurant1 = restaurantService.save(restaurantDto, address.get(), multipartFile);
+            Restaurant restaurant2 = restaurantService.save(restaurantDto, address.get(), multipartFile);
+            Restaurant restaurant3 = restaurantService.save(restaurantDto, address.get(), multipartFile);
 
             restaurantDto.setAddress2("도봉구");
             restaurantDto.setAddress3("창동");
@@ -150,6 +160,57 @@ public class NotProd {
             for(int i=0; i<10; i++) {
                 restaurantService.save(restaurantDto, address.get(), multipartFile);
             }
+
+            ReservationRequestDto reservationRequestDto1 = new ReservationRequestDto();
+            reservationRequestDto1.setMemberId(member1.getId());
+            reservationRequestDto1.setRestaurantId(restaurant2.getRestaurantId());
+            reservationRequestDto1.setName("예약자1");
+            reservationRequestDto1.setPhone("01012345678");
+            reservationRequestDto1.setDate(LocalDate.parse("2023-06-20"));
+            reservationRequestDto1.setReservationTime(LocalTime.parse("18:00"));
+            reservationRequestDto1.setPartySize(3);
+            Long reservationId1 = reservationService.createReservation(reservationRequestDto1);
+
+            ReservationRequestDto reservationRequestDto2 = new ReservationRequestDto();
+            reservationRequestDto2.setMemberId(member1.getId());
+            reservationRequestDto2.setRestaurantId(restaurant2.getRestaurantId());
+            reservationRequestDto2.setName("예약자2");
+            reservationRequestDto2.setPhone("01098765432");
+            reservationRequestDto2.setDate(LocalDate.parse("2023-06-21"));
+            reservationRequestDto2.setReservationTime(LocalTime.parse("14:00"));
+            reservationRequestDto2.setPartySize(2);
+            Long reservationId2 = reservationService.createReservation(reservationRequestDto2);
+
+            reservationService.confirmReservation(reservationId2);
+
+            ReservationRequestDto reservationRequestDto3 = new ReservationRequestDto();
+            reservationRequestDto3.setMemberId(member1.getId());
+            reservationRequestDto3.setRestaurantId(restaurant3.getRestaurantId());
+            reservationRequestDto3.setName("예약자3");
+            reservationRequestDto3.setPhone("01081345432");
+            reservationRequestDto3.setDate(LocalDate.parse("2023-06-22"));
+            reservationRequestDto3.setReservationTime(LocalTime.parse("13:00"));
+            reservationRequestDto3.setPartySize(4);
+            Long reservationId3 = reservationService.createReservation(reservationRequestDto3);
+
+            reservationService.confirmReservation(reservationId3);
+            reservationService.completeReservation(reservationId3);
+
+
+
+
+
+            reviewService.addReview("맛있었습니다!!", 3, restaurant1.getRestaurantId(), member1.getId());
+            reviewService.addReview("맛없어요!!", 1, restaurant1.getRestaurantId(), member2.getId());
+            reviewService.addReview("적당해요!!", 3, restaurant1.getRestaurantId(), member3.getId());
+
+            reviewService.addReview("맛있었습니다!!", 5, restaurant2.getRestaurantId(), member1.getId());
+            reviewService.addReview("맛없어요!!", 1, restaurant2.getRestaurantId(), member2.getId());
+            reviewService.addReview("적당해요!!", 3, restaurant2.getRestaurantId(), member3.getId());
+
+            reviewService.addReview("맛있었습니다!!", 5, restaurant3.getRestaurantId(), member1.getId());
+            reviewService.addReview("맛없어요!!", 1, restaurant3.getRestaurantId(), member2.getId());
+            reviewService.addReview("적당해요!!", 3, restaurant3.getRestaurantId(), member3.getId());
         };
     }
 }
