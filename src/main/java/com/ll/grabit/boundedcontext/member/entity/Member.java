@@ -41,6 +41,7 @@ public class Member {
     private String phone;
 
     @OneToMany(mappedBy = "member")
+    @Builder.Default
     private List<Reservation> reservations = new ArrayList<>();
 
     @CreatedDate
