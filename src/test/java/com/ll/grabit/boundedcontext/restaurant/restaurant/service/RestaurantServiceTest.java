@@ -60,7 +60,9 @@ class RestaurantServiceTest {
         dto.setPerTimeMaxReservationCount(3);
 
 
-        Optional<Address> findAddress = restaurantService.findAddress(dto);
+        Optional<Address> findAddress = restaurantService.findAddress(
+                dto.getAddress1(), dto.getAddress2(), dto.getAddress3()
+        );
 
         //when
         Restaurant saveRes = restaurantService.save(dto,findAddress.get(), null);

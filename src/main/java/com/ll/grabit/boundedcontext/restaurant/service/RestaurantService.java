@@ -6,6 +6,7 @@ import com.ll.grabit.base.exception.NotFoundDataException;
 import com.ll.grabit.base.s3.S3Uploader;
 import com.ll.grabit.boundedcontext.address.dto.AddressSearchDto;
 import com.ll.grabit.boundedcontext.menu.dto.MenuRegisterDto;
+import com.ll.grabit.boundedcontext.menu.dto.MenuUpdateDto;
 import com.ll.grabit.boundedcontext.menu.entity.Menu;
 import com.ll.grabit.boundedcontext.menu.repository.MenuRepository;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
@@ -85,9 +86,10 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
-    public Optional<Address> findAddress(RestaurantRegisterDto restaurantRegisterDto) {
-        Optional<Address> findAddress = addressRepository.findByAddress1AndAddress2AndAddress3(restaurantRegisterDto.getAddress1(),
-                restaurantRegisterDto.getAddress2(), restaurantRegisterDto.getAddress3());
+    public Optional<Address> findAddress(String address1, String address2, String address3) {
+        Optional<Address> findAddress = addressRepository.findByAddress1AndAddress2AndAddress3(
+                address1, address2, address3
+        );
         return findAddress;
     }
 
@@ -115,32 +117,36 @@ public class RestaurantService {
         LocalTime startTime = extractedLocalTime(restaurantUpdateDto.getStartTime());
         LocalTime endTime = extractedLocalTime(restaurantUpdateDto.getEndTime());
 
-        RestaurantImage restaurantImage = findRestaurant.getRestaurantImage();
-        if (restaurantImage == null) {
-            //이미지 등록
-            if (multipartFile != null && !multipartFile.isEmpty()) {
-                RestaurantImage image = s3Uploader.uploadFiles(multipartFile, dir);
-                image.setRestaurant(findRestaurant);
-                restaurantImageRepository.save(image);
+
+        //식당 이미지 업데이트
+        if(multipartFile != null && !multipartFile.isEmpty()){
+            RestaurantImage image = s3Uploader.uploadFiles(multipartFile, dir);
+            image.setRestaurant(findRestaurant);
+            restaurantImageRepository.save(image);
+        }
+
+        //식당 메뉴 업데이트(string 메뉴 리스트 -> 메뉴 업데이트 리스트 전환 -> 메뉴 저장)
+        ObjectMapper objectMapper = new ObjectMapper();
+        if(restaurantUpdateDto.getMenuUpdateDtoList() != null){
+            List<MenuUpdateDto> menuUpdateList = objectMapper.readValue(restaurantUpdateDto.getMenuUpdateDtoList(),
+                    new TypeReference<List<MenuUpdateDto>>() {});
+
+            //1. 식당의 모든 메뉴 삭제
+            List<Menu> menuList = findRestaurant.getMenuList();
+            for (Menu menu : menuList) {
+                menuRepository.delete(menu);
             }
-        } else {
 
-            //이미지 교체
-            if (multipartFile != null && !multipartFile.isEmpty()) {
-                restaurantImageRepository.delete(restaurantImage); //기존 이미지 삭제
+            //2. 새로 받은 메뉴 리스트를 식당의 메뉴로 등록
+            for (MenuUpdateDto menuUpdate : menuUpdateList) {
+                if(!menuUpdate.getMenuName().isEmpty()){
+                    //Dto -> Entity
+                    Menu menu = menuUpdate.toEntity();
+                    menu.setRestaurant(findRestaurant);
 
-                em.flush(); //강제 플러시 시켜서 외래키 중복 에러 제거
-
-                //교체한 이미지 저장
-                RestaurantImage updateImage = s3Uploader.updateFile(restaurantImage.getStoredFileName(), multipartFile);
-                updateImage.setRestaurant(findRestaurant);
-                restaurantImageRepository.save(updateImage); // 새로운 이미지 등록
-            }
-            //이미지 삭제
-            else {
-                s3Uploader.deleteS3(restaurantImage.getStoredFileName());
-                restaurantImage.setRestaurant(null);
-                restaurantImageRepository.delete(restaurantImage);
+                    //메뉴 저장
+                    menuRepository.save(menu);
+                }
             }
         }
 
@@ -204,4 +210,10 @@ public class RestaurantService {
         return restaurantRepository.findByAddressIn(addresses, pageable);
     }
 
+
+    public void deleteImage(Long id) {
+        Restaurant findRestaurant = findOne(id);
+        RestaurantImage restaurantImage = findRestaurant.getRestaurantImage();
+        restaurantImageRepository.delete(restaurantImage);
+    }
 }

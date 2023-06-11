@@ -5,7 +5,8 @@
 
 <head>
   <title>식당 등록</title>
-  <!-- Your script can go here -->
+<!--  <meta name="_csrf_header" th:content="${_csrf.headerName}">-->
+<!--  <meta name="_csrf" th:content="${_csrf.token}">-->
 </head>
 
 <body>
@@ -49,7 +50,7 @@
               <span class="label-text">대주소</span>
             </label>
             <select id="address1" name="address1" class="input input-bordered mb-4">
-              <option value="">선택해주세요</option>®
+              <option value="">선택해주세요</option>
               <option th:each="address1 : ${address1List}" th:vale="${address1}" th:text="${address1}"></option>
             </select>
 
@@ -78,30 +79,7 @@
             </label>
             <select id="startTime" name="startTime" class="input input-bordered mb-4">
               <option value="">오픈시간 선택</option>
-              <option value="01:00">01:00</option>
-              <option value="02:00">02:00</option>
-              <option value="03:00">03:00</option>
-              <option value="04:00">04:00</option>
-              <option value="05:00">05:00</option>
-              <option value="06:00">06:00</option>
-              <option value="07:00">07:00</option>
-              <option value="08:00">08:00</option>
-              <option value="09:00">09:00</option>
-              <option value="10:00">10:00</option>
-              <option value="11:00">11:00</option>
-              <option value="12:00">12:00</option>
-              <option value="13:00">13:00</option>
-              <option value="14:00">14:00</option>
-              <option value="15:00">15:00</option>
-              <option value="16:00">16:00</option>
-              <option value="17:00">17:00</option>
-              <option value="18:00">18:00</option>
-              <option value="19:00">19:00</option>
-              <option value="20:00">20:00</option>
-              <option value="21:00">21:00</option>
-              <option value="22:00">22:00</option>
-              <option value="23:00">23:00</option>
-              <option value="24:00">24:00</option>
+              <option th:each="num : ${#numbers.sequence(1,24)}" th:value="${num} + ':00'" th:text="${num} + ':00'"></option>
             </select>
 
             <label class="label">
@@ -109,34 +87,11 @@
             </label>
             <select id="endTime" name="endTime" class="input input-bordered mb-4">
               <option value="">마감시간 선택</option>
-              <option value="01:00">01:00</option>
-              <option value="02:00">02:00</option>
-              <option value="03:00">03:00</option>
-              <option value="04:00">04:00</option>
-              <option value="05:00">05:00</option>
-              <option value="06:00">06:00</option>
-              <option value="07:00">07:00</option>
-              <option value="08:00">08:00</option>
-              <option value="09:00">09:00</option>
-              <option value="10:00">10:00</option>
-              <option value="11:00">11:00</option>
-              <option value="12:00">12:00</option>
-              <option value="13:00">13:00</option>
-              <option value="14:00">14:00</option>
-              <option value="15:00">15:00</option>
-              <option value="16:00">16:00</option>
-              <option value="17:00">17:00</option>
-              <option value="18:00">18:00</option>
-              <option value="19:00">19:00</option>
-              <option value="20:00">20:00</option>
-              <option value="21:00">21:00</option>
-              <option value="22:00">22:00</option>
-              <option value="23:00">23:00</option>
-              <option value="24:00">24:00</option>
+              <option th:each="num : ${#numbers.sequence(1,24)}" th:value="${num} + ':00'" th:text="${num} + ':00'"></option>
             </select>
 
             <label class="label">
-              <span class="label-text">마감시간</span>
+              <span class="label-text">시간 당 최대 예약 수</span>
             </label>
             <input type="number" id="perTimeMaxReservationCount" name="perTimeMaxReservationCount" placeholder="1~5 사이의 숫자를 입력해주세요."
               class="input input-bordered mb-4">
@@ -169,6 +124,20 @@
   }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+  //메뉴 삭제 이벤트
+  let menuFields = document.getElementById('menu-fields');
+  menuFields.addEventListener('click', function(e) {
+    // Check if the clicked element is a remove-menu-button
+    if (e.target && e.target.classList.contains('remove-menu-button')) {
+      // Remove the parent div of the clicked button
+      e.target.parentElement.remove();
+    }
+  });
+</script>
+
+
 <script>
   $(function() {
     var menuIndex = 0;
@@ -184,10 +153,10 @@
               '</div>');
       menuIndex++;
 
-      // 메뉴 삭제 버튼 클릭 시, 메뉴 칸 삭제
-      $('#menu' + (menuIndex - 1) + ' .remove-menu-button').click(function() {
-        $(this).parent().remove();
-      });
+      // // 메뉴 삭제 버튼 클릭 시, 메뉴 칸 삭제
+      // $('#menu' + (menuIndex - 1) + ' .remove-menu-button').click(function() {
+      //   $(this).parent().remove();
+      // });
     });
 
     // 식당등록 버튼 클릭 시, formData 로 보낸다.
@@ -224,7 +193,11 @@
       }
       formData.append('menuRegisterDtoList', JSON.stringify(menus));
 
-      console.log(formData);
+
+      // CSRF 토큰
+      // var header = $("meta[name='_csrf_header']").attr('content');
+      // var token = $("meta[name='_csrf']").attr('content');
+
 
       $.ajax({
         url: '/restaurant/register', // your api url
@@ -232,6 +205,11 @@
         processData: false,  // tell jQuery not to process the data
         contentType: false,  // tell jQuery not to set contentType
         data: formData,
+
+        //CSRF 토큰 값 세팅
+        // beforeSend: function(xhr){
+        //   xhr.setRequestHeader(header, token);
+        // },
         success: function(response) {
           alert('식당이 성공적으로 등록되었습니다.');
           window.location.href = '/';
@@ -284,10 +262,11 @@
 
     // 중주소 클릭 시, 소주소 리스트 받아오기
     $('#address2').change(function() {
+      var address1 = $('#address1').val()
       var address2 = $(this).val();
 
       $.ajax({
-        url: '/address/search/address3?address2=' + address2, // update as needed
+        url: '/address/search/address3?address1=' + address1 + '&address2=' + address2, // update as needed
         type: 'GET',
         success: function(response) {
           var address3Select = $('#address3');

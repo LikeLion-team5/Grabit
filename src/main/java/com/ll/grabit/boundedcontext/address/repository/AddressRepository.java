@@ -17,8 +17,8 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
     @Query("select distinct a.address2 from Address a where a.address1 = :address1")
     List<String> address2List(@Param("address1") String address1);
 
-    @Query("select distinct a.address3 from Address a  where a.address2 = :address2")
-    List<String> address3List(@Param("address2") String address2);
+    @Query("select distinct a.address3 from Address a  where a.address1 = :address1 and a.address2 = :address2")
+    List<String> address3List(@Param("address1") String address1, @Param("address2") String address2);
 
     @Query("select a from Address a where a.address1 = :address1")
     List<Address> findAddress1(@Param("address1") String address1);

@@ -1,0 +1,353 @@
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout/defaultLayout}"
+      layout:fragment="Content">
+
+<head>
+  <title>식당 수정 페이지</title>
+  <!--  <meta name="_csrf_header" th:content="${_csrf.headerName}">-->
+  <!--  <meta name="_csrf" th:content="${_csrf.token}">-->
+</head>
+
+<body>
+<section layout:fragment="content">
+  <main class="min-h-screen flex flex-col" style="background-color: #FEE8E8">
+    <div class="flex-grow flex items-center justify-center">
+      <div class="max-w-3xl w-full px-4">
+        <form id="restaurant-form" th:action method="POST" th:object="${restaurantUpdateDto}" onsubmit="return false;">
+          <div class="form-control">
+
+            <input type="text" value="@PathVariable" hidden>
+
+            <label class="label">
+              <span class="label-text">식당 이름</span>
+            </label>
+            <input type="text" id="restaurantName" name="restaurantName"
+                   th:value="*{restaurantName}" placeholder="식당 이름을 입력해주세요." class="input input-bordered mb-4" autofocus />
+
+            <label class="label">
+              <span class="label-text">식당 이미지</span>
+            </label>
+<!--            <input type="file" id="restaurantImage" name="file" accept="image/*" class="input input-bordered mb-4" autofocus />-->
+            <input type="file" id="restaurantImage" name="file" accept="image/*" class="input input-bordered mb-4" autofocus
+                   th:style="${image != null and image.uploadFileName != null} ? 'display: none;' : ''" />
+           <div id="current_image">
+             <a th:if="${image != null and image.uploadFileName != null}" th:text="'기존 이미지 = ' + ${image.uploadFileName}">
+             </a>
+             <span th:if="${image != null and image.uploadFileName != null}"
+                   th:text="X"
+                   th:id="deleteImageButton" onclick="deleteImage();"></span>
+           </div>
+
+
+            <label class="label">
+              <span class="label-text">식당 소개</span>
+            </label>
+            <input type="text" id="description" name="description"
+                   th:value="*{description}" placeholder="식당 소개를 입력해주세요." class="input input-bordered mb-4" autofocus />
+
+            <label class="label">
+              <span class="label-text">식당 유형</span>
+            </label>
+            <select id="type" name="type" class="input input-bordered mb-4">
+              <option value="">식당 유형을 선택해주세요.</option>
+              <option value="Korean" th:selected="*{type.equals('Korean')}">한식</option>
+              <option value="Chinese" th:selected="*{type.equals('Chinese')}">중식</option>
+              <option value="Japanese" th:selected="*{type.equals('Japanese')}">일식</option>
+              <option value="Western" th:selected="*{type.equals('Western')}">양식</option>
+            </select>
+
+
+            <div>
+
+            </div>
+            <label for="address1">
+              <span class="label-text">대주소</span>
+            </label>
+            <select id="address1" name="address1" class="input input-bordered mb-4">
+              <option value="">선택해주세요</option>®
+              <option th:each="address1 : ${address1List}" th:vale="${address1}" th:text="${address1}"
+                      th:selected="${address1.equals(restaurantUpdateDto.address1)}"></option>
+            </select>
+
+            <label for="address2">
+              <span class="label-text">중주소</span>
+            </label>
+            <select id="address2" name="address2" class="input input-bordered mb-4">
+              <option value="">선택해주세요</option>
+              <option th:value="*{address2}" th:text="*{address2}" th:selected="*{address2 != null}"></option>
+            </select>
+
+
+            <label for="address3">
+              <span class="label-text">소주소</span>
+            </label>
+            <select id="address3" name="address3" class="input input-bordered mb-4">
+              <option value="">선택해주세요</option>
+              <option th:value="*{address3}" th:text="*{address3}" th:selected="*{address3 != null}"></option>
+            </select>
+
+            <label class="label">
+              <span class="label-text">상세 주소</span>
+            </label>
+            <input type="text" id="detail_address" name="detail_address" th:value="*{detail_address}" placeholder="상세주소 적어주세요." class="input input-bordered mb-4">
+
+            <label class="label">
+              <span class="label-text">오픈시간</span>
+            </label>
+            <select id="startTime" name="startTime" class="input input-bordered mb-4">
+              <option value="">오픈시간 선택</option>
+              <option th:each="num : ${#numbers.sequence(1,24)}" th:value="${num} + ':00'" th:text="${num} + ':00'"
+                      th:selected="*{startTime} == ${num}"></option>
+            </select>
+
+            <label class="label">
+              <span class="label-text">마감시간</span>
+            </label>
+            <select id="endTime" name="endTime" class="input input-bordered mb-4">
+              <option value="">마감시간 선택</option>
+              <option th:each="num : ${#numbers.sequence(1,24)}" th:value="${num} + ':00'" th:text="${num} + ':00'"
+                      th:selected="*{endTime} == ${num}"></option>
+            </select>
+
+            <label class="label">
+              <span class="label-text">시간 당 최대 예약 수</span>
+            </label>
+            <input type="number" id="perTimeMaxReservationCount" name="perTimeMaxReservationCount" placeholder="1~5 사이의 숫자를 입력해주세요."
+                   th:value="*{perTimeMaxReservationCount}"
+                   class="input input-bordered mb-4">
+
+
+            <!-- Dynamic Menu Fields -->
+            <div id="menu-fields">
+              <!-- Menu fields will be added here -->
+              <div th:each="menu,i : ${menuList}" th:id="'menu' + ${i.index}">
+                <input type="text" name="menuName" th:value="${menu.menuName}">
+                <input type="number" name="price" th:value="${menu.price}">
+                <button type="button" class="remove-menu-button"> 메뉴 삭제</button>
+              </div>
+            </div>
+
+            <!-- Add Menu Button -->
+            <button type="button" id="add-menu-button">메뉴 추가</button>
+
+
+            <!-- Rest of your form goes here -->
+          </div>
+          <div class="flex justify-center">
+              <button class="bg-white text-red-500 py-3 px-20 rounded-lg shadow-md text-lg mb-5">식당 수정</button>
+          </div>
+        </form>
+          <form id="deleteForm" method="post" th:action="@{|/restaurant/${restaurantId}/delete|}" style="display: none;">
+          </form>
+          <button id="deleteButton" class="bg-white text-red-500 py-3 px-20 rounded-lg shadow-md text-lg mb-5">식당 삭제</button>
+      </div>
+    </div>
+  </main>
+</section>
+</body>
+
+<style>
+  ::placeholder {
+    font-size: 13px;
+  }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script th:inline="javascript">
+  var restaurantId = /*[[${restaurantId}]]*/ 'default';
+  var menuIndex = /*[[${menuList.size()}]]*/ 0;
+</script>
+
+<!--식당을 삭제할 것인지 물어보는 이벤트-->
+<script>
+    document.getElementById('deleteButton').addEventListener('click', function () {
+        if (confirm('식당정보를 삭제하시겠습니까?')) {
+            document.getElementById('deleteForm').submit();
+        }
+    });
+</script>
+
+<script>
+    //메뉴 삭제 이벤트
+    let menuFields = document.getElementById('menu-fields');
+    menuFields.addEventListener('click', function(e) {
+        // Check if the clicked element is a remove-menu-button
+        if (e.target && e.target.classList.contains('remove-menu-button')) {
+            // Remove the parent div of the clicked button
+            e.target.parentElement.remove();
+        }
+    });
+</script>
+
+<script>
+  $(function() {
+
+    // 메뉴 추가 버튼 클릭 이벤트 시, 메뉴 등록 칸 추가
+    $('#add-menu-button').click(function() {
+      $('#menu-fields').append('<div id="menu' + menuIndex + '">' +
+              '<input type="text" name="menuName" placeholder="메뉴 이름을 입력해주세요." />' +
+              '<input type="number" name="price" placeholder="메뉴 가격은 500원 ~ 1,000,000원 입니다." />' +
+              '<button type="button" class="remove-menu-button">메뉴 삭제</button>' +
+              '</div>');
+      menuIndex++;
+    });
+
+    // 식당수정 버튼 클릭 시, formData 로 보낸다.
+    $('#restaurant-form').submit(function(e) {
+      e.preventDefault();
+
+      var formData = new FormData();
+      formData.append('file', $('#restaurantImage')[0].files[0]); // append file
+
+      var menus = [];
+      $('#menu-fields div').each(function() {
+        var menuName = $(this).find('input[name="menuName"]').val();
+        var price = $(this).find('input[name="price"]').val();
+        menus.push({ menuName: menuName, price: price });
+      });
+
+      //식당 데이터 세팅
+      var data = {
+        restaurantName: $('#restaurantName').val(),
+        description: $('#description').val(),
+        type: $('#type').val(),
+        address1: $('#address1').val(),
+        address2: $('#address2').val(),
+        address3: $('#address3').val(),
+        detail_address: $('#detail_address').val(),
+        startTime: $('#startTime').val(),
+        endTime: $('#endTime').val(),
+        perTimeMaxReservationCount: $('#perTimeMaxReservationCount').val(),
+      };
+
+      //메뉴 데이터 세팅
+      for (var key in data) {
+        formData.append(key, data[key]); // append other data
+      }
+      formData.append('menuUpdateDtoList', JSON.stringify(menus));
+
+
+      // CSRF 토큰
+      var header = $("meta[name='_csrf_header']").attr('content');
+      var token = $("meta[name='_csrf']").attr('content');
+
+
+      $.ajax({
+        url: '/restaurant/' + restaurantId + '/edit', // your api url
+        type: 'POST',
+        processData: false,  // tell jQuery not to process the data
+        contentType: false,  // tell jQuery not to set contentType
+        data: formData,
+
+        //CSRF 토큰 값 세팅
+        // beforeSend: function(xhr){
+        //   xhr.setRequestHeader(header, token);
+        // },
+        success: function(response) {
+          alert('식당이 성공적으로 수정되었습니다.');
+          window.location.href = '/';
+        },
+        error: function(jqXHR) {
+          //기존에 있던 에러 메시지 초기화
+          $('.error-message').remove();
+
+          //에러 발생한 부분에 에러 메시지 추가
+          var responseJSON = jqXHR.responseJSON;
+          for (var field in responseJSON) {
+            // Find the corresponding input field and append the error message
+            $('input[name="' + field + '"]').after('<span class="error-message">' + responseJSON[field] + '</span>');
+            $('select[name="' + field + '"]').after('<span class="error-message">' + responseJSON[field] + '</span>');
+            if(field == "addressGlobalError")
+              alert(responseJSON[field]);
+          }
+        }
+      });
+    });
+
+    // Fetch sub-addresses when address1 changes
+    $('#address1').change(function() {
+      var address1 = $(this).val();
+
+      // Reset the address2 and address3 select fields
+      var address2Select = $('#address2');
+      address2Select.empty();
+      address2Select.append('<option value="">선택해주세요.</option>');
+
+      var address3Select = $('#address3');
+      address3Select.empty();
+      address3Select.append('<option value="">선택해주세요.</option>');
+
+      $.ajax({
+        url: '/address/search/address2?address1=' + address1, // update as needed
+        type: 'GET',
+        success: function(response) {
+          var address2Select = $('#address2');
+
+          $.each(response, function(index, address2) {
+            address2Select.append('<option value="' + address2 + '">' + address2 + '</option>');
+          });
+        },
+        error: function(jqXHR) {
+          alert('중주소 정보를 가져오는 데 실패했습니다.');
+        }
+      });
+    });
+
+    // 중주소 클릭 시, 소주소 리스트 받아오기
+    $('#address2').change(function() {
+        var address1 = $('#address1').val()
+      var address2 = $(this).val();
+
+      $.ajax({
+          url: '/address/search/address3?address1=' + address1 + '&address2=' + address2, // update as needed
+        type: 'GET',
+        success: function(response) {
+          var address3Select = $('#address3');
+          address3Select.empty();
+          address3Select.append('<option value="">선택해주세요.</option>');
+
+          $.each(response, function(index, address3) {
+            address3Select.append('<option value="' + address3 + '">' + address3 + '</option>');
+          });
+          console.log(response);
+        },
+        error: function(jqXHR) {
+          alert('소주소 정보를 가져오는 데 실패했습니다.');
+        }
+      });
+    });
+
+  });
+</script>
+
+<!--기존 이미지 삭제 하는 JS-->
+<script type="text/javascript">
+  function toggleImageUpload() {
+    var imageUpload = document.getElementById('restaurantImage');
+
+    if (imageUpload.style.display === 'none') {
+      imageUpload.style.display = 'block';
+    } else {
+      imageUpload.style.display = 'none';
+    }
+  }
+
+  function deleteImage() {
+    $.ajax({
+      url: "/restaurant/" + restaurantId + "/image/delete",
+      type: "POST",
+      success: function(response) {
+        // 서버에서 이미지 삭제가 성공적으로 수행되면 이미지 업로드 영역을 표시
+          $('#current_image').empty();
+          toggleImageUpload();
+      },
+      error: function(error) {
+        // 이미지 삭제 요청이 실패하면 오류 메시지를 출력
+          console.log(error);
+      }
+    });
+  }
+</script>
+
+</html>
