@@ -77,7 +77,7 @@ public class ReservationService {
     public List<ReservationResponseDto> getReservationsByMemberId(Long member_id) {
         List<Reservation> reservations = reservationRepository.findAllByMemberId(member_id);
 
-        reservations.sort(Comparator.comparing(Reservation::getDate));
+        reservations.sort(Comparator.comparing(Reservation::getDate).thenComparing(Reservation::getReservationTime));
 
         List<ReservationResponseDto> reservationDtos = new ArrayList<>();
 
