@@ -118,7 +118,8 @@
                             </div>
                             <div class="mb-4">
                                 <label for="phone" class="block text-sm font-medium text-gray-700">전화번호</label>
-                                <input type="tel" id="phone" name="phone" class="bg-white border border-gray-300 rounded-md p-2 w-full">
+                                <input type="tel" id="phone" name="phone" class="bg-white border border-gray-300 rounded-md p-2 w-full" pattern="[0-9]{11}" title="올바른 전화번호 형식을 입력하세요. (예: 010-1234-5678)" placeholder="010XXXXXXXX">
+
                             </div>
                             <div class="mb-4">
                                 <label for="date" class="block text-sm font-medium text-gray-700">날짜</label>
@@ -161,6 +162,12 @@
 
                     if (phone === '') {
                         alert('전화번호를 입력해주세요.');
+                        return false;
+                    }
+
+                    var phonePattern = /^[0-9]{11}$/;
+                    if (!phonePattern.test(phone)) {
+                        alert('올바른 전화번호 형식을 입력하세요. (예: 010XXXXXXXX)');
                         return false;
                     }
 
