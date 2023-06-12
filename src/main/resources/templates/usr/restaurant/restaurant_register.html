@@ -5,8 +5,8 @@
 
 <head>
   <title>식당 등록</title>
-<!--  <meta name="_csrf_header" th:content="${_csrf.headerName}">-->
-<!--  <meta name="_csrf" th:content="${_csrf.token}">-->
+  <meta name="_csrf_header" th:content="${_csrf.headerName}">
+  <meta name="_csrf" th:content="${_csrf.token}">
 </head>
 
 <body>
@@ -195,8 +195,8 @@
 
 
       // CSRF 토큰
-      // var header = $("meta[name='_csrf_header']").attr('content');
-      // var token = $("meta[name='_csrf']").attr('content');
+      var header = $("meta[name='_csrf_header']").attr('content');
+      var token = $("meta[name='_csrf']").attr('content');
 
 
       $.ajax({
@@ -207,9 +207,9 @@
         data: formData,
 
         //CSRF 토큰 값 세팅
-        // beforeSend: function(xhr){
-        //   xhr.setRequestHeader(header, token);
-        // },
+        beforeSend: function(xhr){
+          xhr.setRequestHeader(header, token);
+        },
         success: function(response) {
           alert('식당이 성공적으로 등록되었습니다.');
           window.location.href = '/';
