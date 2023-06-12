@@ -268,11 +268,11 @@ public class RestaurantController {
                 reservationTimeList.add(i+":00");
         }else{
             //21:00 ~ 05:00
-            for(int i = openTime; i <= 24; i++)
+            for(int i = openTime; i < 24; i++)
                 reservationTimeList.add(i+":00");
 
-            for(int i = 1; i < closeTime; i++)
-                reservationTimeList.add(i+":00");
+            for(int i = 0; i < closeTime; i++)
+                reservationTimeList.add(String.format("%02d:00", i));
         }
 
         return reservationTimeList;
