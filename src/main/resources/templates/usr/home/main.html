@@ -145,10 +145,11 @@
 
                 // 중주소 클릭 시, 소주소 리스트 받아오기
                 $('#address2').change(function () {
+                    var address1 = $('#address1').val()
                     var address2 = $(this).val();
 
                     $.ajax({
-                        url: '/address/search/address3?address2=' + address2, // update as needed
+                        url: '/address/search/address3?address1=' + address1 + '&address2=' + address2, // update as needed
                         type: 'GET',
                         success: function (response) {
                             var address3Select = $('#address3');
