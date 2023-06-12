@@ -215,13 +215,12 @@
                         if (data.resultCode === "S-1") {
                             alert('예약이 완료되었습니다.');
 
-                            alert('예약이 성공하였습니다.');
-                            // window.location.href = "/"
-                        } else {
-                            alert('예약 요청에 실패했습니다. 다시 시도해주세요.');
+                        } else if (data.resultCode === "F-1") {
+                            alert('예약을 하기 위해서는 로그인이 필요합니다. 로그인해주세요.');
+                            // 로그인 페이지로 이동
+                            window.location.href = "/member/login";
                         }
                     };
-
                     return true;
                 }
             </script>
