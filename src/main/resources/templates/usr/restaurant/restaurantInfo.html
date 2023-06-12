@@ -17,7 +17,8 @@
                         <div class="flex items-center">
                             <img src="https://i.postimg.cc/MKRjtWYH/IMG-4678-1024x742.jpg" alt="프로필 사진" class="w-32 h-32 sm:w-40 sm:h-40 rounded mr-5">
                             <div class="ml-2">
-                                <div class="md:flex md:items-center sm:flex-row flex-col">
+                                <div class="md:flex md:items-center sm:flex-row flex-col" style="position: relative;">
+                                    <a sec:authorize="isAuthenticated() and hasAuthority('admin')" class="text-red-500 rounded text-lg absolute right-0 top-0" th:href="@{/restaurant/{id}/edit(id=${restaurant.restaurantId})}">식당 수정</a>
                                     <h2 class="text-2xl font-bold mt-0" th:text="${restaurant.restaurantName}"></h2>
                                     <div class="md:flex md:ml-3 sm:ml-0">
                                         <a class="normal-case text-base" style="cursor: pointer">
