@@ -24,6 +24,12 @@
                         <option>오래된순</option>
                     </select>
                 </div>
+                <div th:if="${#lists.isEmpty(reservations)}">
+                    <div class="text-gray-400 max-w-3xl bg-white rounded-lg shadow-lg p-5 h-[200px] mb-5 flex justify-center items-center">
+                        <span class="mr-1">예약이 존재하지 않습니다</span>
+                        <i class="fa-regular fa-face-sad-tear" style="position:relative; top:-1px;"></i>
+                    </div>
+                </div>
                 <div th:each="reservation : ${reservations}" class="text-black max-w-3xl bg-white rounded-lg shadow-lg p-5 h-[200px] mx-auto mb-5 flex flex-col overflow-y-auto">
                     <div class="flex justify-between border-b pb-2">
                         <div>
