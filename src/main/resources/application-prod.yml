@@ -1,7 +1,4 @@
 spring:
-  profiles:
-    active: dev
-    include: secret
   datasource:
       url: jdbc:mariadb://172.17.0.1:8080/grabit__prod?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul
       driver-class-name: org.mariadb.jdbc.Driver
