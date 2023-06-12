@@ -1,17 +1,20 @@
-<!DOCTYPE html>
-
-
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout/defaultLayout}">
 <head>
-  <title>주문 결제성공</title>
+  <meta charset="UTF-8">
+  <title>예약 성공</title>
 </head>
 
 <body>
-<main>
-  <section class="section section-payment-success container mx-auto">
-    <div>
-      예약 성공!
-    </div>
-  </section>
-</main>
+<th:block layout:fragment="Content">
+  <main>
+    <section class="section section-payment-success container mx-auto">
+      <div>
+        예약 성공!
+      </div>
+    </section>
+  </main>
+</th:block>
+
 </body>
 </html>
