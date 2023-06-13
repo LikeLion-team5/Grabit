@@ -1,6 +1,7 @@
 package com.ll.grabit.boundedcontext.reservation.entity;
 
 import com.ll.grabit.boundedcontext.member.entity.Member;
+import com.ll.grabit.boundedcontext.payment.eneity.Payment;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 
 import jakarta.persistence.*;
@@ -29,6 +30,9 @@ public class Reservation {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @OneToOne(mappedBy = "reservation")
+    private Payment payment;
 
     private String name;
 

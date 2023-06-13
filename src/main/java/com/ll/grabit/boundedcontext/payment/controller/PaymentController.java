@@ -6,9 +6,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ll.grabit.base.rq.Rq;
 import com.ll.grabit.base.rsdata.RsData;
 import com.ll.grabit.boundedcontext.member.entity.Member;
+import com.ll.grabit.boundedcontext.payment.eneity.Payment;
 import com.ll.grabit.boundedcontext.payment.exception.AmountNotMatchedException;
 import com.ll.grabit.boundedcontext.payment.service.PaymentService;
 import com.ll.grabit.boundedcontext.reservation.dto.ReservationRequestDto;
+import com.ll.grabit.boundedcontext.reservation.entity.Reservation;
 import com.ll.grabit.boundedcontext.reservation.service.ReservationService;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.restaurant.service.RestaurantService;
@@ -88,6 +90,11 @@ public class PaymentController {
             @RequestParam String reservationTime,
             @RequestParam Integer partySize,
             Model model) throws JsonProcessingException {
+        Member loginMember = rq.getMember();
+        if (loginMember == null || restaurantId == null) {
+            throw new RuntimeException("로그인 하지 않았거나 식당정보가 존재하지 않습니다.");
+        }
+
         if (amount < 0 || amount != 10000) {
             throw new AmountNotMatchedException();
         }
@@ -111,21 +118,16 @@ public class PaymentController {
 
         //결제 성공
         if (responseEntity.getStatusCode() == HttpStatus.OK) {
-            Member member = rq.getMember();
-            paymentService.save(member, paymentKey, orderId, amount);
+            ReservationRequestDto reservationRequestDto = new ReservationRequestDto();
+            reservationRequestDto.setName(name);
+            reservationRequestDto.setPhone(phone);
+            reservationRequestDto.setDate(date);
+            reservationRequestDto.setReservationTime(extractedLocalTime(reservationTime));
+            reservationRequestDto.setPartySize(partySize);
+            reservationRequestDto.setRestaurantId(restaurantId);
+            reservationRequestDto.setMemberId(loginMember.getId());
 
-            Member loginMember = rq.getMember();
-            if (loginMember != null && restaurantId != null) {
-                ReservationRequestDto reservationRequestDto = new ReservationRequestDto();
-                reservationRequestDto.setName(name);
-                reservationRequestDto.setPhone(phone);
-                reservationRequestDto.setDate(date);
-                reservationRequestDto.setReservationTime(extractedLocalTime(reservationTime));
-                reservationRequestDto.setPartySize(partySize);
-                reservationRequestDto.setRestaurantId(restaurantId);
-                reservationRequestDto.setMemberId(loginMember.getId());
-                reservationService.createReservation(reservationRequestDto);
-            }
+            paymentService.save(loginMember, paymentKey, orderId, amount, reservationRequestDto);
 
             return "redirect:/payment/success";
         } else {
@@ -156,23 +158,19 @@ public class PaymentController {
 
 
     //결제 취소 API
-    @PostMapping("/cancel")
+    @PostMapping("{reservationId}/cancel")
     @PreAuthorize("isAuthenticated() and hasAuthority('member')")
     @ResponseBody
-    public ResponseEntity<String> requestPaymentCancel(@RequestParam String paymentKey,
-                                       @RequestParam String cancelReason){
-        RestTemplate restTemplate1 = new RestTemplate();
+    public ResponseEntity<String> requestPaymentCancel(
+            @PathVariable Long reservationId){
 
-        URI uri = URI.create("https://api.tosspayments.com/v1/payments/" + paymentKey + "/cancel");
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Basic " + Base64.getEncoder().encodeToString((SECRET_KEY + ":").getBytes()));
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        Reservation reservation = reservationService.findReservation(reservationId);
+        Payment payment = reservation.getPayment();
 
 
-        JSONObject param = new JSONObject();
-        param.put("cancelReason", cancelReason);
+        String response = paymentService.paymentCancel(payment);
+        reservationService.cancelReservation(reservationId);
 
-        String response = restTemplate1.postForObject(uri, new HttpEntity<>(param, headers), String.class);
         return ResponseEntity.ok(response);
 
     }
