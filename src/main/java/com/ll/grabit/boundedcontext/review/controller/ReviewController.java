@@ -62,7 +62,7 @@ public class ReviewController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/modify/{reviewId}")
+    @GetMapping("/edit/{reviewId}")
     public String showEdit(@PathVariable Long reviewId, Model model) {
         Review review = reviewService.findById(reviewId).orElseThrow();
 
@@ -76,9 +76,13 @@ public class ReviewController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/modify/{reviewId}")
+    @PostMapping("/edit/{reviewId}")
     public String edit(@PathVariable Long reviewId, Review review) {
-        reviewService.edit(reviewId, review);
+        RsData<Review> rsData = reviewService.edit(reviewId, review);
+
+        if (rsData.isFail()) {
+            return rq.historyBack(rsData.getMsg());
+        }
 
         return "redirect:/review/check";
     }
