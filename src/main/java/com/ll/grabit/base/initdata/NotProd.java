@@ -194,7 +194,7 @@ public class NotProd {
 
             ReservationRequestDto reservationRequestDto1 = new ReservationRequestDto();
             reservationRequestDto1.setMemberId(member1.getId());
-            reservationRequestDto1.setRestaurantId(restaurant2.getRestaurantId());
+            reservationRequestDto1.setRestaurantId(restaurant2.getId());
             reservationRequestDto1.setName("예약자1");
             reservationRequestDto1.setPhone("01012345678");
             reservationRequestDto1.setDate(LocalDate.parse("2023-06-20"));
@@ -204,7 +204,7 @@ public class NotProd {
 
             ReservationRequestDto reservationRequestDto2 = new ReservationRequestDto();
             reservationRequestDto2.setMemberId(member1.getId());
-            reservationRequestDto2.setRestaurantId(restaurant2.getRestaurantId());
+            reservationRequestDto2.setRestaurantId(restaurant2.getId());
             reservationRequestDto2.setName("예약자2");
             reservationRequestDto2.setPhone("01098765432");
             reservationRequestDto2.setDate(LocalDate.parse("2023-06-21"));
@@ -213,10 +213,11 @@ public class NotProd {
             Long reservationId2 = reservationService.createReservation(reservationRequestDto2);
 
             reservationService.confirmReservation(reservationId2);
+            reservationService.completeReservation(reservationId2);
 
             ReservationRequestDto reservationRequestDto3 = new ReservationRequestDto();
             reservationRequestDto3.setMemberId(member1.getId());
-            reservationRequestDto3.setRestaurantId(restaurant3.getRestaurantId());
+            reservationRequestDto3.setRestaurantId(restaurant3.getId());
             reservationRequestDto3.setName("예약자3");
             reservationRequestDto3.setPhone("01081345432");
             reservationRequestDto3.setDate(LocalDate.parse("2023-06-22"));
@@ -227,21 +228,7 @@ public class NotProd {
             reservationService.confirmReservation(reservationId3);
             reservationService.completeReservation(reservationId3);
 
-
-
-
-
-            reviewService.addReview("맛있었습니다!!", 3, restaurant1.getRestaurantId(), member1.getId());
-            reviewService.addReview("맛없어요!!", 1, restaurant1.getRestaurantId(), member2.getId());
-            reviewService.addReview("적당해요!!", 3, restaurant1.getRestaurantId(), member3.getId());
-
-            reviewService.addReview("맛있었습니다!!", 5, restaurant2.getRestaurantId(), member1.getId());
-            reviewService.addReview("맛없어요!!", 1, restaurant2.getRestaurantId(), member2.getId());
-            reviewService.addReview("적당해요!!", 3, restaurant2.getRestaurantId(), member3.getId());
-
-            reviewService.addReview("맛있었습니다!!", 5, restaurant3.getRestaurantId(), member1.getId());
-            reviewService.addReview("맛없어요!!", 1, restaurant3.getRestaurantId(), member2.getId());
-            reviewService.addReview("적당해요!!", 3, restaurant3.getRestaurantId(), member3.getId());
+            reviewService.addReview("적당해요!!", 3, reservationId3, member1.getId());
         };
     }
 }

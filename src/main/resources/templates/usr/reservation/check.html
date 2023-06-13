@@ -55,7 +55,7 @@
                             </div>
                         </div>
                         <div class="flex items-end">
-                            <a class="text-red-500 rounded" th:if="${reservation.status == '방문 완료'}" th:href="@{/review/add/1}">리뷰 작성</a>
+                            <a class="text-red-500 rounded" th:if="${reservation.status == '방문 완료'}" th:href="@{|/review/add/${reservation.reservationId}|}">리뷰 작성</a>
                         </div>
                     </div>
 

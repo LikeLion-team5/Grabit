@@ -9,6 +9,7 @@ import com.ll.grabit.boundedcontext.menu.dto.MenuRegisterDto;
 import com.ll.grabit.boundedcontext.menu.dto.MenuUpdateDto;
 import com.ll.grabit.boundedcontext.menu.entity.Menu;
 import com.ll.grabit.boundedcontext.menu.repository.MenuRepository;
+import com.ll.grabit.boundedcontext.reservation.service.ReservationService;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
 import com.ll.grabit.boundedcontext.address.entity.Address;
@@ -215,5 +216,14 @@ public class RestaurantService {
         Restaurant findRestaurant = findOne(id);
         RestaurantImage restaurantImage = findRestaurant.getRestaurantImage();
         restaurantImageRepository.delete(restaurantImage);
+    }
+
+    public Optional<Restaurant> findByRestaurantId(Long restaurantId) {
+        return restaurantRepository.findById(restaurantId);
+    }
+
+    public Restaurant findByRestaurantIdThrow(Long restaurantId) {
+        return restaurantRepository.findById(restaurantId)
+                .orElseThrow();
     }
 }

@@ -3,17 +3,14 @@ package com.ll.grabit.boundedcontext.reservation.controller;
 import com.ll.grabit.base.rq.Rq;
 import com.ll.grabit.base.rsdata.RsData;
 import com.ll.grabit.boundedcontext.member.entity.Member;
-import com.ll.grabit.boundedcontext.reservation.entity.Reservation;
-import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.member.repository.MemberRepository;
 import com.ll.grabit.boundedcontext.reservation.dto.ReservationRequestDto;
 import com.ll.grabit.boundedcontext.reservation.dto.ReservationResponseDto;
 import com.ll.grabit.boundedcontext.reservation.service.ReservationService;
 import com.ll.grabit.boundedcontext.restaurant.repository.RestaurantRepository;
-import com.ll.grabit.boundedcontext.review.entity.Review;
+import com.ll.grabit.boundedcontext.restaurant.service.RestaurantService;
 import jakarta.transaction.Transactional;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.security.core.userdetails.UserDetails;
 
 
 @Controller
@@ -32,7 +28,7 @@ public class ReservationController {
     private final MemberRepository memberRepository;
     private final RestaurantRepository restaurantRepository;
 
-    public ReservationController(ReservationService reservationService, Rq rq, MemberRepository memberRepository, RestaurantRepository restaurantRepository) {
+    public ReservationController(ReservationService reservationService, Rq rq, MemberRepository memberRepository, RestaurantRepository restaurantRepository, RestaurantService restaurantService) {
         this.reservationService = reservationService;
         this.rq = rq;
         this.memberRepository = memberRepository;
@@ -97,5 +93,4 @@ public class ReservationController {
         reservationService.completeReservation(id);
         return ResponseEntity.noContent().build();
     }
-
 }

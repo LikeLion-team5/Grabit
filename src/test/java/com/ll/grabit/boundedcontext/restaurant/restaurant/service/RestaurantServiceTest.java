@@ -1,6 +1,5 @@
 package com.ll.grabit.boundedcontext.restaurant.restaurant.service;
 
-import com.ll.grabit.base.rsdata.RsData;
 import com.ll.grabit.boundedcontext.address.dto.AddressSearchDto;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
@@ -75,8 +74,8 @@ class RestaurantServiceTest {
         assertThat(address).isNotNull();
 
         //저장되었는지 확인
-        Restaurant findRes = restaurantRepository.findById(saveRes.getRestaurantId()).get();
-        assertThat(findRes.getRestaurantId()).isEqualTo(saveRes.getRestaurantId());
+        Restaurant findRes = restaurantRepository.findById(saveRes.getId()).get();
+        assertThat(findRes.getId()).isEqualTo(saveRes.getId());
     }
 
     @Test
