@@ -61,7 +61,7 @@
             <label class="label">
               <span class="label-text">전화번호</span>
             </label>
-            <input type="text" id="phoneNumber" name="phoneNumber" placeholder="식당 전화번호를 입력해주세요." class="input input-bordered mb-4" autofocus />
+            <input type="text" id="phoneNumber" name="phoneNumber" th:value="*{phoneNumber}" placeholder="식당 전화번호를 입력해주세요." class="input input-bordered mb-4" autofocus />
 
             <label for="address1">
               <span class="label-text">대주소</span>

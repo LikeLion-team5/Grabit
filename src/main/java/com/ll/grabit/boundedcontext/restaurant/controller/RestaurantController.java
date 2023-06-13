@@ -101,6 +101,7 @@ public class RestaurantController {
         restaurantUpdateDto.setRestaurantName(findRestaurant.getRestaurantName());
         restaurantUpdateDto.setDescription(findRestaurant.getDescription());
         restaurantUpdateDto.setType(findRestaurant.getType().toString());
+        restaurantUpdateDto.setPhoneNumber(findRestaurant.getPhoneNumber());
         restaurantUpdateDto.setAddress1(findRestaurant.getAddress().getAddress1());
         restaurantUpdateDto.setAddress2(findRestaurant.getAddress().getAddress2());
         restaurantUpdateDto.setAddress3(findRestaurant.getAddress().getAddress3());
