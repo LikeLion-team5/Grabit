@@ -211,6 +211,11 @@ public class RestaurantController {
         Restaurant findRestaurant = restaurantService.findOne(restaurantId);
         model.addAttribute("restaurant", findRestaurant);
 
+        //식당의 메뉴 정보
+        List<Menu> menuList = findRestaurant.getMenuList();
+        model.addAttribute("menuList", menuList);
+
+
         //예약 가능 시간
         int openTime = findRestaurant.getOpeningTime().getHour();
         int closeTime = findRestaurant.getClosingTime().getHour();

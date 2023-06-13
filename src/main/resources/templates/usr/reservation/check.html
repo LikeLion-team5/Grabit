@@ -18,11 +18,13 @@
                     <div class="bg-white rounded-md mb-5 px-6 py-3 flex justify-center items-center">
                         <h2 class="text-xl text-red-400 font-semibold">예약 조회</h2>
                     </div>
-                    <select class="select rounded-lg max-w-xs">
-                        <option disabled selected>정렬</option>
-                        <option>최신순</option>
-                        <option>오래된순</option>
-                    </select>
+                    <form action="/reservation/check" method="get" class="flex items-center">
+                        <select name="sort" class="select rounded-lg max-w-xs" onchange="this.form.submit()">
+                            <option value="">정렬</option>
+                            <option value="near">가까운 예약일순</option>
+                            <option value="far">먼 예약일순</option>
+                        </select>
+                    </form>
                 </div>
                 <div th:if="${#lists.isEmpty(reservations)}">
                     <div class="text-gray-400 max-w-3xl bg-white rounded-lg shadow-lg p-5 h-[200px] mb-5 flex justify-center items-center">
