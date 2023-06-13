@@ -51,6 +51,11 @@
                     <h3 class="text-lg font-bold mb-2">메뉴</h3>
                     <div class="h-[200px] overflow-y-auto">
                         <div class="grid grid-cols-2 gap-4">
+                            <div th:if="${#lists.isEmpty(menuList)}">
+                                <div class="bg-gray-100 p-4 rounded-lg flex items-center">
+                                    <span class="mr-1">메뉴가 존재하지 않습니다</span>
+                                </div>
+                            </div>
                             <div th:each="menu : ${menuList}" class="bg-gray-100 p-4 rounded-lg flex items-center">
                                 <h4 class="text-md font-bold mb-2" th:text="${menu.menuName}">메뉴 이름</h4>
                                 <p class="ml-auto" th:text="${menu.price + '원'}">메뉴 가격</p>
