@@ -1,5 +1,6 @@
 package com.ll.grabit.boundedcontext.reservation.service;
 
+import com.ll.grabit.base.rsdata.RsData;
 import com.ll.grabit.boundedcontext.member.entity.Member;
 import com.ll.grabit.boundedcontext.member.repository.MemberRepository;
 import com.ll.grabit.boundedcontext.reservation.dto.ReservationRequestDto;
@@ -8,6 +9,7 @@ import com.ll.grabit.boundedcontext.reservation.entity.Reservation;
 import com.ll.grabit.boundedcontext.reservation.repository.ReservationRepository;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.restaurant.repository.RestaurantRepository;
+import com.ll.grabit.boundedcontext.restaurant.service.RestaurantService;
 import jakarta.transaction.Transactional;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -24,11 +26,13 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final MemberRepository memberRepository; // 추가된 코드
     private final RestaurantRepository restaurantRepository;
+    private final RestaurantService restaurantService;
 
-    public ReservationService(ReservationRepository reservationRepository, MemberRepository memberRepository, RestaurantRepository restaurantRepository) {
+    public ReservationService(ReservationRepository reservationRepository, MemberRepository memberRepository, RestaurantRepository restaurantRepository, RestaurantService restaurantService) {
         this.reservationRepository = reservationRepository;
         this.memberRepository = memberRepository;
         this.restaurantRepository = restaurantRepository;
+        this.restaurantService = restaurantService;
     }
 
     public Long createReservation(ReservationRequestDto reservationDto) {
@@ -64,6 +68,7 @@ public class ReservationService {
         reservationDto.setDate(reservation.getDate());
         reservationDto.setReservationTime(reservation.getReservationTime());
         reservationDto.setPartySize(reservation.getPartySize());
+        reservationDto.setMemberId(reservation.getMember().getId());
 
         if (reservation.getStatus().equals("CONFIRMED")) {
             reservationDto.setStatus("확정");
@@ -92,7 +97,6 @@ public class ReservationService {
             reservationDto.setReservationTime(reservation.getReservationTime());
             reservationDto.setPartySize(reservation.getPartySize());
             reservationDto.setRestaurantName(reservation.getRestaurantName());
-            reservationDto.setRestaurantId(reservation.getRestaurant().getRestaurantId());
 
             if (reservation.getStatus().equals("CONFIRMED")) {
                 reservationDto.setStatus("확정");
@@ -147,6 +151,10 @@ public class ReservationService {
 
         reservation.cancelReservation();
         reservationRepository.save(reservation);
+    }
+
+    public Reservation findByIdElseThrow(Long reservationId) {
+        return reservationRepository.findById(reservationId).orElseThrow();
     }
 
     @Scheduled(fixedRate = 60000) // 1분에 한 번씩 실행

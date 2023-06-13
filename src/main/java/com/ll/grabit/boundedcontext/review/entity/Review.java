@@ -1,11 +1,9 @@
 package com.ll.grabit.boundedcontext.review.entity;
 
 import com.ll.grabit.boundedcontext.member.entity.Member;
+import com.ll.grabit.boundedcontext.reservation.entity.Reservation;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -32,7 +30,12 @@ public class Review {
 
     private int rating;
 
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "reservation_id")
+    private Reservation reservation;
+
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
     @ManyToOne

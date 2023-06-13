@@ -1,6 +1,5 @@
 package com.ll.grabit.boundedcontext.restaurant.restaurant.service;
 
-import com.ll.grabit.base.rsdata.RsData;
 import com.ll.grabit.boundedcontext.address.dto.AddressSearchDto;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
