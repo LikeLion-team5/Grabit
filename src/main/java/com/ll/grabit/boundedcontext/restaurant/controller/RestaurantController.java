@@ -10,6 +10,7 @@ import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
 
 import com.ll.grabit.boundedcontext.restaurant.service.RestaurantService;
+import com.ll.grabit.boundedcontext.review.service.ReviewService;
 import com.nimbusds.oauth2.sdk.http.HTTPResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,7 @@ import java.util.*;
 @RequestMapping(value = "/restaurant")
 public class RestaurantController {
     private final RestaurantService restaurantService;
+    private final ReviewService reviewService;
 
     private final AddressService addressService;
 
@@ -207,6 +209,12 @@ public class RestaurantController {
     //식당 클릭 시, 식당 1건 조회
     @GetMapping("/restaurantInfo/{restaurantId}")
     public String searchOne(@PathVariable Long restaurantId, Model model){
+        //식당 리뷰
+        Double averageRating = reviewService.findReviews(restaurantId);
+        model.addAttribute("averageRating", averageRating);
+        System.out.println("식당 번호 : " + restaurantId);
+        System.out.println("평균 평점 : " + averageRating);
+
         //식당 정보
         Restaurant findRestaurant = restaurantService.findOne(restaurantId);
         model.addAttribute("restaurant", findRestaurant);

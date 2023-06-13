@@ -3,7 +3,6 @@ package com.ll.grabit.boundedcontext.review.service;
 import com.ll.grabit.base.rsdata.RsData;
 import com.ll.grabit.boundedcontext.member.entity.Member;
 import com.ll.grabit.boundedcontext.member.service.MemberService;
-import com.ll.grabit.boundedcontext.reservation.dto.ReservationResponseDto;
 import com.ll.grabit.boundedcontext.reservation.entity.Reservation;
 import com.ll.grabit.boundedcontext.reservation.service.ReservationService;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
@@ -127,5 +126,20 @@ public class ReviewService {
         reviewRepository.delete(review);
 
         return RsData.of("S-1", "리뷰를 삭제하였습니다.");
+    }
+
+    public double findReviews(Long restaurantId){
+        List<Review> reviews = reviewRepository.findByRestaurantRestaurantId(restaurantId);
+        return calculateAverageRating(reviews);
+    }
+
+    public double calculateAverageRating(List<Review> reviews) {
+        double sum = 0.0;
+        for (Review review : reviews) {
+            sum += review.getRating();
+        }
+
+        System.out.println("합 : " + sum);
+        return sum / reviews.size();
     }
 }
