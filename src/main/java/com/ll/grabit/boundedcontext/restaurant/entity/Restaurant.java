@@ -32,6 +32,8 @@ public class Restaurant {
     @Enumerated(EnumType.STRING)
     private RestaurantType type;
 
+    private String phoneNumber;
+
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
@@ -53,10 +55,12 @@ public class Restaurant {
     private List<Reservation> reservations = new ArrayList<>();
 
     @Builder
-    public Restaurant(String restaurantName, String description, RestaurantType type, Address address, String detail_address, LocalTime openingTime, LocalTime closingTime, Integer perTimeMaxReservationCount) {
+    public Restaurant(String restaurantName, String description, RestaurantType type, String phoneNumber,
+                      Address address, String detail_address, LocalTime openingTime, LocalTime closingTime, Integer perTimeMaxReservationCount) {
         this.restaurantName = restaurantName;
         this.description = description;
         this.type = type;
+        this.phoneNumber = phoneNumber;
         this.address = address;
         this.detail_address = detail_address;
         this.openingTime = openingTime;
@@ -68,6 +72,7 @@ public class Restaurant {
         RestaurantUpdateDto restaurantUpdateDto = new RestaurantUpdateDto();
         restaurantUpdateDto.setRestaurantName(restaurantName);
         restaurantUpdateDto.setDescription(description);
+        restaurantUpdateDto.setPhoneNumber(phoneNumber);
         restaurantUpdateDto.setAddress1(address.getAddress1());
         restaurantUpdateDto.setAddress2(address.getAddress2());
         restaurantUpdateDto.setAddress3(address.getAddress3());
@@ -83,6 +88,7 @@ public class Restaurant {
     public void update(RestaurantUpdateDto restaurantUpdateDto, Address address, LocalTime startTime, LocalTime endTime) {
         restaurantName = restaurantUpdateDto.getRestaurantName();
         description = restaurantUpdateDto.getDescription();
+        phoneNumber = restaurantUpdateDto.getPhoneNumber();
         this.address = address;
         detail_address = restaurantUpdateDto.getDetail_address();
         type = RestaurantType.valueOf(restaurantUpdateDto.getType());
