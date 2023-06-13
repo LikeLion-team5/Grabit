@@ -118,7 +118,7 @@
                                             <i class="fas fa-star text-yellow-500 mr-1" style="position:relative; top:-2px;"></i>
                                             <p th:text="${review.rating}"></p>
                                         </div>
-                                        <p th:text="${review.content}"></p>
+                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" th:text="${review.content}"></p>
                                     </div>
                                 </li>
                             </ul>
