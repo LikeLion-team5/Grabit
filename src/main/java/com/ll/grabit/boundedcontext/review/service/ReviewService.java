@@ -128,18 +128,26 @@ public class ReviewService {
         return RsData.of("S-1", "리뷰를 삭제하였습니다.");
     }
 
-    public double findReviews(Long restaurantId){
-        List<Review> reviews = reviewRepository.findByRestaurantRestaurantId(restaurantId);
-        return calculateAverageRating(reviews);
+    public List<Review> findReviews(Long restaurantId){
+        return reviewRepository.findByRestaurantRestaurantId(restaurantId);
     }
 
-    public double calculateAverageRating(List<Review> reviews) {
+    public double calculateAverageRating(Long restaurantId) {
+        List<Review> reviews = findReviews(restaurantId);
+
         double sum = 0.0;
         for (Review review : reviews) {
             sum += review.getRating();
         }
 
-        System.out.println("합 : " + sum);
+        if(reviews.size() == 0)
+            return 0;
+
         return sum / reviews.size();
+    }
+
+    public int countReviews(Long restaurantId) {
+        List<Review> reviews = findReviews(restaurantId);
+        return reviews.size();
     }
 }

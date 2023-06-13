@@ -209,11 +209,13 @@ public class RestaurantController {
     //식당 클릭 시, 식당 1건 조회
     @GetMapping("/restaurantInfo/{restaurantId}")
     public String searchOne(@PathVariable Long restaurantId, Model model){
-        //식당 리뷰
-        Double averageRating = reviewService.findReviews(restaurantId);
+        //리뷰 평점
+        Double averageRating = reviewService.calculateAverageRating(restaurantId);
         model.addAttribute("averageRating", averageRating);
-        System.out.println("식당 번호 : " + restaurantId);
-        System.out.println("평균 평점 : " + averageRating);
+
+        //리뷰 개수
+        int reviewCount = reviewService.countReviews(restaurantId);
+        model.addAttribute("reviewCount", reviewCount);
 
         //식당 정보
         Restaurant findRestaurant = restaurantService.findOne(restaurantId);
