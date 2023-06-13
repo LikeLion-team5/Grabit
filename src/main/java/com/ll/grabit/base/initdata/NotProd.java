@@ -213,6 +213,7 @@ public class NotProd {
             Long reservationId2 = reservationService.createReservation(reservationRequestDto2);
 
             reservationService.confirmReservation(reservationId2);
+            reservationService.completeReservation(reservationId2);
 
             ReservationRequestDto reservationRequestDto3 = new ReservationRequestDto();
             reservationRequestDto3.setMemberId(member1.getId());
@@ -227,21 +228,7 @@ public class NotProd {
             reservationService.confirmReservation(reservationId3);
             reservationService.completeReservation(reservationId3);
 
-
-
-
-
-            reviewService.addReview("맛있었습니다!!", 3, restaurant1.getRestaurantId(), member1.getId());
-            reviewService.addReview("맛없어요!!", 1, restaurant1.getRestaurantId(), member2.getId());
-            reviewService.addReview("적당해요!!", 3, restaurant1.getRestaurantId(), member3.getId());
-
-            reviewService.addReview("맛있었습니다!!", 5, restaurant2.getRestaurantId(), member1.getId());
-            reviewService.addReview("맛없어요!!", 1, restaurant2.getRestaurantId(), member2.getId());
-            reviewService.addReview("적당해요!!", 3, restaurant2.getRestaurantId(), member3.getId());
-
-            reviewService.addReview("맛있었습니다!!", 5, restaurant3.getRestaurantId(), member1.getId());
-            reviewService.addReview("맛없어요!!", 1, restaurant3.getRestaurantId(), member2.getId());
-            reviewService.addReview("적당해요!!", 3, restaurant3.getRestaurantId(), member3.getId());
+            reviewService.addReview("적당해요!!", 3, reservationId3, member1.getId());
         };
     }
 }

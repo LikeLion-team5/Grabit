@@ -3,6 +3,8 @@ package com.ll.grabit.boundedcontext.review.controller;
 import com.ll.grabit.base.rq.Rq;
 import com.ll.grabit.base.rsdata.RsData;
 import com.ll.grabit.boundedcontext.member.entity.Member;
+import com.ll.grabit.boundedcontext.reservation.entity.Reservation;
+import com.ll.grabit.boundedcontext.reservation.service.ReservationService;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.restaurant.service.RestaurantService;
 import com.ll.grabit.boundedcontext.review.entity.Review;
@@ -24,22 +26,22 @@ import java.util.NoSuchElementException;
 public class ReviewController {
 
     private final ReviewService reviewService;
-    private final RestaurantService restaurantService;
+    private final ReservationService reservationService;
     private final Rq rq;
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/add/{restaurantId}")
-    public String showAddReview(@PathVariable Long restaurantId, Model model) {
-        Restaurant restaurant = restaurantService.findOne(restaurantId);
-        model.addAttribute("restaurant", restaurant);
+    @GetMapping("/add/{reservationId}")
+    public String showAddReview(@PathVariable Long reservationId, Model model) {
+        Reservation reservation = reservationService.findByIdElseThrow(reservationId);
+        model.addAttribute("restaurant", reservation.getRestaurant());
         model.addAttribute("now", LocalDateTime.now());
         return "usr/review/add";
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/add/{restaurantId}")
-    public String addReview(@PathVariable Long restaurantId, AddReviewForm addReviewForm) {
-        RsData<Review> rsData = reviewService.addReview(addReviewForm.getContent(), addReviewForm.getRating(), restaurantId, rq.getMember().getId());
+    @PostMapping("/add/{reservationId}")
+    public String addReview(@PathVariable Long reservationId, AddReviewForm addReviewForm) {
+        RsData<Review> rsData = reviewService.addReview(addReviewForm.getContent(), addReviewForm.getRating(), reservationId, rq.getMember().getId());
 
         if (rsData.isFail()) {
             return rq.historyBack(rsData.getMsg());
@@ -62,7 +64,7 @@ public class ReviewController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/modify/{reviewId}")
+    @GetMapping("/edit/{reviewId}")
     public String showEdit(@PathVariable Long reviewId, Model model) {
         Review review = reviewService.findById(reviewId).orElseThrow();
 
@@ -72,13 +74,22 @@ public class ReviewController {
 
         model.addAttribute("review", review);
 
-        return "usr/review/modify";
+        return "usr/review/edit";
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/modify/{reviewId}")
+    @PostMapping("/edit/{reviewId}")
     public String edit(@PathVariable Long reviewId, Review review) {
-        reviewService.edit(reviewId, review);
+
+        RsData canModifyRsData = reviewService.canEdit(rq.getMember(), review);
+
+        if (canModifyRsData.isFail()) return rq.historyBack(canModifyRsData.getMsg());
+
+        RsData<Review> rsData = reviewService.edit(reviewId, review);
+
+        if (rsData.isFail()) {
+            return rq.historyBack(rsData.getMsg());
+        }
 
         return "redirect:/review/check";
     }

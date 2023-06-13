@@ -50,15 +50,3 @@ logging:
     com.ll.grabit: DEBUG
     org.hibernate.orm.jdbc.bind: TRACE
     org.hibernate.orm.jdbc.extract: TRACE
-
-cloud:
-  ncp:
-    credentials:
-      access-key: access-key
-      secret-key: secret-key
-    region:
-      static: static
-    s3:
-      endpoint: endpoint
-      bucket: bucket
-      dir: dir

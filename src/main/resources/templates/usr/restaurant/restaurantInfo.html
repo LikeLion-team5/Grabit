@@ -17,7 +17,8 @@
                         <div class="flex items-center">
                             <img src="https://i.postimg.cc/MKRjtWYH/IMG-4678-1024x742.jpg" alt="프로필 사진" class="w-32 h-32 sm:w-40 sm:h-40 rounded mr-5">
                             <div class="ml-2">
-                                <div class="md:flex md:items-center sm:flex-row flex-col">
+                                <div class="md:flex md:items-center sm:flex-row flex-col" style="position: relative;">
+                                    <a sec:authorize="isAuthenticated() and hasAuthority('admin')" class="text-red-500 rounded text-lg absolute right-0 top-0" th:href="@{/restaurant/{id}/edit(id=${restaurant.getRestaurantId})}">식당 수정</a>
                                     <h2 class="text-2xl font-bold mt-0" th:text="${restaurant.restaurantName}"></h2>
                                     <div class="md:flex md:ml-3 sm:ml-0">
                                         <a class="normal-case text-base" style="cursor: pointer">
@@ -111,14 +112,15 @@
                     <h3 class="text-lg font-bold pt-5">예약하기</h3>
                     <div class="bg-gray-100 p-4 rounded-lg mt-2">
                         <form id="reservationForm" action="/reservation/reservation" method="post">
-                            <input type="hidden" name="restaurantId" th:value="${restaurant.restaurantId}" >
+                            <input type="hidden" name="restaurantId" th:value="${restaurant.getRestaurantId}" >
                             <div class="mb-4">
                                 <label for="name" class="block text-sm font-medium text-gray-700">이름</label>
                                 <input type="text" id="name" name="name" class="bg-white border border-gray-300 rounded-md p-2 w-full">
                             </div>
                             <div class="mb-4">
                                 <label for="phone" class="block text-sm font-medium text-gray-700">전화번호</label>
-                                <input type="tel" id="phone" name="phone" class="bg-white border border-gray-300 rounded-md p-2 w-full">
+                                <input type="tel" id="phone" name="phone" class="bg-white border border-gray-300 rounded-md p-2 w-full" pattern="[0-9]{11}" title="올바른 전화번호 형식을 입력하세요. (예: 010-1234-5678)" placeholder="010XXXXXXXX">
+
                             </div>
                             <div class="mb-4">
                                 <label for="date" class="block text-sm font-medium text-gray-700">날짜</label>
@@ -142,6 +144,7 @@
             <div class="flex justify-center mt-4">
                 <button type="button" onclick="payment()" class="text-red-500 py-3 px-20 rounded-lg shadow-md text-lg mb-10" style="background-color: white;">예약하기</button>
             </div>
+
         </div>
     </main>
 

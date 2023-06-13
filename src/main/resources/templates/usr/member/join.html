@@ -9,9 +9,6 @@
         <script>
             function JoinForm__submit(form) {
 
-                form.phone.value = `${form.phone1.value}-${form.phone2.value}-${form.phone3.value}`;
-                form.email.value = `${form.emailId.value}@${form.domain.value}`;
-
                 form.username.value = form.username.value.trim();
 
                 if (form.username.value.length == 0) {
@@ -35,6 +32,15 @@
                     form.password.focus();
                     return;
                 }
+                if (form.phone.value.length < 11){
+                    form.phone.focus();
+                    return;
+                }
+                if (form.email.value == "" ){
+                    form.email.focus();
+                    return;
+                }
+
                 form.submit();
             }
 
@@ -67,11 +73,11 @@
                             <label class="label">
                                 <span name="phone" class="label-text">전화번호</span>
                             </label>
-                            <input type="text" pattern="[0-9]*" maxlength="3" placeholder="숫자만 입력" name="phone" class="input input-bordered w-full mb-4" autofocus />
+                            <input type="text" name="phone"  maxlength="11" placeholder="숫자만 입력"  class="input input-bordered w-full mb-4" autofocus />
                             <label class="label">
                                 <span class="label-text">이메일</span>
                             </label>
-                            <input type="text" name="emailId" placeholder="이메일 아이디" class="input input-bordered w-full mb-10" />
+                            <input type="email" name="email" placeholder="이메일" class="input input-bordered w-full mb-10" />
                         </div>
                         <div class="flex justify-center">
                             <button class="bg-white text-red-500 py-3 px-20 rounded-lg shadow-md text-lg mb-5">가입하기</button>

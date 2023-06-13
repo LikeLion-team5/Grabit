@@ -186,7 +186,6 @@ public class RestaurantController {
 
     //메인 페이지
     @GetMapping("/search")
-    @PreAuthorize("isAnonymous()")
     public String search(@ModelAttribute AddressSearchDto addressSearchDto,
                          @PageableDefault(page = 0, size = 8, sort = "restaurantId", direction = Sort.Direction.ASC) Pageable pageable,
                                    Model model){
@@ -234,11 +233,12 @@ public class RestaurantController {
                 reservationTimeList.add(i+":00");
         }else{
             //21:00 ~ 05:00
-            for(int i = openTime; i <= 24; i++)
+            for(int i = 0; i < closeTime; i++)
+                reservationTimeList.add(String.format("%02d:00", i));
+
+            for(int i = openTime; i < 24; i++)
                 reservationTimeList.add(i+":00");
 
-            for(int i = 1; i < closeTime; i++)
-                reservationTimeList.add(i+":00");
         }
 
         return reservationTimeList;
