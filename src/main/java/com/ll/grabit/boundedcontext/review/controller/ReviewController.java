@@ -72,7 +72,7 @@ public class ReviewController {
 
         model.addAttribute("review", review);
 
-        return "usr/review/modify";
+        return "usr/review/edit";
     }
 
     @PreAuthorize("isAuthenticated()")
