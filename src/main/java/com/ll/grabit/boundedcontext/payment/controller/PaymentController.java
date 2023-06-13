@@ -129,7 +129,7 @@ public class PaymentController {
 
             paymentService.save(loginMember, paymentKey, orderId, amount, reservationRequestDto);
 
-            return "redirect:/payment/success";
+            return "redirect:/reservation/check";
         } else {
             //결제 실패
             JsonNode failNode = responseEntity.getBody();
