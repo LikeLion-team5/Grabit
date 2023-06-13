@@ -54,7 +54,7 @@ public class ReviewService {
             return RsData.of("F-3", "이미 리뷰를 작성하셨습니다.");
         }
 
-        Review review = createAndSave(content, rating, reservation.getReservationId(), reservation.getReservationId(), member.getId());
+        Review review = createAndSave(content, rating, reservation.getRestaurant().getRestaurantId(), reservation.getReservationId(), member.getId());
 
         return RsData.of("S-1", "리뷰가 생성되었습니다.", review);
     }

@@ -74,8 +74,8 @@ class RestaurantServiceTest {
         assertThat(address).isNotNull();
 
         //저장되었는지 확인
-        Restaurant findRes = restaurantRepository.findById(saveRes.getId()).get();
-        assertThat(findRes.getId()).isEqualTo(saveRes.getId());
+        Restaurant findRes = restaurantRepository.findById(saveRes.getRestaurantId()).get();
+        assertThat(findRes.getRestaurantId()).isEqualTo(saveRes.getRestaurantId());
     }
 
     @Test

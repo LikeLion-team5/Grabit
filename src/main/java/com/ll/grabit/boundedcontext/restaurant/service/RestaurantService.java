@@ -217,13 +217,4 @@ public class RestaurantService {
         RestaurantImage restaurantImage = findRestaurant.getRestaurantImage();
         restaurantImageRepository.delete(restaurantImage);
     }
-
-    public Optional<Restaurant> findByRestaurantId(Long restaurantId) {
-        return restaurantRepository.findById(restaurantId);
-    }
-
-    public Restaurant findByRestaurantIdThrow(Long restaurantId) {
-        return restaurantRepository.findById(restaurantId)
-                .orElseThrow();
-    }
 }
