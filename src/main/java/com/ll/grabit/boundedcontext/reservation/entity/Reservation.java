@@ -4,6 +4,7 @@ import com.ll.grabit.boundedcontext.member.entity.Member;
 import com.ll.grabit.boundedcontext.payment.eneity.Payment;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 
+import com.ll.grabit.boundedcontext.review.entity.Review;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,6 +15,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @NoArgsConstructor
@@ -26,6 +29,9 @@ public class Reservation {
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
+
+    @OneToOne(fetch = LAZY)
+    private Review review;
 
     @ManyToOne
     @JoinColumn(name = "member_id")

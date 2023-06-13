@@ -24,9 +24,7 @@ import java.util.Optional;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
-    private final RestaurantService restaurantService;
     private final MemberService memberService;
-    private final ReservationService reservationService;
 
     /*
     TODO
@@ -35,10 +33,8 @@ public class ReviewService {
         3. 이미 리뷰를 등록한 사람인지 체크해야 함
      */
     @Transactional
-    public RsData<Review> addReview(String content, int rating, Long reservationId, Long memberId) {
+    public RsData<Review> addReview(String content, int rating, Reservation reservation, Long memberId) {
         Member member = memberService.findByIdElseThrow(memberId);
-
-        Reservation reservation = reservationService.findByIdElseThrow(reservationId);
 
         if (!reservation.getMember().getId().equals(member.getId())) {
             return RsData.of("F-1", "리뷰작성할 권한이 없습니다.");
@@ -54,16 +50,14 @@ public class ReviewService {
             return RsData.of("F-3", "이미 리뷰를 작성하셨습니다.");
         }
 
-        Review review = createAndSave(content, rating, reservation.getRestaurant().getRestaurantId(), reservation.getReservationId(), member.getId());
+        Review review = createAndSave(content, rating, reservation.getRestaurant(), reservation, member.getId());
 
         return RsData.of("S-1", "리뷰가 생성되었습니다.", review);
     }
 
     @Transactional
-    public Review createAndSave(String content, int rating, Long restaurantId, Long reservationId, Long reviewerId) {
-        Restaurant restaurant = restaurantService.findOne(restaurantId);
+    public Review createAndSave(String content, int rating, Restaurant restaurant, Reservation reservation, Long reviewerId) {
         Member reviewer = memberService.findByIdElseThrow(reviewerId);
-        Reservation reservation = reservationService.findByIdElseThrow(reservationId);
 
         Review review = Review.builder()
                 .content(content)
@@ -149,5 +143,9 @@ public class ReviewService {
     public int countReviews(Long restaurantId) {
         List<Review> reviews = findReviews(restaurantId);
         return reviews.size();
+    }
+
+    public boolean hasReview(Long reservationId) {
+        return reviewRepository.existsByReservationReservationId(reservationId);
     }
 }

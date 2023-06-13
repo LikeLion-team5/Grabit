@@ -4,6 +4,8 @@ import com.ll.grabit.boundedcontext.member.entity.Member;
 import com.ll.grabit.boundedcontext.address.entity.Address;
 import com.ll.grabit.boundedcontext.member.form.MemberCreateDto;
 import com.ll.grabit.boundedcontext.member.service.MemberService;
+import com.ll.grabit.boundedcontext.reservation.entity.Reservation;
+import com.ll.grabit.boundedcontext.reservation.repository.ReservationRepository;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.restaurant.service.RestaurantService;
@@ -30,6 +32,7 @@ public class NotProd {
             MemberService memberService,
             RestaurantService restaurantService,
             ReservationService reservationService,
+            ReservationRepository reservationRepository,
             ReviewService reviewService
     ) {
         return args -> {
@@ -228,7 +231,9 @@ public class NotProd {
             reservationService.confirmReservation(reservationId3);
             reservationService.completeReservation(reservationId3);
 
-            reviewService.addReview("적당해요!!", 3, reservationId3, member1.getId());
+            Optional<Reservation> reservation3 = reservationRepository.findById(reservationId3);
+
+            reviewService.addReview("적당해요!!", 3, reservation3.get(), member1.getId());
         };
     }
 }
