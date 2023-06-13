@@ -32,6 +32,14 @@
                     form.password.focus();
                     return;
                 }
+                if (form.phone.value.length < 11){
+                    form.phone.focus();
+                    return;
+                }
+                if (form.email.value == "" ){
+                    form.email.focus();
+                    return;
+                }
 
                 form.submit();
             }
