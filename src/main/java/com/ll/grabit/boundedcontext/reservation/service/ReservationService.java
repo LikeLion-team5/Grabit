@@ -1,6 +1,5 @@
 package com.ll.grabit.boundedcontext.reservation.service;
 
-import com.ll.grabit.base.rsdata.RsData;
 import com.ll.grabit.boundedcontext.member.entity.Member;
 import com.ll.grabit.boundedcontext.member.repository.MemberRepository;
 import com.ll.grabit.boundedcontext.reservation.dto.ReservationRequestDto;
@@ -10,15 +9,15 @@ import com.ll.grabit.boundedcontext.reservation.repository.ReservationRepository
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.restaurant.repository.RestaurantRepository;
 import com.ll.grabit.boundedcontext.restaurant.service.RestaurantService;
+import com.ll.grabit.boundedcontext.review.entity.Review;
+import com.ll.grabit.boundedcontext.review.repository.ReviewRepository;
+import com.ll.grabit.boundedcontext.review.service.ReviewService;
 import jakarta.transaction.Transactional;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @Service
 @Transactional
@@ -26,13 +25,13 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final MemberRepository memberRepository; // 추가된 코드
     private final RestaurantRepository restaurantRepository;
-    private final RestaurantService restaurantService;
+    private final ReviewRepository reviewRepository;
 
-    public ReservationService(ReservationRepository reservationRepository, MemberRepository memberRepository, RestaurantRepository restaurantRepository, RestaurantService restaurantService) {
+    public ReservationService(ReservationRepository reservationRepository, MemberRepository memberRepository, RestaurantRepository restaurantRepository, RestaurantService restaurantService, ReviewService reviewService, ReviewRepository reviewRepository) {
         this.reservationRepository = reservationRepository;
         this.memberRepository = memberRepository;
         this.restaurantRepository = restaurantRepository;
-        this.restaurantService = restaurantService;
+        this.reviewRepository = reviewRepository;
     }
 
     public Long createReservation(ReservationRequestDto reservationDto) {
@@ -89,7 +88,10 @@ public class ReservationService {
         List<ReservationResponseDto> reservationDtos = new ArrayList<>();
 
         for (Reservation reservation : reservations) {
+            System.out.println("예약 : " + reservation);
             ReservationResponseDto reservationDto = new ReservationResponseDto();
+            Boolean hasReview = reviewRepository.findByReservationReservationId(reservation.getReservationId()).isPresent();
+            reservationDto.setHasReview(hasReview);
             reservationDto.setReservationId(reservation.getReservationId());
             reservationDto.setName(reservation.getName());
             reservationDto.setPhone(reservation.getPhone());

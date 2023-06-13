@@ -41,7 +41,9 @@ public class ReviewController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/add/{reservationId}")
     public String addReview(@PathVariable Long reservationId, AddReviewForm addReviewForm) {
-        RsData<Review> rsData = reviewService.addReview(addReviewForm.getContent(), addReviewForm.getRating(), reservationId, rq.getMember().getId());
+        Reservation reservation = reservationService.findByIdElseThrow(reservationId);
+
+        RsData<Review> rsData = reviewService.addReview(addReviewForm.getContent(), addReviewForm.getRating(), reservation, rq.getMember().getId());
 
         if (rsData.isFail()) {
             return rq.historyBack(rsData.getMsg());

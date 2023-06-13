@@ -14,6 +14,7 @@ public class ReservationResponseDto {
     private Long restaurantId;
     private String restaurantName;
     private String status;
+    private boolean hasReview;
 
     public Long getReservationId() {
         return reservationId;
@@ -53,6 +54,10 @@ public class ReservationResponseDto {
 
     public String getStatus() { return status; }
 
+    public boolean getHasReview(){
+        return hasReview;
+    }
+
     public void setRestaurantName(String restaurantName) {
         this.restaurantName = restaurantName;
     }
@@ -91,5 +96,9 @@ public class ReservationResponseDto {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void setHasReview(boolean hasReview) {
+        this.hasReview = hasReview;
     }
 }
