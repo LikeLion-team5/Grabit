@@ -84,7 +84,7 @@
                 var csrfToken = $("meta[name='_csrf']").attr('content');
 
 
-                if(confirm('예약및 결제를 취소하시겠습니까?')){
+                if(confirm('예약 및 결제를 취소하시겠습니까?')){
                     $.ajax({
                         type: "POST",
                         url: "/payment/" + reservationId + "/cancel",
