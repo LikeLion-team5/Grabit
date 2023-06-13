@@ -185,7 +185,6 @@ public class RestaurantController {
 
     //메인 페이지(Ajax 이용할 예정이라, 추후 수정 예정)
     @GetMapping("/search")
-    @PreAuthorize("isAnonymous()")
     public String search(@ModelAttribute AddressSearchDto addressSearchDto,
                          @PageableDefault(page = 0, size = 8, sort = "restaurantId", direction = Sort.Direction.ASC) Pageable pageable,
                                    Model model){
