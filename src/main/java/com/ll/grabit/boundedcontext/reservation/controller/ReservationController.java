@@ -40,7 +40,6 @@ public class ReservationController {
     @ResponseBody
     @Transactional
     public RsData<Long> createReservation(@RequestBody ReservationRequestDto reservationDto) {
-        System.out.println();
         if (rq.isLogin()) {
             String loggedInUserId = rq.getMember().getUsername();
             Member loggedInMember = memberRepository.findByUsername(loggedInUserId).orElse(null);

@@ -202,14 +202,6 @@ public class RestaurantService {
         return addressRepository.address1List();
     }
 
-    public Page<Restaurant> getRestaurantList(Pageable pageable) {
-        Page<Restaurant> result = restaurantRepository.findAll(pageable);
-        return result;
-    }
-
-    public Page<Restaurant> getRestaurantList(Pageable pageable, List<Address> addresses) {
-        return restaurantRepository.findByAddressIn(addresses, pageable);
-    }
 
 
     public void deleteImage(Long id) {

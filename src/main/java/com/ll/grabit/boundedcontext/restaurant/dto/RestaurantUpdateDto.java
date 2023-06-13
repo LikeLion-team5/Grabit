@@ -3,10 +3,7 @@ package com.ll.grabit.boundedcontext.restaurant.dto;
 import com.ll.grabit.boundedcontext.address.entity.Address;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.restaurant.entity.RestaurantType;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
@@ -24,6 +21,11 @@ public class RestaurantUpdateDto {
     private String description;
     @NotBlank(message = "식당 유형을 선택해주세요.")
     private String type;
+
+    @Pattern(regexp = "^\\(?(\\d{2,3})\\)?[- ]?(\\d{3,4})[- ]?(\\d{4})$",
+            message = "전화번호 형식이 잘못되었습니다. (올바른 형식: 123-4567-7890 or 02-990-1234)")
+    @NotBlank(message = "전화번호를 입력해 주세요.")
+    String phoneNumber;
 
 
     @NotBlank(message = "대주소를 입력해주세요.")
@@ -52,6 +54,7 @@ public class RestaurantUpdateDto {
         return Restaurant.builder()
                 .restaurantName(restaurantName)
                 .description(description)
+                .phoneNumber(phoneNumber)
                 .address(address)
                 .detail_address(detail_address)
                 .openingTime(startTime)

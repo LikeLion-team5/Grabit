@@ -142,92 +142,89 @@
                 </div>
             </div>
             <div class="flex justify-center mt-4">
-                <button type="button" onclick="submitReservationForm()" class="text-red-500 py-3 px-20 rounded-lg shadow-md text-lg mb-10" style="background-color: white;">예약하기</button>
+                <button type="button" onclick="payment()" class="text-red-500 py-3 px-20 rounded-lg shadow-md text-lg mb-10" style="background-color: white;">예약하기</button>
             </div>
-
-            <script>
-                function submitReservationForm() {
-                    var form = document.getElementById('reservationForm');
-                    var name = form.name.value.trim();
-                    var phone = form.phone.value.trim();
-                    var date = form.date.value.trim();
-                    var reservationTime = form['reservationTime'].value.trim();
-                    var partySize = form['party-size'].value.trim();
-                    var restaurantId =  form.restaurantId.value;
-
-
-                    if (name === '') {
-                        alert('이름을 입력해주세요.');
-                        return false;
-                    }
-
-                    if (phone === '') {
-                        alert('전화번호를 입력해주세요.');
-                        return false;
-                    }
-
-                    var phonePattern = /^[0-9]{11}$/;
-                    if (!phonePattern.test(phone)) {
-                        alert('올바른 전화번호 형식을 입력하세요. (예: 010XXXXXXXX)');
-                        return false;
-                    }
-
-                    if (date === '') {
-                        alert('날짜를 선택해주세요.');
-                        return false;
-                    }
-
-                    if (reservationTime === '') {
-                        alert('예약 시간을 선택해주세요.');
-                        return false;
-                    }
-
-                    if (partySize === '') {
-                        alert('인원 수를 입력해주세요.');
-                        return false;
-                    }
-
-                    // AJAX 요청 생성
-                    var xhr = new XMLHttpRequest();
-                    var header = $("meta[name='_csrf_header']").attr('content');
-                    var token = $("meta[name='_csrf']").attr('content');
-                    xhr.open('POST', '/reservation/check', true);
-                    xhr.setRequestHeader('Content-Type', 'application/json');
-                    xhr.setRequestHeader(header, token);
-
-                    // 요청 데이터 설정
-                    var data = {
-                        name: name,
-                        phone: phone,
-                        date: date,
-                        reservationTime: reservationTime,
-                        partySize: partySize,
-                        restaurantId: restaurantId
-                    };
-
-                    // 요청 전송
-                    xhr.send(JSON.stringify(data));
-
-
-                    // 응답 처리
-                    xhr.onload = function() {
-                        const data = JSON.parse(xhr.response);
-
-                        if (data.resultCode === "S-1") {
-                            alert('예약이 완료되었습니다.');
-
-                        } else if (data.resultCode === "F-1") {
-                            alert('예약을 하기 위해서는 로그인이 필요합니다. 로그인해주세요.');
-                            // 로그인 페이지로 이동
-                            window.location.href = "/member/login";
-                        }
-                    };
-                    return true;
-                }
-            </script>
 
         </div>
     </main>
+
+    <!--토스 페이먼츠 결제-->
+    <script src="https://js.tosspayments.com/v1/payment"></script>
+    <script th:inline="javascript">
+        const clientKey = "test_ck_7XZYkKL4Mrjg6qGRJ2L80zJwlEWR";
+        const tossPayments = TossPayments(clientKey);
+
+        function payment() {
+            // 결제 성공 시, 예약 controller 에 전달할 데이터들
+            var form = document.getElementById('reservationForm');
+            var name = form.name.value.trim(); //예약자명
+            var phone = form.phone.value.trim(); //핸드폰 번호
+            var date = form.date.value.trim(); //예약날짜
+            var reservationTime = form['reservationTime'].value.trim(); // 예약시간
+            var partySize = form['party-size'].value.trim(); //예약인원
+            var restaurantId =  form.restaurantId.value;
+
+
+            if (name === '') {
+                alert('이름을 입력해주세요.');
+                return false;
+            }
+
+            if (phone === '') {
+                alert('전화번호를 입력해주세요.');
+                return false;
+            }
+
+            if (date === '') {
+                alert('날짜를 선택해주세요.');
+                return false;
+            }
+
+            if (reservationTime === '') {
+                alert('예약 시간을 선택해주세요.');
+                return false;
+            }
+
+            if (partySize === '') {
+                alert('인원 수를 입력해주세요.');
+                return false;
+            }
+
+            // 요청 데이터 설정
+            var data = {
+                name: name,
+                phone: phone,
+                date: date,
+                reservationTime: reservationTime,
+                partySize: partySize,
+                restaurantId: restaurantId
+            };
+
+
+
+            const method = "카드"; // "카드" 혹은 "가상계좌"
+            const orderId = restaurantId + "_" + createUUID();
+
+            const paymentData = {
+                amount: 10000,
+                orderId: orderId,
+                orderName: "식당 예약",
+                customerName: "고객",
+                reservationRequestDto : data,
+                successUrl: window.location.origin + "/payment/" + restaurantId + "/pay/success?name=" + name +"&phone="+phone+"&date="+date
+                            +"&reservationTime="+reservationTime+"&partySize="+partySize+"&restaurantId="+restaurantId,
+                failUrl: window.location.origin + "/payment/" + restaurantId + "/pay/fail",
+            };
+            tossPayments.requestPayment(method, paymentData);
+        }
+
+        function createUUID() {
+            return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+                (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+            );
+        }
+    </script>
 </th:block>
+
 </body>
 </html>

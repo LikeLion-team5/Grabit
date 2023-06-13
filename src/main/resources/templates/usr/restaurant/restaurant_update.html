@@ -58,9 +58,11 @@
             </select>
 
 
-            <div>
+            <label class="label">
+              <span class="label-text">전화번호</span>
+            </label>
+            <input type="text" id="phoneNumber" name="phoneNumber" placeholder="식당 전화번호를 입력해주세요." class="input input-bordered mb-4" autofocus />
 
-            </div>
             <label for="address1">
               <span class="label-text">대주소</span>
             </label>
@@ -212,6 +214,7 @@
         restaurantName: $('#restaurantName').val(),
         description: $('#description').val(),
         type: $('#type').val(),
+        phoneNumber : $('#phoneNumber').val(),
         address1: $('#address1').val(),
         address2: $('#address2').val(),
         address3: $('#address3').val(),
