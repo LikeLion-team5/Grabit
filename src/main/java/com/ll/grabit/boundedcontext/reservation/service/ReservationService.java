@@ -90,6 +90,7 @@ public class ReservationService {
             reservationDto.setReservationTime(reservation.getReservationTime());
             reservationDto.setPartySize(reservation.getPartySize());
             reservationDto.setRestaurantName(reservation.getRestaurantName());
+            reservationDto.setRestaurantId(reservation.getRestaurant().getRestaurantId());
 
             if (reservation.getStatus().equals("CONFIRMED")) {
                 reservationDto.setStatus("확정");
