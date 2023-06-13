@@ -35,6 +35,7 @@ public class ReviewService {
         2. 예약상태가 방문완료인 사람인지 체크해야 함
         3. 이미 리뷰를 등록한 사람인지 체크해야 함
      */
+    @Transactional
     public RsData<Review> addReview(String content, int rating, Long reservationId, Long memberId) {
         Member member = memberService.findByIdElseThrow(memberId);
 
