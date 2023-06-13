@@ -11,6 +11,7 @@
             dto.email.value = `${dto.email1.value}@${dto.email2.value}`;
 
             if (dto.nickname.value.length == 0) {
+                alert("닉네임을 입력해 주세요");
                 dto.nickname.focus();
                 return;
             }
