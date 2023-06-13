@@ -55,19 +55,11 @@
                         <label class="label">
                             <span class="label-text">아이디</span>
                         </label>
-                        <input type="text" placeholder="4~20자 이내, 영문자 사용 가능" class="input input-bordered mb-4" autofocus disabled value="grabit" />
-                        <label class="label">
-                            <span class="label-text">비밀번호</span>
-                        </label>
-                        <input type="text" placeholder="비밀번호" class="input input-bordered mb-4" autofocus />
-                        <label class="label">
-                            <span class="label-text">비밀번호 확인</span>
-                        </label>
-                        <input type="text" placeholder="4~20자 이내, 영문자 사용 가능" class="input input-bordered mb-4" autofocus />
+                        <input type="text" placeholder="4~20자 이내, 영문자 사용 가능" class="input input-bordered mb-4" th:readonly="true" th:value="${editInfo.username}"/>
                         <label class="label">
                             <span class="label-text">전화번호</span>
                         </label>
-                        <input name="phone" th:value="${editInfo.phone}" type="text"  maxlength="11" placeholder="숫자만 입력" class="input input-bordered w-full mb-4" autofocus />
+                        <input name="phone" th:value="${editInfo.phone}" type="text"  maxlength="11" placeholder="숫자만 입력" class="input input-bordered w-full mb-4" autofocus/>
                         <label class="label">
                             <span class="label-text">이메일</span>
                         </label>

@@ -84,6 +84,7 @@ public class MemberController {
         Member member = memberService.findByUsername((rq.getMember().getUsername())).get();
 
         MemberEditDto memberEditDto = MemberEditDto.builder()
+                .username(member.getUsername())
                 .email(member.getEmail())
                 .phone(member.getPhone())
                 .nickname(member.getNickname())
