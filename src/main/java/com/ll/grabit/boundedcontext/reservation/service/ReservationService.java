@@ -11,9 +11,14 @@ import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.restaurant.repository.RestaurantRepository;
 import com.ll.grabit.boundedcontext.restaurant.service.RestaurantService;
 import jakarta.transaction.Transactional;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @Transactional
@@ -151,4 +156,27 @@ public class ReservationService {
     public Reservation findByIdElseThrow(Long reservationId) {
         return reservationRepository.findById(reservationId).orElseThrow();
     }
+
+    @Scheduled(fixedRate = 60000) // 1분에 한 번씩 실행
+    public void autoUpdateReservations() {
+        List<Reservation> reservations = reservationRepository.findAll();
+
+        for (Reservation reservation : reservations) {
+            LocalDateTime reservationDateTime = LocalDateTime.of(reservation.getDate(), reservation.getReservationTime());
+            LocalDateTime now = LocalDateTime.now();
+
+            // 예약 시간 한 시간 전에 "확정"으로 상태 변경
+            if (now.isAfter(reservationDateTime.minusHours(1)) && reservation.getStatus().equals("PENDING")) {
+                reservation.setStatus("CONFIRMED");
+                reservationRepository.save(reservation);
+            }
+
+            // 예약 시간이 지나면 "방문 완료"로 상태 변경
+            if (now.isAfter(reservationDateTime) && reservation.getStatus().equals("CONFIRMED")) {
+                reservation.setStatus("COMPLETED");
+                reservationRepository.save(reservation);
+            }
+        }
+    }
 }
+
