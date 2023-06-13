@@ -3,12 +3,14 @@ package com.ll.grabit.boundedcontext.review.service;
 import com.ll.grabit.base.rsdata.RsData;
 import com.ll.grabit.boundedcontext.member.entity.Member;
 import com.ll.grabit.boundedcontext.member.service.MemberService;
+import com.ll.grabit.boundedcontext.reservation.dto.ReservationResponseDto;
+import com.ll.grabit.boundedcontext.reservation.entity.Reservation;
+import com.ll.grabit.boundedcontext.reservation.service.ReservationService;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.restaurant.service.RestaurantService;
 import com.ll.grabit.boundedcontext.review.entity.Review;
 import com.ll.grabit.boundedcontext.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +27,7 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final RestaurantService restaurantService;
     private final MemberService memberService;
+    private final ReservationService reservationService;
 
     /*
     TODO
@@ -32,22 +35,40 @@ public class ReviewService {
         2. 예약상태가 방문완료인 사람인지 체크해야 함
         3. 이미 리뷰를 등록한 사람인지 체크해야 함
      */
-    @Transactional
-    public RsData<Review> addReview(String content, int rating, Long restaurantId, Long reviewerId) {
+    public RsData<Review> addReview(String content, int rating, Long reservationId, Long memberId) {
+        Member member = memberService.findByIdElseThrow(memberId);
 
-        Review review = createAndSave(content, rating, restaurantId, reviewerId);
+        Reservation reservation = reservationService.findByIdElseThrow(reservationId);
+
+        if (!reservation.getMember().getId().equals(member.getId())) {
+            return RsData.of("F-1", "리뷰작성할 권한이 없습니다.");
+        }
+
+        if (!reservation.getStatus().equals("COMPLETED")) {
+            return RsData.of("F-1", "방문완료를 한 후에 리뷰작성이 가능합니다.");
+        }
+
+        Optional<Review> opReview = reviewRepository.findByReservationReservationId(reservation.getReservationId());
+
+        if (opReview.isPresent()) {
+            return RsData.of("F-3", "이미 리뷰를 작성하셨습니다.");
+        }
+
+        Review review = createAndSave(content, rating, reservation.getRestaurant().getRestaurantId(), reservation.getReservationId(), member.getId());
 
         return RsData.of("S-1", "리뷰가 생성되었습니다.", review);
     }
 
     @Transactional
-    public Review createAndSave(String content, int rating, Long restaurantId, Long reviewerId) {
+    public Review createAndSave(String content, int rating, Long restaurantId, Long reservationId, Long reviewerId) {
         Restaurant restaurant = restaurantService.findOne(restaurantId);
         Member reviewer = memberService.findByIdElseThrow(reviewerId);
+        Reservation reservation = reservationService.findByIdElseThrow(reservationId);
 
         Review review = Review.builder()
                 .content(content)
                 .rating(rating)
+                .reservation(reservation)
                 .restaurant(restaurant)
                 .reviewer(reviewer)
                 .createdAt(LocalDateTime.now())

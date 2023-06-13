@@ -4,3 +4,20 @@ spring:
       driver-class-name: org.mariadb.jdbc.Driver
       username: lldjlocal
       password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+logging:
+  level:
+    root: INFO
+    com.ll.grabit: INFO
+    org.hibernate.orm.jdbc.bind: INFO
+    org.hibernate.orm.jdbc.extract: INFO
+custom:
+  site:
+    baseUrl: https://test1.grabit.run
