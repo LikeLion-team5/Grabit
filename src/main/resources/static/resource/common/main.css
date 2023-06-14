@@ -3,17 +3,34 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 1rem;
 }
+
+.restaurant-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
 .restaurant_item {
+    flex: 0 0 calc(25% - 1rem); /* 각 요소의 너비 조정 */
     background-color: white;
-    width: 180px;
-    height: 220px;
     padding: 0px 15px 10px 15px;
     border-radius: 20px;
-    justify-content: center;
+    margin-bottom: 1rem; /* 각 요소의 아래 여백 설정 */
 }
 
 .restaurant_explain {
     font-weight: bold;
+}
+
+.restaurant_description {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    height: 3.6em;
+    line-height: 1.8em;
 }
 
 .search {

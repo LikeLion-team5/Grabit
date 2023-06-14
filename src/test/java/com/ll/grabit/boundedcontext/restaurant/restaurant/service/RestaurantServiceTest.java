@@ -56,7 +56,6 @@ class RestaurantServiceTest {
         dto.setType("Korean");
         dto.setStartTime("9:30");
         dto.setEndTime("22:30");
-        dto.setPerTimeMaxReservationCount(3);
 
 
         Optional<Address> findAddress = restaurantService.findAddress(
@@ -96,7 +95,6 @@ class RestaurantServiceTest {
         updateDto.setDetail_address("창동역 1번출구 바로 앞 건물");
         updateDto.setStartTime("09:30");
         updateDto.setEndTime("23:30");
-        updateDto.setPerTimeMaxReservationCount(3);
         restaurantService.update(1L,updateDto, null);
 
         em.flush();

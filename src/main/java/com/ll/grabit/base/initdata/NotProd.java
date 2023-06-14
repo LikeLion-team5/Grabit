@@ -95,7 +95,6 @@ public class NotProd {
                 restaurantDto.setDetail_address("고려대학교 앞 건물 1층");
                 restaurantDto.setStartTime("21:00");
                 restaurantDto.setEndTime("05:00");
-                restaurantDto.setPerTimeMaxReservationCount(3);
                 Optional<Address> address = restaurantService.findAddress(
                         restaurantDto.getAddress1(), restaurantDto.getAddress2(), restaurantDto.getAddress3()
                 );
