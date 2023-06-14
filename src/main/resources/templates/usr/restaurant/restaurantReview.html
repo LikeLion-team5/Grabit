@@ -14,7 +14,7 @@
                     <div class="bg-white rounded-lg mb-5 px-6 py-3 flex justify-center items-center">
                         <h2 class="text-xl text-red-400 font-semibold">식당 리뷰</h2>
                     </div>
-                    <form action="/review/check" method="get" id="sortForm">
+                    <form th:action="@{/restaurant/review/{id}(id=${restaurant.restaurantId})}" method="get" id="sortForm">
                         <select name="sortCode" class="select rounded-lg max-w-xs" onchange="submitForm()">
                             <option disabled selected>정렬</option>
                             <option value="1">최신순</option>

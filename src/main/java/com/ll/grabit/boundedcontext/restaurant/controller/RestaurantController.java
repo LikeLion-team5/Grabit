@@ -1,5 +1,6 @@
 package com.ll.grabit.boundedcontext.restaurant.controller;
 
+import com.ll.grabit.base.rsdata.RsData;
 import com.ll.grabit.boundedcontext.address.dto.AddressSearchDto;
 import com.ll.grabit.boundedcontext.address.entity.Address;
 import com.ll.grabit.boundedcontext.address.service.AddressService;
@@ -259,16 +260,16 @@ public class RestaurantController {
     }
 
     @GetMapping("/review/{restaurantId}")
-    public String showRestaurantReview(@PathVariable Long restaurantId, Model model){
+    public String showRestaurantReview(@PathVariable Long restaurantId, Model model, @RequestParam(defaultValue = "1") int sortCode){
         Restaurant findRestaurant = restaurantService.findOne(restaurantId);
 
         //식당 정보
         model.addAttribute("restaurant", findRestaurant);
 
         //리뷰 리스트
-        List<Review> reviewList = findRestaurant.getReviews();
-        System.out.println("정보 : " + reviewList);
-        model.addAttribute("reviewList", reviewList);
+        RsData<List<Review>> reviewList = restaurantService.getReviews(restaurantId, sortCode);
+
+        model.addAttribute("reviewList", reviewList.getData());
 
         return "usr/restaurant/restaurantReview";
     }
