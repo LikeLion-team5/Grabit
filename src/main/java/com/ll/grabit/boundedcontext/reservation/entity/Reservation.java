@@ -30,7 +30,7 @@ public class Reservation {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-    @OneToOne(fetch = LAZY)
+    @OneToOne(mappedBy = "reservation", fetch = LAZY)
     private Review review;
 
     @ManyToOne
