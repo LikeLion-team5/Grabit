@@ -50,13 +50,13 @@ public class ReviewService {
             return RsData.of("F-3", "이미 리뷰를 작성하셨습니다.");
         }
 
-        Review review = createAndSave(content, rating, reservation.getRestaurant(), reservation, member.getId());
+        RsData<Review> review = createAndSave(content, rating, reservation.getRestaurant(), reservation, member.getId());
 
-        return RsData.of("S-1", "리뷰가 생성되었습니다.", review);
+        return RsData.of("S-1", "리뷰가 생성되었습니다.", review.getData());
     }
 
     @Transactional
-    public Review createAndSave(String content, int rating, Restaurant restaurant, Reservation reservation, Long reviewerId) {
+    public RsData<Review> createAndSave(String content, int rating, Restaurant restaurant, Reservation reservation, Long reviewerId) {
         Member reviewer = memberService.findByIdElseThrow(reviewerId);
 
         Review review = Review.builder()
@@ -69,7 +69,13 @@ public class ReviewService {
                 .updatedAt(LocalDateTime.now())
                 .build();
 
-        return reviewRepository.save(review);
+        reviewRepository.save(review);
+
+        // 식당에게 리뷰가 등록되었다고 알림
+        restaurant.addReview(review);
+
+
+        return RsData.of("S-1", "리뷰가 등록되었습니다.");
     }
 
     public List<Review> findByReviewerId(Long id) {
