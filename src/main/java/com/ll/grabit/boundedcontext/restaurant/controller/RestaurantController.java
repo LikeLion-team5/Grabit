@@ -199,7 +199,7 @@ public class RestaurantController {
         Page<Restaurant> restaurantList = restaurantService.search(addressSearchDto, pageable);
         model.addAttribute("restaurantList", restaurantList);
 
-        model.addAttribute("maxPage", 10);
+        model.addAttribute("maxPage", 3);
 
         return "usr/home/main";
 
