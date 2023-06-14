@@ -76,7 +76,7 @@ public class ReviewService {
 
         // 식당에게 리뷰가 등록되었다고 알림
         restaurant.addReview(review);
-
+        reservation.setReview(review);
 
         return RsData.of("S-1", "리뷰가 등록되었습니다.");
     }

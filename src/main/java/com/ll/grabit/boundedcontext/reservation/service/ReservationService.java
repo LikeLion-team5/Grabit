@@ -92,6 +92,7 @@ public class ReservationService {
             ReservationResponseDto reservationDto = new ReservationResponseDto();
             Boolean hasReview = reviewRepository.findByReservationReservationId(reservation.getReservationId()).isPresent();
             reservationDto.setHasReview(hasReview);
+            reservationDto.setReview(reservation.getReview());
             reservationDto.setReservationId(reservation.getReservationId());
             reservationDto.setName(reservation.getName());
             reservationDto.setPhone(reservation.getPhone());
@@ -185,6 +186,5 @@ public class ReservationService {
             }
         }
     }
-
 }
 
