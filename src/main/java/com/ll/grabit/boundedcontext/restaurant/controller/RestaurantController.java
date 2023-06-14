@@ -10,6 +10,7 @@ import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantRegisterDto;
 import com.ll.grabit.boundedcontext.restaurant.dto.RestaurantUpdateDto;
 
 import com.ll.grabit.boundedcontext.restaurant.service.RestaurantService;
+import com.ll.grabit.boundedcontext.review.entity.Review;
 import com.ll.grabit.boundedcontext.review.service.ReviewService;
 import com.nimbusds.oauth2.sdk.http.HTTPResponse;
 import jakarta.validation.Valid;
@@ -188,7 +189,6 @@ public class RestaurantController {
 
 
     //메인 페이지
-    @PreAuthorize("isAnonymous()")
     @GetMapping("/search")
     public String search(@ModelAttribute AddressSearchDto addressSearchDto,
                          @PageableDefault(page = 0, size = 8, sort = "restaurantId", direction = Sort.Direction.ASC) Pageable pageable,
@@ -205,8 +205,6 @@ public class RestaurantController {
         return "usr/home/main";
 
     }
-
-
 
     //식당 클릭 시, 식당 1건 조회
     @GetMapping("/restaurantInfo/{restaurantId}")
@@ -259,5 +257,20 @@ public class RestaurantController {
         }
 
         return reservationTimeList;
+    }
+
+    @GetMapping("/review/{restaurantId}")
+    public String showRestaurantReview(@PathVariable Long restaurantId, Model model){
+        Restaurant findRestaurant = restaurantService.findOne(restaurantId);
+
+        //식당 정보
+        model.addAttribute("restaurant", findRestaurant);
+
+        //리뷰 리스트
+        List<Review> reviewList = findRestaurant.getReviews();
+        System.out.println("정보 : " + reviewList);
+        model.addAttribute("reviewList", reviewList);
+
+        return "/usr/restaurant/restaurantReview";
     }
 }

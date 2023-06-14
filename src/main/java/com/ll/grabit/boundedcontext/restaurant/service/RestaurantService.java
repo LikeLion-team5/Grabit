@@ -103,6 +103,7 @@ public class RestaurantService {
     }
 
 
+    @Transactional
     public Restaurant findOne(Long id) {
         Optional<Restaurant> findRestaurant = restaurantRepository.findById(id);
         Restaurant restaurant = findRestaurant.orElseThrow(
