@@ -1,17 +1,14 @@
-package com.ll.grabit.boundedcontext.payment.eneity;
+package com.ll.grabit.boundedcontext.payment.entity;
 
 import com.ll.grabit.boundedcontext.member.entity.Member;
 import com.ll.grabit.boundedcontext.reservation.entity.Reservation;
-import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Entity
 @Getter @Setter
