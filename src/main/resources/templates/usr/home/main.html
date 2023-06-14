@@ -71,6 +71,8 @@
 
                             <img class="block rounded mb-3" th:if="${restaurant.restaurantImage != null}"
                                  th:src="${restaurant.restaurantImage.imagePath}" alt="" height="200" width="200">
+                            <img class="block rounded mb-3" th:if="${restaurant.restaurantImage == null}"
+                                 th:src="@{/img/default_img.png}" alt="" height="200" width="200">
                             <!--                <img class="block rounded" th:if="${restaurant.restaurantImage == null}" th:src="@{/img/test_image.png}" alt="" height="200" width="200">-->
 
                             <div>
