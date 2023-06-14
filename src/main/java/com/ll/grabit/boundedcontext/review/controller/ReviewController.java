@@ -41,7 +41,9 @@ public class ReviewController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/add/{reservationId}")
     public String addReview(@PathVariable Long reservationId, AddReviewForm addReviewForm) {
-        RsData<Review> rsData = reviewService.addReview(addReviewForm.getContent(), addReviewForm.getRating(), reservationId, rq.getMember().getId());
+        Reservation reservation = reservationService.findByIdElseThrow(reservationId);
+
+        RsData<Review> rsData = reviewService.addReview(addReviewForm.getContent(), addReviewForm.getRating(), reservation, rq.getMember().getId());
 
         if (rsData.isFail()) {
             return rq.historyBack(rsData.getMsg());
@@ -52,12 +54,12 @@ public class ReviewController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/check")
-    public String showList(Model model) {
+    public String showList(Model model, @RequestParam(defaultValue = "1") int sortCode) {
         Member member = rq.getMember();
 
         if(member != null){
-            List<Review> reviewList = reviewService.findByReviewerId(member.getId());
-            model.addAttribute("reviewList", reviewList);
+            RsData<List<Review>> reviewList = reviewService.getReviews(member.getId(), sortCode);
+            model.addAttribute("reviewList", reviewList.getData());
         }
 
         return "usr/review/check";

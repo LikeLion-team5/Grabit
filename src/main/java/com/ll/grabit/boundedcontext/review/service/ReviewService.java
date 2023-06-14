@@ -3,7 +3,6 @@ package com.ll.grabit.boundedcontext.review.service;
 import com.ll.grabit.base.rsdata.RsData;
 import com.ll.grabit.boundedcontext.member.entity.Member;
 import com.ll.grabit.boundedcontext.member.service.MemberService;
-import com.ll.grabit.boundedcontext.reservation.dto.ReservationResponseDto;
 import com.ll.grabit.boundedcontext.reservation.entity.Reservation;
 import com.ll.grabit.boundedcontext.reservation.service.ReservationService;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
@@ -15,9 +14,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional(readOnly = true)
@@ -25,9 +27,7 @@ import java.util.Optional;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
-    private final RestaurantService restaurantService;
     private final MemberService memberService;
-    private final ReservationService reservationService;
 
     /*
     TODO
@@ -36,10 +36,8 @@ public class ReviewService {
         3. 이미 리뷰를 등록한 사람인지 체크해야 함
      */
     @Transactional
-    public RsData<Review> addReview(String content, int rating, Long reservationId, Long memberId) {
+    public RsData<Review> addReview(String content, int rating, Reservation reservation, Long memberId) {
         Member member = memberService.findByIdElseThrow(memberId);
-
-        Reservation reservation = reservationService.findByIdElseThrow(reservationId);
 
         if (!reservation.getMember().getId().equals(member.getId())) {
             return RsData.of("F-1", "리뷰작성할 권한이 없습니다.");
@@ -55,16 +53,14 @@ public class ReviewService {
             return RsData.of("F-3", "이미 리뷰를 작성하셨습니다.");
         }
 
-        Review review = createAndSave(content, rating, reservation.getRestaurant().getRestaurantId(), reservation.getReservationId(), member.getId());
+        Review review = createAndSave(content, rating, reservation.getRestaurant(), reservation, member.getId());
 
         return RsData.of("S-1", "리뷰가 생성되었습니다.", review);
     }
 
     @Transactional
-    public Review createAndSave(String content, int rating, Long restaurantId, Long reservationId, Long reviewerId) {
-        Restaurant restaurant = restaurantService.findOne(restaurantId);
+    public Review createAndSave(String content, int rating, Restaurant restaurant, Reservation reservation, Long reviewerId) {
         Member reviewer = memberService.findByIdElseThrow(reviewerId);
-        Reservation reservation = reservationService.findByIdElseThrow(reservationId);
 
         Review review = Review.builder()
                 .content(content)
@@ -81,6 +77,37 @@ public class ReviewService {
 
     public List<Review> findByReviewerId(Long id) {
         return reviewRepository.findByReviewerId(id);
+    }
+
+    public RsData<List<Review>> getReviews(Long id, int sortCode){
+
+        //로그인 했는지 확인
+        if (id != null) {
+            List<Review> reviews = findByReviewerId(id);
+
+            Stream<Review> stream = reviews.stream();
+
+            switch (sortCode) {
+                case 2:
+                    stream = stream.sorted(Comparator.comparing(Review::getId));
+                    break;
+                case 3:
+                    stream = stream.sorted(Comparator.comparing(Review::getRating).reversed());
+                    break;
+                case 4:
+                    stream = stream.sorted(Comparator.comparing(Review::getRating));
+                    break;
+                default:
+                    stream = stream.sorted(Comparator.comparing(Review::getId).reversed());
+                    break;
+
+            }
+            List<Review> newData = stream.collect(Collectors.toList());
+
+            return RsData.of("S-1", "내가 작성한 리뷰들이 정렬되어 출력됩니다.", newData);
+        }
+
+        return RsData.of("F-1", "먼저 로그인부터 진행해주세요.");
     }
 
     public Optional<Review> findById(Long id) {
@@ -127,5 +154,28 @@ public class ReviewService {
         reviewRepository.delete(review);
 
         return RsData.of("S-1", "리뷰를 삭제하였습니다.");
+    }
+
+    public List<Review> findReviews(Long restaurantId){
+        return reviewRepository.findByRestaurantRestaurantId(restaurantId);
+    }
+
+    public double calculateAverageRating(Long restaurantId) {
+        List<Review> reviews = findReviews(restaurantId);
+
+        double sum = 0.0;
+        for (Review review : reviews) {
+            sum += review.getRating();
+        }
+
+        if(reviews.size() == 0)
+            return 0;
+
+        return sum / reviews.size();
+    }
+
+    public int countReviews(Long restaurantId) {
+        List<Review> reviews = findReviews(restaurantId);
+        return reviews.size();
     }
 }

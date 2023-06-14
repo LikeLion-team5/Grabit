@@ -9,6 +9,7 @@ import com.ll.grabit.boundedcontext.reservation.dto.ReservationResponseDto;
 import com.ll.grabit.boundedcontext.reservation.service.ReservationService;
 import com.ll.grabit.boundedcontext.restaurant.repository.RestaurantRepository;
 import com.ll.grabit.boundedcontext.restaurant.service.RestaurantService;
+import com.ll.grabit.boundedcontext.review.service.ReviewService;
 import jakarta.transaction.Transactional;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,7 @@ public class ReservationController {
     private final MemberRepository memberRepository;
     private final RestaurantRepository restaurantRepository;
 
-    public ReservationController(ReservationService reservationService, Rq rq, MemberRepository memberRepository, RestaurantRepository restaurantRepository, RestaurantService restaurantService) {
+    public ReservationController(ReservationService reservationService, Rq rq, MemberRepository memberRepository, RestaurantRepository restaurantRepository, RestaurantService restaurantService, ReviewService reviewService) {
         this.reservationService = reservationService;
         this.rq = rq;
         this.memberRepository = memberRepository;

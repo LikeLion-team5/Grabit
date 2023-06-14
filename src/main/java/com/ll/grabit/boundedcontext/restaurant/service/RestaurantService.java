@@ -18,6 +18,8 @@ import com.ll.grabit.boundedcontext.restaurantimage.entity.RestaurantImage;
 import com.ll.grabit.boundedcontext.address.repository.AddressRepository;
 import com.ll.grabit.boundedcontext.restaurantimage.repository.RestaurantImageRepository;
 import com.ll.grabit.boundedcontext.restaurant.repository.RestaurantRepository;
+import com.ll.grabit.boundedcontext.review.entity.Review;
+import com.ll.grabit.boundedcontext.review.service.ReviewService;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
