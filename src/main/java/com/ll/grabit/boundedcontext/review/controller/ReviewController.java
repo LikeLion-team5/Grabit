@@ -9,6 +9,7 @@ import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.restaurant.service.RestaurantService;
 import com.ll.grabit.boundedcontext.review.entity.Review;
 import com.ll.grabit.boundedcontext.review.form.AddReviewForm;
+import com.ll.grabit.boundedcontext.review.form.EditReviewForm;
 import com.ll.grabit.boundedcontext.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -68,26 +69,19 @@ public class ReviewController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/edit/{reviewId}")
     public String showEdit(@PathVariable Long reviewId, Model model) {
-        Review review = reviewService.findById(reviewId).orElseThrow();
-
-        RsData canModifyRsData = reviewService.canEdit(rq.getMember(), review);
+        RsData canModifyRsData = reviewService.canEdit(rq.getMember().getId(), reviewId);
 
         if (canModifyRsData.isFail()) return rq.historyBack(canModifyRsData.getMsg());
 
-        model.addAttribute("review", review);
+        model.addAttribute("review", canModifyRsData.getData());
 
         return "usr/review/edit";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/edit/{reviewId}")
-    public String edit(@PathVariable Long reviewId, Review review) {
-
-        RsData canModifyRsData = reviewService.canEdit(rq.getMember(), review);
-
-        if (canModifyRsData.isFail()) return rq.historyBack(canModifyRsData.getMsg());
-
-        RsData<Review> rsData = reviewService.edit(reviewId, review);
+    public String edit(@PathVariable Long reviewId, EditReviewForm form) {
+        RsData<Review> rsData = reviewService.edit(rq.getMember().getId(), reviewId, form.getRating(), form.getContent());
 
         if (rsData.isFail()) {
             return rq.historyBack(rsData.getMsg());

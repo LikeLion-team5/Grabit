@@ -8,6 +8,7 @@ import com.ll.grabit.boundedcontext.reservation.service.ReservationService;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 import com.ll.grabit.boundedcontext.restaurant.service.RestaurantService;
 import com.ll.grabit.boundedcontext.review.entity.Review;
+import com.ll.grabit.boundedcontext.review.form.EditReviewForm;
 import com.ll.grabit.boundedcontext.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -120,27 +121,35 @@ public class ReviewService {
         return reviewRepository.findById(id);
     }
 
-    public RsData canEdit(Member member, Review review) {
-        if(member == null){
-            return RsData.of("F-1", "먼저 로그인을 해주세요.");
+    public RsData<Review> canEdit(Long memberId, Long reviewId) {
+
+        Optional<Review> opReview = reviewRepository.findById(reviewId);
+
+        if(opReview.isEmpty()){
+            return RsData.of("F-1", "리뷰를 수정할 권한이 없습니다.");
         }
 
-        if(member.getId() != review.getReviewer().getId()){
+        Review review = opReview.get();
+
+        if(memberId != review.getReviewer().getId()){
             return RsData.of("F-2", "리뷰를 수정할 권한이 없습니다.");
         }
 
-        return RsData.of("S-1", "리뷰수정 가능합니다.");
+        return RsData.of("S-1", "리뷰수정 가능합니다.", review);
     }
 
     @Transactional
-    public RsData edit(Long id, Review updatedReview) {
-        Review review = reviewRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("리뷰를 찾을 수 없습니다. " + id));
+    public RsData edit(Long memberId, Long reviewId, int rating, String content) {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new NoSuchElementException("리뷰를 찾을 수 없습니다. " + reviewId));
 
-        review.setContent(updatedReview.getContent());
-        review.setRating(updatedReview.getRating());
+        RsData rsData = canEdit(memberId, reviewId);
 
-        reviewRepository.save(review);
+        if(rsData.isFail())
+            return rsData;
+
+        review.setRating(rating);
+        review.setContent(content);
 
         return RsData.of("S-1", "리뷰를 수정하였습니다.");
     }
