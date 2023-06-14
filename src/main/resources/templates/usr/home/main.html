@@ -79,8 +79,8 @@
                         <li class="restaurant_item" th:each="restaurant : ${restaurantList}">
                             <a th:href="@{restaurantInfo/{restaurantId}(restaurantId=${restaurant.getRestaurantId})}" class="block mt-4">
                                 <span th:text="${restaurant.restaurantName}" class = "text-black font-bold text-base sm:text-lg"></span>
-                                <img class="block rounded mb-3" th:if="${restaurant.restaurantImage != null}" th:src="${restaurant.restaurantImage.imagePath}" alt="">
-                                <img class="block rounded mb-3" th:if="${restaurant.restaurantImage == null}" th:src="@{/img/default_img.png}" alt="">
+                                <img class="block rounded mb-3" th:if="${restaurant.restaurantImage != null}" th:src="${restaurant.restaurantImage.imagePath}" alt="" height="200" width="200">
+                                <img class="block rounded mb-3" th:if="${restaurant.restaurantImage == null}" th:src="@{/img/default_img.png}" alt="" height="200" width="200">
                                 <div>
                                     <span th:text="${restaurant.description}" class="restaurant_description"></span>
                                 </div>
