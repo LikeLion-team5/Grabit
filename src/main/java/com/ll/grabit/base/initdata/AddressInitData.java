@@ -5,6 +5,7 @@ import com.ll.grabit.boundedcontext.address.repository.AddressRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.BufferedReader;
@@ -13,6 +14,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
 @Configuration
+@Profile({"dev", "test"})
 public class AddressInitData {
     @Bean
     CommandLineRunner initAddressData(AddressRepository addressRepository) {
