@@ -13,7 +13,19 @@
             }
 
             .restaurant-list ul {
+                display: grid;
                 grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 1rem;
+            }
+
+            .restaurant_item {
+                flex-basis: 100%;
+                margin-bottom: 1rem;
+            }
+
+            .restaurant_item img {
+                max-width: 100%;
+                height: auto;
             }
         }
     </style>
@@ -62,17 +74,14 @@
                 </div>
             </div>
 
-            <section class="restaurant-view max-w-3xl mx-auto">
+            <section class="restaurant-view max-w-3xl">
                 <div id="restaurantList" class="restaurant-list">
-                    <ol class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-10">
+                    <ol class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-10">
                         <li class="restaurant_item" th:each="restaurant : ${restaurantList}">
                             <a th:href="@{restaurantInfo/{restaurantId}(restaurantId=${restaurant.getRestaurantId})}" class="block mt-4">
                                 <span th:text="${restaurant.restaurantName}" class = "text-black font-bold text-base sm:text-lg"></span>
-
-                            <img class="block rounded mb-3" th:if="${restaurant.restaurantImage != null}"
-                                 th:src="${restaurant.restaurantImage.imagePath}" alt="" height="200" width="200">
-                            <!--                <img class="block rounded" th:if="${restaurant.restaurantImage == null}" th:src="@{/img/test_image.png}" alt="" height="200" width="200">-->
-
+                            <img class="block rounded mb-3" th:if="${restaurant.restaurantImage != null}"th:src="${restaurant.restaurantImage.imagePath}" alt="">
+                            <img class="block rounded" th:if="${restaurant.restaurantImage == null}" th:src="@{/img/test_image.png}" alt="">
                             <div>
                                 <span th:text="${restaurant.description}" class="restaurant_description"></span>
                             </div>
