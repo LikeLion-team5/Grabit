@@ -3,6 +3,7 @@ package com.ll.grabit.boundedcontext.restaurant.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ll.grabit.base.exception.NotFoundDataException;
+import com.ll.grabit.base.rsdata.RsData;
 import com.ll.grabit.base.s3.S3Uploader;
 import com.ll.grabit.boundedcontext.address.dto.AddressSearchDto;
 import com.ll.grabit.boundedcontext.menu.dto.MenuRegisterDto;
@@ -19,6 +20,7 @@ import com.ll.grabit.boundedcontext.address.repository.AddressRepository;
 import com.ll.grabit.boundedcontext.restaurantimage.repository.RestaurantImageRepository;
 import com.ll.grabit.boundedcontext.restaurant.repository.RestaurantRepository;
 import com.ll.grabit.boundedcontext.review.entity.Review;
+import com.ll.grabit.boundedcontext.review.repository.ReviewRepository;
 import com.ll.grabit.boundedcontext.review.service.ReviewService;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +34,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -48,6 +53,7 @@ public class RestaurantService {
     private final S3Uploader s3Uploader;
 
     private final MenuRepository menuRepository;
+    private final ReviewRepository reviewRepository;
 
     @Value("${cloud.ncp.s3.dir}")
     private String dir;
@@ -205,11 +211,44 @@ public class RestaurantService {
         return addressRepository.address1List();
     }
 
-
-
     public void deleteImage(Long id) {
         Restaurant findRestaurant = findOne(id);
         RestaurantImage restaurantImage = findRestaurant.getRestaurantImage();
         restaurantImageRepository.delete(restaurantImage);
+    }
+
+    public RsData<List<Review>> getReviews(Long id, int sortCode){
+
+        //로그인 했는지 확인
+        if (id != null) {
+            List<Review> reviews = findByRestaurantId(id);
+
+            Stream<Review> stream = reviews.stream();
+
+            switch (sortCode) {
+                case 2:
+                    stream = stream.sorted(Comparator.comparing(Review::getId));
+                    break;
+                case 3:
+                    stream = stream.sorted(Comparator.comparing(Review::getRating).reversed());
+                    break;
+                case 4:
+                    stream = stream.sorted(Comparator.comparing(Review::getRating));
+                    break;
+                default:
+                    stream = stream.sorted(Comparator.comparing(Review::getId).reversed());
+                    break;
+
+            }
+            List<Review> newData = stream.collect(Collectors.toList());
+
+            return RsData.of("S-1", "내가 작성한 리뷰들이 정렬되어 출력됩니다.", newData);
+        }
+
+        return RsData.of("F-1", "먼저 로그인부터 진행해주세요.");
+    }
+
+    private List<Review> findByRestaurantId(Long id) {
+        return reviewRepository.findByRestaurantRestaurantId(id);
     }
 }
