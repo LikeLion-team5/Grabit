@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,12 +69,31 @@ public class ReservationController {
                 List<ReservationResponseDto> reservationList = reservationService.getReservationsByMemberId(loggedInMember.getId());
 
                 // 선택한 정렬 옵션에 따라 목록을 정렬
-                if ("near".equals(sort)) {
-                    // 예약 날짜가 가까운 순
+                if ("asc".equals(sort)) {
+                    // 예약 날짜 오름차순
                     reservationList.sort(Comparator.comparing(ReservationResponseDto::getDate).thenComparing(ReservationResponseDto::getReservationTime));
-                } else if ("far".equals(sort)) {
-                    // 예약 날짜가 먼 순
+                } else if ("desc".equals(sort)) {
+                    // 예약 날짜 내림차순
                     reservationList.sort(Comparator.comparing(ReservationResponseDto::getDate).thenComparing(ReservationResponseDto::getReservationTime).reversed());
+                } else {
+                    // 기본 정렬: 현재 시간과 가장 가까운 예약부터 보여주되, 이미 지난 예약은 뒤로 미룸
+                    LocalDateTime now = LocalDateTime.now();
+                    reservationList.sort((r1, r2) -> {
+                        LocalDateTime d1 = r1.getDate().atTime(r1.getReservationTime());
+                        LocalDateTime d2 = r2.getDate().atTime(r2.getReservationTime());
+
+                        boolean isR1Past = d1.isBefore(now);
+                        boolean isR2Past = d2.isBefore(now);
+
+                        if (isR1Past && !isR2Past) {
+                            return 1; // r1이 과거이고 r2가 아니면, r1을 뒤로 보냄
+                        } else if (!isR1Past && isR2Past) {
+                            return -1; // r1이 과거가 아니고 r2가 과거면, r2를 뒤로 보냄
+                        } else {
+                            // 두 예약이 모두 과거이거나 모두 과거가 아니면, 시간이 더 가까운 것을 앞으로 보냄
+                            return d1.compareTo(d2);
+                        }
+                    });
                 }
 
                 model.addAttribute("reservations", reservationList);

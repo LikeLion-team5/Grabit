@@ -20,9 +20,9 @@
                     </div>
                     <form action="/reservation/check" method="get" class="flex items-center">
                         <select name="sort" class="select rounded-lg max-w-xs" onchange="this.form.submit()">
-                            <option value="">정렬</option>
-                            <option value="near">가까운 예약일순</option>
-                            <option value="far">먼 예약일순</option>
+                            <option value="default" th:selected="${sort == null || sort == 'default'}">기본</option>
+                            <option value="asc" th:selected="${sort == 'asc'}">오름차순</option>
+                            <option value="desc" th:selected="${sort == 'desc'}">내림차순</option>
                         </select>
                     </form>
                 </div>
@@ -71,6 +71,13 @@
         </div>
 
         <script>
+            // 페이지가 로드되면 URL의 'sort' 파라미터를 읽어옴
+            const urlParams = new URLSearchParams(window.location.search);
+            const sortParam = urlParams.get('sort');
+            // 'sort' 파라미터의 값을 select 요소의 값으로 설정
+            if (sortParam) {
+                document.querySelector('select[name="sort"]').value = sortParam;
+            }
             function cancelReservation(reservationId) {
                 var csrfHeader = $("meta[name='_csrf_header']").attr('content');
                 var csrfToken = $("meta[name='_csrf']").attr('content');
