@@ -273,5 +273,4 @@ public class RestaurantController {
 
         return "/usr/restaurant/restaurantReview";
     }
-
 }
