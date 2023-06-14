@@ -75,7 +75,7 @@
 
             <section class="restaurant-view max-w-3xl">
                 <div id="restaurantList" class="restaurant-list">
-                    <ol class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-10">
+                    <ol class="grid grid-cols-2 md:grid-cols-4 sm:grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-10">
                         <li class="restaurant_item" th:each="restaurant : ${restaurantList}">
                             <a th:href="@{restaurantInfo/{restaurantId}(restaurantId=${restaurant.getRestaurantId})}" class="block mt-4">
                                 <span th:text="${restaurant.restaurantName}" class = "text-black font-bold text-base sm:text-lg"></span>
@@ -129,6 +129,65 @@
             <div class="flex-1"></div>
 
             <script>
+                // 페이지 로딩 시
+                $(document).ready(function() {
+                    // URL로부터 매개변수 가져오기
+                    var urlParams = new URLSearchParams(window.location.search);
+                    var address1 = urlParams.get('address1');
+                    var address2 = urlParams.get('address2');
+                    var address3 = urlParams.get('address3');
+
+                    // 가져온 매개변수로 대분류 셋팅하기
+                    if (address1) {
+                        $('#address1').val(address1);
+
+                        // 대분류 셋팅 후, 중분류 셋팅
+                        $.ajax({
+                            url: '/address/search/address2?address1=' + address1,
+                            type: 'GET',
+                            success: function (response) {
+                                var address2Select = $('#address2');
+                                address2Select.empty();
+                                address2Select.append('<option value="">선택해주세요.</option>');
+
+                                $.each(response, function (index, value) {
+                                    address2Select.append('<option value="' + value + '">' + value + '</option>');
+                                });
+
+                                // 성공적으로 중분류를 셋팅했다면, 중분류 값을 셋팅
+                                if (address2) {
+                                    $('#address2').val(address2);
+
+                                    // 중분류 셋팅 후, 소분류 셋팅
+                                    $.ajax({
+                                        url: '/address/search/address3?address1=' + address1 + '&address2=' + address2,
+                                        type: 'GET',
+                                        success: function (response) {
+                                            var address3Select = $('#address3');
+                                            address3Select.empty();
+                                            address3Select.append('<option value="">선택해주세요.</option>');
+
+                                            $.each(response, function (index, value) {
+                                                address3Select.append('<option value="' + value + '">' + value + '</option>');
+                                            });
+
+                                            // 성공적으로 소분류를 셋팅했다면, 소분류 값을 셋팅
+                                            if (address3) {
+                                                $('#address3').val(address3);
+                                            }
+                                        },
+                                        error: function (jqXHR) {
+                                            alert('소주소 정보를 가져오는 데 실패했습니다.');
+                                        }
+                                    });
+                                }
+                            },
+                            error: function (jqXHR) {
+                                alert('중주소 정보를 가져오는 데 실패했습니다.');
+                            }
+                        });
+                    }
+                });
                 // 대주소 선택 시
                 $('#address1').change(function () {
                     var address1 = $(this).val();

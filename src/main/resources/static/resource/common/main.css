@@ -33,7 +33,7 @@
 }
 
 .search {
-    width: 90%;
+    width: 100%;
     margin: 0px auto;
     display: flex;
     padding: 1px 2px 3px 4px;
@@ -44,17 +44,17 @@
 }
 
 .search select {
-    flex: 1;
+    flex: 0.5px;
     max-width: 150px; /* 분류창의 적당한 크기 조정 */
 }
 
 .search input[type="search"] {
-    flex: 3; /* 검색창이 분류창보다 크게 설정 */
+    flex: 4; /* 검색창이 분류창보다 크게 설정 */
     min-width: 200px; /* 검색창의 최소 너비 설정 */
 }
 
 .search button {
-    flex: 1;
+    flex: 0.5;
     min-width: 60px; /* 검색 버튼의 최소 너비 설정 */
 }
 

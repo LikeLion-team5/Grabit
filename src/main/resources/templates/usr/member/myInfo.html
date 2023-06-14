@@ -52,15 +52,18 @@
                                 -->
                                 <div class="md:ml-7">
                                     <div class="flex justify-center md:justify-start">
-                                        <h2 class="text-2xl font-bold mt-3 md:mt-1 mb-3" th:text="${userInfo.nickname}">그래빗</h2>
+                                        <h2 th:if="${userInfo.providerTypeCode == 'NORMAL'}" class="text-2xl font-bold mt-3 md:mt-1 mb-3" th:text="${userInfo.nickname}"></h2>
+                                        <h2 th:if="${userInfo.providerTypeCode == 'KAKAO' or userInfo.providerTypeCode == 'NAVER'}" class="text-2xl font-bold mt-3 md:mt-1 mb-3" th:text="${userInfo.username}"></h2>
                                     </div>
                                     <div class="flex flex-col">
                                         <div class="flex flex-col md:flex-row">
                                             <p>이메일 <span class="hidden md:inline mr-1">:</span></p>
+                                            <p th:if="${userInfo.providerTypeCode == 'KAKAO' or userInfo.providerTypeCode == 'NAVER'}"> 없음</p>
                                             <p th:text="${userInfo.email}">grabit@example.com</p>
                                         </div>
                                         <div class="flex flex-col md:flex-row">
                                             <p>전화번호 <span class="hidden md:inline mr-1">:</span></p>
+                                            <p th:if="${userInfo.providerTypeCode == 'KAKAO' or userInfo.providerTypeCode == 'NAVER'}"> 없음</p>
                                             <p th:text="${userInfo.phone}">123-456-7890</p>
                                         </div>
                                     </div>
