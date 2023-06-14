@@ -270,6 +270,6 @@ public class RestaurantController {
         System.out.println("정보 : " + reviewList);
         model.addAttribute("reviewList", reviewList);
 
-        return "/usr/restaurant/restaurantReview";
+        return "usr/restaurant/restaurantReview";
     }
 }
