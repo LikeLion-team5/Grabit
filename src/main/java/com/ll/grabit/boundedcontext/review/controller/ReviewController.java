@@ -54,12 +54,12 @@ public class ReviewController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/check")
-    public String showList(Model model) {
+    public String showList(Model model, @RequestParam(defaultValue = "1") int sortCode) {
         Member member = rq.getMember();
 
         if(member != null){
-            List<Review> reviewList = reviewService.findByReviewerId(member.getId());
-            model.addAttribute("reviewList", reviewList);
+            RsData<List<Review>> reviewList = reviewService.getReviews(member.getId(), sortCode);
+            model.addAttribute("reviewList", reviewList.getData());
         }
 
         return "usr/review/check";

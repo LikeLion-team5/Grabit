@@ -14,9 +14,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional(readOnly = true)
@@ -74,6 +77,37 @@ public class ReviewService {
 
     public List<Review> findByReviewerId(Long id) {
         return reviewRepository.findByReviewerId(id);
+    }
+
+    public RsData<List<Review>> getReviews(Long id, int sortCode){
+
+        //로그인 했는지 확인
+        if (id != null) {
+            List<Review> reviews = findByReviewerId(id);
+
+            Stream<Review> stream = reviews.stream();
+
+            switch (sortCode) {
+                case 2:
+                    stream = stream.sorted(Comparator.comparing(Review::getId));
+                    break;
+                case 3:
+                    stream = stream.sorted(Comparator.comparing(Review::getRating).reversed());
+                    break;
+                case 4:
+                    stream = stream.sorted(Comparator.comparing(Review::getRating));
+                    break;
+                default:
+                    stream = stream.sorted(Comparator.comparing(Review::getId).reversed());
+                    break;
+
+            }
+            List<Review> newData = stream.collect(Collectors.toList());
+
+            return RsData.of("S-1", "내가 작성한 리뷰들이 정렬되어 출력됩니다.", newData);
+        }
+
+        return RsData.of("F-1", "먼저 로그인부터 진행해주세요.");
     }
 
     public Optional<Review> findById(Long id) {
@@ -143,9 +177,5 @@ public class ReviewService {
     public int countReviews(Long restaurantId) {
         List<Review> reviews = findReviews(restaurantId);
         return reviews.size();
-    }
-
-    public boolean hasReview(Long reservationId) {
-        return reviewRepository.existsByReservationReservationId(reservationId);
     }
 }

@@ -216,7 +216,6 @@ public class NotProd {
             Long reservationId2 = reservationService.createReservation(reservationRequestDto2);
 
             reservationService.confirmReservation(reservationId2);
-            reservationService.completeReservation(reservationId2);
 
             ReservationRequestDto reservationRequestDto3 = new ReservationRequestDto();
             reservationRequestDto3.setMemberId(member1.getId());
@@ -231,9 +230,39 @@ public class NotProd {
             reservationService.confirmReservation(reservationId3);
             reservationService.completeReservation(reservationId3);
 
-            Optional<Reservation> reservation3 = reservationRepository.findById(reservationId3);
+            ReservationRequestDto reservationRequestDto4 = new ReservationRequestDto();
+            reservationRequestDto4.setMemberId(member1.getId());
+            reservationRequestDto4.setRestaurantId(restaurant3.getRestaurantId());
+            reservationRequestDto4.setName("예약자4");
+            reservationRequestDto4.setPhone("01081345432");
+            reservationRequestDto4.setDate(LocalDate.parse("2023-06-10"));
+            reservationRequestDto4.setReservationTime(LocalTime.parse("17:00"));
+            reservationRequestDto4.setPartySize(4);
+            Long reservationId4 = reservationService.createReservation(reservationRequestDto4);
 
-            reviewService.addReview("적당해요!!", 3, reservation3.get(), member1.getId());
+            reservationService.confirmReservation(reservationId4);
+            reservationService.completeReservation(reservationId4);
+
+            ReservationRequestDto reservationRequestDto5 = new ReservationRequestDto();
+            reservationRequestDto5.setMemberId(member1.getId());
+            reservationRequestDto5.setRestaurantId(restaurant3.getRestaurantId());
+            reservationRequestDto5.setName("예약자5");
+            reservationRequestDto5.setPhone("01081345432");
+            reservationRequestDto5.setDate(LocalDate.parse("2023-06-11"));
+            reservationRequestDto5.setReservationTime(LocalTime.parse("17:00"));
+            reservationRequestDto5.setPartySize(4);
+            Long reservationId5 = reservationService.createReservation(reservationRequestDto5);
+
+            reservationService.confirmReservation(reservationId5);
+            reservationService.completeReservation(reservationId5);
+
+            Optional<Reservation> reservation3 = reservationRepository.findById(reservationId3);
+            Optional<Reservation> reservation4 = reservationRepository.findById(reservationId4);
+            Optional<Reservation> reservation5 = reservationRepository.findById(reservationId5);
+
+            reviewService.addReview("별로에요ㅠㅠ", 3, reservation3.get(), member1.getId());
+            reviewService.addReview("맛있어요!!", 5, reservation4.get(), member1.getId());
+            reviewService.addReview("적당해요!!", 4, reservation5.get(), member1.getId());
         };
     }
 }

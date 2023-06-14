@@ -259,5 +259,4 @@ public class RestaurantController {
 
         return reservationTimeList;
     }
-
 }
