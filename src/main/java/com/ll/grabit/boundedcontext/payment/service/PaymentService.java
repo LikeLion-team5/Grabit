@@ -1,8 +1,7 @@
 package com.ll.grabit.boundedcontext.payment.service;
 
-import com.ll.grabit.base.exception.NotFoundDataException;
 import com.ll.grabit.boundedcontext.member.entity.Member;
-import com.ll.grabit.boundedcontext.payment.eneity.Payment;
+import com.ll.grabit.boundedcontext.payment.entity.Payment;
 import com.ll.grabit.boundedcontext.payment.repository.PaymentRepository;
 import com.ll.grabit.boundedcontext.reservation.dto.ReservationRequestDto;
 import com.ll.grabit.boundedcontext.reservation.entity.Reservation;
@@ -21,7 +20,6 @@ import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

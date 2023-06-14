@@ -1,7 +1,7 @@
 package com.ll.grabit.boundedcontext.reservation.entity;
 
 import com.ll.grabit.boundedcontext.member.entity.Member;
-import com.ll.grabit.boundedcontext.payment.eneity.Payment;
+import com.ll.grabit.boundedcontext.payment.entity.Payment;
 import com.ll.grabit.boundedcontext.restaurant.entity.Restaurant;
 
 import com.ll.grabit.boundedcontext.review.entity.Review;
@@ -13,8 +13,6 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
 
