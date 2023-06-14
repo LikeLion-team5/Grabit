@@ -83,20 +83,29 @@
                             </div>
                         </div>
                         <div class="flex overflow-x-auto">
-                            <ul th:if="${!#lists.isEmpty(reservations)}">
-                                <li th:each="reservation: ${reservations}">
-                                    <div class="flex-shrink-0 pl-7 bg-white rounded-lg shadow-lg p-4 mr-3" style="height: 150px; width: 150px;">
-                                        <h2 class="text-xl font-semibold mb-3" th:text="${reservation.restaurantName}"></h2>
-                                        <p th:text="${#temporals.format(reservation.date, 'yy.MM.dd')}" class="mb-1"></p>
-                                        <div class="flex items-center mb-1">
-                                            <p th:text="${reservation.reservationTime}"></p>
+                            <div th:if="${!#lists.isEmpty(reservations)}">
+                                <ul>
+                                    <li th:each="reservation: ${reservations}">
+                                        <div class="flex-shrink-0 pl-7 bg-white rounded-lg shadow-lg p-4 mr-3" style="height: 150px; width: 150px;">
+                                            <h2 class="text-xl font-semibold mb-3" th:text="${reservation.restaurantName}"></h2>
+                                            <p th:text="${#temporals.format(reservation.date, 'yy.MM.dd')}" class="mb-1"></p>
+                                            <div class="flex items-center mb-1">
+                                                <p th:text="${reservation.reservationTime}"></p>
+                                            </div>
+                                            <p th:text="${reservation.status}"></p>
                                         </div>
-                                        <p th:text="${reservation.status}"></p>
-                                    </div>
-                                </li>
-                            </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div th:unless="${!#lists.isEmpty(reservations)}" class="flex items-center justify-center w-full h-full text-center mt-10">
+                                <div class="text-gray-400 max-w-3xl bg-white p-5 mb-5">
+                                    <span class="mr-1">예약이 존재하지 않습니다</span>
+                                    <i class="fa-regular fa-face-sad-tear" style="position:relative; top:-1px;"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                     <div class="max-w-3xl bg-white rounded-lg shadow-lg p-5 h-[255px] mx-auto mb-5 overflow-x-auto">
                         <div class="flex items-center justify-between mb-4 sticky top-0 bg-white z-10">
                             <div class="flex items-center">
@@ -109,19 +118,27 @@
                             </div>
                         </div>
                         <div class="flex overflow-x-auto">
-                            <ul th:if="${!#lists.isEmpty(reviewList)}">
-                                <li th:each="review: ${reviewList}">
-                                    <div class="flex-shrink-0 pl-7 bg-white rounded-lg shadow-lg p-4 mr-3" style="height: 150px; width: 150px;">
-                                        <h2 class="text-xl font-semibold mb-3" th:text="${review.restaurant.restaurantName}"></h2>
-                                        <p th:text="${#temporals.format(review.createdAt, 'yy.MM.dd')}" class="mb-1"></p>
-                                        <div class="flex items-center mb-1">
-                                            <i class="fas fa-star text-yellow-500 mr-1" style="position:relative; top:-2px;"></i>
-                                            <p th:text="${review.rating}"></p>
+                            <div th:if="${!#lists.isEmpty(reviewList)}">
+                                <ul>
+                                    <li th:each="review: ${reviewList}">
+                                        <div class="flex-shrink-0 pl-7 bg-white rounded-lg shadow-lg p-4 mr-3" style="height: 150px; width: 150px;">
+                                            <h2 class="text-xl font-semibold mb-3" th:text="${review.restaurant.restaurantName}"></h2>
+                                            <p th:text="${#temporals.format(review.createdAt, 'yy.MM.dd')}" class="mb-1"></p>
+                                            <div class="flex items-center mb-1">
+                                                <i class="fas fa-star text-yellow-500 mr-1" style="position:relative; top:-2px;"></i>
+                                                <p th:text="${review.rating}"></p>
+                                            </div>
+                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" th:text="${review.content}"></p>
                                         </div>
-                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" th:text="${review.content}"></p>
-                                    </div>
-                                </li>
-                            </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div th:unless="${!#lists.isEmpty(reviewList)}" class="flex items-center justify-center w-full h-full text-center mt-10">
+                                <div class="text-gray-400 max-w-3xl bg-white p-5 mb-5">
+                                    <span class="mr-1">리뷰가 존재하지 않습니다</span>
+                                    <i class="fa-regular fa-face-sad-tear" style="position:relative; top:-1px;"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
