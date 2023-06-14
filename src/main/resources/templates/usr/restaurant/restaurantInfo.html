@@ -21,7 +21,7 @@
                                     <a sec:authorize="isAuthenticated() and hasAuthority('admin')" class="text-red-500 rounded text-lg absolute right-0 top-0" th:href="@{/restaurant/{id}/edit(id=${restaurant.getRestaurantId})}">식당 수정</a>
                                     <h2 class="text-2xl font-bold mt-0" th:text="${restaurant.restaurantName}"></h2>
                                     <div class="md:flex md:ml-3 sm:ml-0">
-                                        <a class="normal-case text-base" style="cursor: pointer">
+                                        <a class="normal-case text-base" th:href="@{/restaurant/review/{id}(id=${restaurant.restaurantId})}" style="cursor: pointer">
                                             <i class="fas fa-star text-yellow-500"></i>
                                             <span th:text="${averageRating + ' (' + reviewCount + ')'}"></span>
                                         </a>

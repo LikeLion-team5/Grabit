@@ -1,0 +1,78 @@
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>리뷰 조회</title>
+</head>
+
+<body>
+<th:block layout:fragment="Content">
+    <main class="flex flex-1 flex-col">
+        <div class="flex-grow flex items-center justify-center">
+            <div class="max-w-3xl w-full mt-5 px-4">
+                <div class="flex w-full justify-between sticky top-0 z-5">
+                    <div class="bg-white rounded-lg mb-5 px-6 py-3 flex justify-center items-center">
+                        <h2 class="text-xl text-red-400 font-semibold">리뷰 조회</h2>
+                    </div>
+                    <form action="/review/check" method="get" id="sortForm">
+                        <select name="sortCode" class="select rounded-lg max-w-xs" onchange="submitForm()">
+                            <option disabled selected>정렬</option>
+                            <option value="1">최신순</option>
+                            <option value="2">오래된순</option>
+                            <option value="3">평점 높은 순</option>
+                            <option value="4">평점 낮은 순</option>
+                        </select>
+                    </form>
+                    <script>
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const sortCode = urlParams.get('sortCode');
+
+                        if (sortCode) {
+                            $(`select[name="sortCode"]:last`).val(sortCode[0]);
+                        }
+
+                        function submitForm() {
+                            document.getElementById("sortForm").submit();
+                        }
+                    </script>
+                </div>
+                <div th:if="${#lists.isEmpty(reviewList)}">
+                    <div class="text-gray-400 max-w-3xl bg-white rounded-lg shadow-lg p-5 h-[200px] mb-5 flex justify-center items-center">
+                        <span class="mr-1">리뷰가 존재하지 않습니다</span>
+                        <i class="fa-regular fa-face-sad-tear" style="position:relative; top:-1px;"></i>
+                    </div>
+                </div>
+                <ul th:if="${!#lists.isEmpty(reviewList)}">
+                    <li th:each="review: ${reviewList}">
+                        <div class="text-black max-w-3xl bg-white rounded-lg shadow-lg p-5 min-h-[200px] mx-auto mb-5 flex flex-col overflow-y-auto">
+                            <div class="flex justify-between border-b pb-2">
+                                <div>
+                                    <span th:text="${review.reviewer.nickname}"></span>
+                                </div>
+                                <div>
+                                    <span th:text="${#temporals.format(review.createdAt, 'yy.MM.dd HH:mm')}"></span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col mt-4 flex-1 justify-between">
+                                <div class="flex flex-col justify-around">
+                                    <div class="flex items-center mb-2">
+                                        <span class="mr-1">평점</span>
+                                        <span th:each="i : ${#numbers.sequence(1,5)}">
+                                            <span th:if="${i <= review.rating}" class="text-yellow-500">&#9733;</span> <!-- filled star -->
+                                            <span th:if="${i > review.rating}" style="color: #ffd700;">&#9734;</span> <!-- empty star -->
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span th:text="${review.content}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+</th:block>
+</body>
+</html>
