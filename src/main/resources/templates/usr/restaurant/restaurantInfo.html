@@ -16,6 +16,7 @@
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center">
                             <img th:if="${restaurant.restaurantImage != null}" th:src="${restaurant.restaurantImage.imagePath}" alt="프로필 사진" class="w-32 h-32 sm:w-40 sm:h-40 rounded mr-5">
+                            <img th:if="${restaurant.restaurantImage == null}" th:src="@{/img/default_img.png}" alt="프로필 사진" class="w-32 h-32 sm:w-40 sm:h-40 rounded mr-5">
                             <div class="ml-2">
                                 <div class="md:flex md:items-center sm:flex-row flex-col" style="position: relative;">
                                     <a sec:authorize="isAuthenticated() and hasAuthority('admin')" class="text-red-500 rounded text-lg absolute right-0 top-0" th:href="@{/restaurant/{id}/edit(id=${restaurant.getRestaurantId})}">식당 수정</a>
@@ -28,7 +29,7 @@
                                     </div>
                                 </div>
                                 <div class="flex flex-col">
-                                    <p class="mt-1" th:text="${restaurant.description}"></p>
+                                    <p class="mt-1" th:text="${restaurant.description}" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 40ch;"></p>
 
                                     <div class="flex flex-col sm:flex-row mt-2">
                                         <div>
