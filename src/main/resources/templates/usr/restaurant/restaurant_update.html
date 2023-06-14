@@ -115,11 +115,11 @@
 
 
             <!-- Dynamic Menu Fields -->
-            <div id="menu-fields">
+            <div id="menu-fields" class="flex flex-col bg-white">
               <!-- Menu fields will be added here -->
-              <div th:each="menu,i : ${menuList}" th:id="'menu' + ${i.index}">
-                <input type="text" name="menuName" th:value="${menu.menuName}">
-                <input type="number" name="price" th:value="${menu.price}">
+              <div class="flex p-2" th:each="menu,i : ${menuList}" th:id="'menu' + ${i.index}">
+                <input type="text" name="menuName" th:value="${menu.menuName}" class="input input-bordered mb-1 mx-2 h-[2rem]">
+                <input type="number" name="price" th:value="${menu.price}" class="input input-bordered mb-1 mx-2 h-[2rem] mr-auto">
                 <button type="button" class="remove-menu-button"> 메뉴 삭제</button>
               </div>
             </div>
@@ -183,9 +183,9 @@
 
     // 메뉴 추가 버튼 클릭 이벤트 시, 메뉴 등록 칸 추가
     $('#add-menu-button').click(function() {
-      $('#menu-fields').append('<div id="menu' + menuIndex + '">' +
-              '<input type="text" name="menuName" placeholder="메뉴 이름을 입력해주세요." />' +
-              '<input type="number" name="price" placeholder="메뉴 가격은 500원 ~ 1,000,000원 입니다." />' +
+      $('#menu-fields').append('<div id="menu' + menuIndex + '" class="flex p-2">' +
+              '<input type="text" name="menuName" placeholder="메뉴 이름을 입력해주세요." class="input input-bordered mb-1 mx-2 h-[2rem]"/>' +
+              '<input type="number" name="price" placeholder="메뉴 가격은 500원 ~ 1,000,000원 입니다." class="input input-bordered mb-1 mx-2 h-[2rem] mr-auto" />' +
               '<button type="button" class="remove-menu-button">메뉴 삭제</button>' +
               '</div>');
       menuIndex++;
