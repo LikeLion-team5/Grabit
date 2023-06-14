@@ -186,7 +186,9 @@ public class ReviewService {
         if(reviews.size() == 0)
             return 0;
 
-        return sum / reviews.size();
+        double average = sum / reviews.size();
+
+        return Math.round(average * 10) / 10.0;
     }
 
     public int countReviews(Long restaurantId) {
