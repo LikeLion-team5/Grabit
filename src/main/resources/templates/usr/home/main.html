@@ -55,6 +55,13 @@
                 </form>
             </div>
 
+            <div th:if="${restaurantList.totalElements == 0}">
+                <div class="text-gray-400 max-w-3xl bg-white rounded-lg shadow-lg p-5 h-[200px] mb-5 flex justify-center items-center">
+                    <span class="mr-1">검색되는 식당이 존재하지 않습니다.</span>
+                    <i class="fa-regular fa-face-sad-tear" style="position:relative; top:-1px;"></i>
+                </div>
+            </div>
+
             <section class="restaurant-view max-w-3xl mx-auto">
                 <div id="restaurantList" class="restaurant-list">
                     <ol class="grid grid-cols-4 gap-x-5 gap-y-10">
