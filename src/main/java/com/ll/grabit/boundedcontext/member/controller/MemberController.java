@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -63,6 +64,22 @@ public class MemberController {
         List<Review> reviewList = reviewService.findByReviewerId(member.getId());
         List<ReservationResponseDto> reservationList = reservationService.getReservationsByMemberId(member.getId());
 
+        LocalDateTime now = LocalDateTime.now();
+        reservationList.sort((r1, r2) -> {
+            LocalDateTime d1 = r1.getDate().atTime(r1.getReservationTime());
+            LocalDateTime d2 = r2.getDate().atTime(r2.getReservationTime());
+
+            boolean isR1Past = d1.isBefore(now);
+            boolean isR2Past = d2.isBefore(now);
+
+            if (isR1Past && !isR2Past) {
+                return 1;
+            } else if (!isR1Past && isR2Past) {
+                return -1;
+            } else {
+                return d1.compareTo(d2);
+            }
+        });
 
         model.addAttribute("userInfo",member);
         model.addAttribute("reviewList", reviewList);
