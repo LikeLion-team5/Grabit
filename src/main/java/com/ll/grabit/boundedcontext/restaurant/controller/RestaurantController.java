@@ -231,7 +231,7 @@ public class RestaurantController {
         List<String> reservationTimeList = getReservationTimeList(openTime, closeTime);
         model.addAttribute("reservationTimeList", reservationTimeList);
 
-        return "/usr/restaurant/restaurantInfo";
+        return "usr/restaurant/restaurantInfo";
     }
 
     @GetMapping("/restaurantInfo")
