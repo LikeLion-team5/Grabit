@@ -61,7 +61,7 @@
                                 <a class="text-red-500 rounded" th:href="@{|/review/add/${reservation.reservationId}|}">리뷰 작성</a>
                             </div>
                             <div th:if="${reservation.status == '방문 완료' and reservation.hasReview}">
-                                <a class="text-red-500 rounded" th:href="@{|/review/edit/${reservation.reservationId}|}">리뷰 수정</a>
+                                <a class="text-red-500 rounded" th:href="@{|/review/edit/${reservation.review.id}|}">리뷰 수정</a>
                             </div>
                         </div>
                     </div>
