@@ -111,7 +111,6 @@ public class RestaurantController {
         restaurantUpdateDto.setDetail_address(findRestaurant.getDetail_address());
         restaurantUpdateDto.setStartTime(String.valueOf(findRestaurant.getOpeningTime().getHour()));
         restaurantUpdateDto.setEndTime(String.valueOf(findRestaurant.getClosingTime().getHour()));
-        restaurantUpdateDto.setPerTimeMaxReservationCount(findRestaurant.getPerTimeMaxReservationCount());
 
         //주소 데이터 세팅
         List<String> address1List = restaurantService.findAddress1();

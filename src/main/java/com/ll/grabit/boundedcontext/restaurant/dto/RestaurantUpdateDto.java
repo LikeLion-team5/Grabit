@@ -43,10 +43,7 @@ public class RestaurantUpdateDto {
     @NotBlank(message = "영업마감 시간을 입력해주세요.")
     private String endTime;
 
-    @Min(value = 1, message = "1이상 의 값을 입력해주세요.")
-    @Max(value = 5, message = "5이하의 값을 입력해주세요.")
-    @NotNull(message = "1~5 사이의 숫자를 입력해주세요.")
-    private Integer perTimeMaxReservationCount;
+
 
     private String menuUpdateDtoList;
 
@@ -60,7 +57,6 @@ public class RestaurantUpdateDto {
                 .openingTime(startTime)
                 .closingTime(endTime)
                 .type(RestaurantType.valueOf(type))
-                .perTimeMaxReservationCount(perTimeMaxReservationCount)
                 .build();
     }
 }

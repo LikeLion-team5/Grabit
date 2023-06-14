@@ -92,11 +92,7 @@
               <option th:each="num : ${#numbers.sequence(0,23)}" th:value="${num} + ':00'" th:text="${num} + ':00'"></option>
             </select>
 
-            <label class="label">
-              <span class="label-text">시간 당 최대 예약 수</span>
-            </label>
-            <input type="number" id="perTimeMaxReservationCount" name="perTimeMaxReservationCount" placeholder="1~5 사이의 숫자를 입력해주세요."
-              class="input input-bordered mb-4">
+
 
 
             <!-- Dynamic Menu Fields -->
@@ -187,7 +183,6 @@
         detail_address: $('#detail_address').val(),
         startTime: $('#startTime').val(),
         endTime: $('#endTime').val(),
-        perTimeMaxReservationCount: $('#perTimeMaxReservationCount').val(),
       };
 
       //메뉴 데이터 세팅
