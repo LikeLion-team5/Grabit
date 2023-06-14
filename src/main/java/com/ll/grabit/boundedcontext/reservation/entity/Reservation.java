@@ -35,7 +35,7 @@ public class Reservation {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToOne(mappedBy = "reservation")
+    @OneToOne(mappedBy = "reservation", orphanRemoval = true)
     private Payment payment;
 
     private String name;

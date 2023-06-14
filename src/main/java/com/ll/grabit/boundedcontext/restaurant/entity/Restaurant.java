@@ -50,7 +50,7 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant", orphanRemoval = true)
     private List<Menu> menuList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant", orphanRemoval = true)
     private List<Reservation> reservations = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurant", orphanRemoval = true)
