@@ -42,7 +42,7 @@ public class Restaurant {
     private LocalTime openingTime;
     private LocalTime closingTime;
 
-    private Integer perTimeMaxReservationCount;
+
 
     @OneToOne(mappedBy = "restaurant", orphanRemoval = true)
     private RestaurantImage restaurantImage;
@@ -62,7 +62,7 @@ public class Restaurant {
 
     @Builder
     public Restaurant(String restaurantName, String description, RestaurantType type, String phoneNumber,
-                      Address address, String detail_address, LocalTime openingTime, LocalTime closingTime, Integer perTimeMaxReservationCount) {
+                      Address address, String detail_address, LocalTime openingTime, LocalTime closingTime) {
         this.restaurantName = restaurantName;
         this.description = description;
         this.type = type;
@@ -71,7 +71,6 @@ public class Restaurant {
         this.detail_address = detail_address;
         this.openingTime = openingTime;
         this.closingTime = closingTime;
-        this.perTimeMaxReservationCount = perTimeMaxReservationCount;
     }
 
     public RestaurantUpdateDto toRestaurantUpdateDto(){
@@ -86,7 +85,6 @@ public class Restaurant {
         restaurantUpdateDto.setType(type.name());
         restaurantUpdateDto.setStartTime(openingTime.toString());
         restaurantUpdateDto.setEndTime(closingTime.toString());
-        restaurantUpdateDto.setPerTimeMaxReservationCount(perTimeMaxReservationCount);
 
         return restaurantUpdateDto;
     }
@@ -100,6 +98,5 @@ public class Restaurant {
         type = RestaurantType.valueOf(restaurantUpdateDto.getType());
         openingTime = startTime;
         closingTime = endTime;
-        perTimeMaxReservationCount = restaurantUpdateDto.getPerTimeMaxReservationCount();
     }
 }
