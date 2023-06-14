@@ -144,8 +144,4 @@ public class ReviewService {
         List<Review> reviews = findReviews(restaurantId);
         return reviews.size();
     }
-
-    public boolean hasReview(Long reservationId) {
-        return reviewRepository.existsByReservationReservationId(reservationId);
-    }
 }
