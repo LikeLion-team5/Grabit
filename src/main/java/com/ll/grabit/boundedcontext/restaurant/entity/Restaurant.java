@@ -53,11 +53,11 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant")
     private List<Reservation> reservations = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "restaurant", orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
-    public void addReview(Review Review) {
-        reviews.add(0, Review);
+    public void addReview(Review review) {
+        reviews.add(0, review);
     }
 
     @Builder
