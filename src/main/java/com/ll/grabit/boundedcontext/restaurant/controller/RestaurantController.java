@@ -188,6 +188,7 @@ public class RestaurantController {
 
 
     //메인 페이지
+    @PreAuthorize("isAnonymous()")
     @GetMapping("/search")
     public String search(@ModelAttribute AddressSearchDto addressSearchDto,
                          @PageableDefault(page = 0, size = 8, sort = "restaurantId", direction = Sort.Direction.ASC) Pageable pageable,
