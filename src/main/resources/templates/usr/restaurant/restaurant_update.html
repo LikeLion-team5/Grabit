@@ -130,13 +130,15 @@
 
             <!-- Rest of your form goes here -->
           </div>
-          <div class="flex justify-center">
+          <div class="flex justify-center mt-5">
               <button class="bg-white text-red-500 py-3 px-20 rounded-lg shadow-md text-lg mb-5">식당 수정</button>
           </div>
         </form>
           <form id="deleteForm" method="post" th:action="@{|/restaurant/${restaurantId}/delete|}" style="display: none;">
           </form>
-          <button id="deleteButton" class="bg-white text-red-500 py-3 px-20 rounded-lg shadow-md text-lg mb-5">식당 삭제</button>
+          <div class="flex justify-center">
+              <button id="deleteButton" class="bg-white text-red-500 py-3 px-20 rounded-lg shadow-md text-lg mb-3">식당 삭제</button>
+          </div>
       </div>
     </div>
   </main>
