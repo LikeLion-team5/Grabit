@@ -122,6 +122,7 @@
             var reservationTime = form['reservationTime'].value.trim(); // 예약시간
             var partySize = form['party-size'].value.trim(); //예약인원
             var restaurantId =  form.restaurantId.value;
+            var phonePattern = /^[0-9]{11}$/;
 
 
             if (name === '') {
@@ -131,6 +132,11 @@
 
             if (phone === '') {
                 alert('전화번호를 입력해주세요.');
+                return false;
+            }
+
+            if (!phonePattern.test(phone)) {
+                alert('올바른 전화번호 형식을 입력하세요. (예: 010XXXXXXXX)');
                 return false;
             }
 
