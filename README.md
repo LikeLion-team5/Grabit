@@ -3,17 +3,26 @@
 
 ![image](https://github.com/LikeLion-team5/Grabit/assets/92236489/c18a0058-1667-4e0e-af6c-991c52737a6d)
 
-
+프로젝트 기간 : 2023.05.22 - 2023.06.16
 <br>
 
 ## 팀원 소개
-| [김희연](https://github.com/heeyeon3050) | [김민우](https://github.com/Kminwoo97) | [문성민](https://github.com/seongmin8636) | [최혁](https://github.com/Choi-Hyeok99)|
-|------|------|------|------|
-|팀장|팀원|팀원|팀원|
+|  [김희연](https://github.com/heeyeon3050)  | [김민우](https://github.com/Kminwoo97) | [문성민](https://github.com/seongmin8636) | [최혁](https://github.com/Choi-Hyeok99) |
+|:---------------------------------------:|:-----------------------------------:|:--------------------------------------:|:-------------------------------------:|
+|                   팀장                    |                 팀원                  |                   팀원                   |                  팀원                   |
+|          - 회원 프론트<br>- 리뷰 도메인           |      - 식당 백엔드<br> - 토스페이먼츠 결제       |        - 식당 프론트엔드<br> - 예약 도메인         |        - 회원 백엔드<br> - CI/CD 배포        |
 
 
 
 <br>
+
+## 시연영상
+
+<a href="https://www.youtube.com/watch?v=sHvjV5fP4bU">grabit 시연영상</a>
+
+## 배포 링크
+
+<a href="https://grabit.run/">그래빗 배포 링크</a>
 
 ## 기술스택
 
